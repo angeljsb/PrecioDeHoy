@@ -1,0 +1,234 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 05/01/2021, 10:01:11 PM
+    Author     : Angel
+*/
+
+body{
+    margin: 0;
+    min-height: 100vh;
+}
+
+button, input{
+    outline: none;
+}
+
+h3{
+    margin: 0;
+}
+
+h2{
+    font-family: sans-serif;
+}
+
+a{
+    text-decoration: none;
+}
+
+.ph-navbar{
+    width: 100%;
+    min-height: 50px;
+    background-color: white;
+    display: flex;
+}
+
+.conversion{
+    text-align: center;
+}
+
+.conversion-number{
+    width: 150px;
+    padding: 0;
+    margin-top: 5px;
+    display: inline-block;
+}
+
+.conversion-symbol{
+    position: relative;
+    top: 0;
+    transition: top 1s;
+}
+
+.dolar-cambiado{
+    top: 24px;
+}
+
+.bolivar-cambiado{
+    top: -24px;
+}
+
+.ph-button{
+    font-family: sans-serif;
+    font-size: medium;
+    text-transform: uppercase;
+    font-weight: bold;
+    border-radius: 5px;
+    padding: 5px 10px 5px 10px;
+    margin-right: 5px;
+    margin-left: 5px;
+    transition: background-color 200ms;
+    background-color: rgba(0,0,0,0);
+    width: fit-content;
+}
+
+.ph-button--primary{
+    color: #960200;
+    border: 2px solid #960200;
+    align-self: center;
+}
+
+.ph-button--primary:hover{
+    background-color: rgba(0,0,0,0.2);
+}
+
+.ph-popup__container{
+    position: relative;
+    display: block;
+    margin: auto;
+}
+
+.ph-popup__popup{
+    display: none;
+    position: absolute;
+    box-shadow: 0 8px 10px 0 rgba(0,0,0,0.2);
+    z-index: 1;
+    right: 0;
+    overflow: hidden;
+    border-radius: 5px;
+    background-color: white;
+    min-width: 160px;
+}
+
+.ph-popup__container:hover .ph-popup__popup{
+    display:block;
+}
+
+.ph-popup__popup a{
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.ph-popup__popup a:hover{
+    background-color: lightgray;
+}
+
+.ph-form-productos__container{
+    background-color: #404e4d;
+    width: 50px;
+    height: 50px;
+    border-radius: 25px;
+    margin: 20px;
+    transition: width 400ms,height 400ms;
+    overflow: hidden;
+}
+
+.ph-form-productos__container form{
+    display: none;
+}
+
+.ph-form-productos__container:hover{
+    width: calc(100% - 40px);
+    height: 150px;
+}
+
+.ph-form-productos__container:hover form{
+    display: initial;
+}
+
+.ph-navbar__logo{
+    display: inline-block;
+    padding: 5px;
+    margin: auto;
+    max-height: 75px;
+}
+
+.ph-taxes__container{
+    position: fixed;
+    top: 90px;
+    left: -200px;
+    width: 200px;
+    background-color: #960200;
+    border-radius: 10px;
+    z-index: 1;
+    transition: left 400ms;
+}
+
+.ph-taxes__card{
+    background-color: white;
+    min-width: 120px;
+    width: fit-content;
+    margin: 10px auto;
+    border-radius: 10px;
+    border: 1px solid black;
+    overflow: hidden;
+}
+
+.ph-taxes__arrow{
+    position: absolute;
+    background-color: #960200;
+    width: 50px;
+    border-radius: 10px;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    height: 40px;
+    right: -40px;
+}
+
+.ph-taxes__container:hover{
+    left: -10px;
+}
+
+.ph-container--small{
+    margin: 10px;
+}
+
+#pagina-central{
+    width: -webkit-fill-available;
+}
+
+#conversion{
+    width: fit-content;
+    margin: auto;
+}
+
+#conversion-result{
+    color: black;
+    background-color: white;
+    border: 1px solid rgb(118, 118, 118);
+    border-radius: 2px;
+    padding-left: 2px;
+}
+
+#barra-izquierda{
+    background-color: rgb(240,240,220);
+    width: fit-content;
+    min-width: 200px;
+    height: inherit;
+    min-height: calc(100vh - 70px);
+    box-shadow: 12px 0px 18px -9px rgba(0,0,0,0.2);
+    align-content: center;
+    padding: 10px;
+}
+
+#barra-opciones{
+    float: right !important;
+    position: relative;
+    align-self: center;
+    min-height: inherit;
+    display: inline-flex;
+    margin: 0px 10px;
+}
+
+.proveedor-symbol{
+    padding: 5px;
+}
+
+.proveedor-precio{
+    text-align: center;
+}

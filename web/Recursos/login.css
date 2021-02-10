@@ -1,0 +1,46 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 14/01/2021, 09:53:57 PM
+    Author     : Angel
+*/
+
+label{
+    font-family: sans-serif;
+}
+
+.total-size{
+    min-height: 100vh;
+}
+
+.form-element{
+    margin-bottom: 10px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.error-message{
+    color: red;
+    font-size: small;
+    max-width: fit-content;
+}
+
+#fondo{
+    background-color: darkgray;
+}
+
+#center-bar{
+    max-width: 33vw;
+    margin: auto;
+    background-image: linear-gradient(dodgerblue, rgb(240,240,220));
+    display: flex;
+}
+
+#formulario{
+    width: fit-content;
+    height: fit-content;
+    margin: auto;
+}
