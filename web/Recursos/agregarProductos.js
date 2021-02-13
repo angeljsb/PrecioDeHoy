@@ -18,10 +18,180 @@ Producto.prototype.procesarCambioPrecio = function(){
 
 Producto.prototype.constructor = Producto;
 
-const FormularioAgregar = function(){
-    this.formulario = document.getElementById("contenedor-formulario");
-    this.hidden = true;
-}
+let FormularioControlado = function(id){
+    this.formulario = document.getElementById(id);
+    
+    this.formulario.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        console.log(this.formulario);
+        
+        const nombre = this.formulario["form-nombre-producto"],
+            marca = this.formulario["form-marca-producto"],
+            unidad = this.formulario["form-unit-producto"],
+            precio = this.formulario["form-precio-producto"],
+            moneda = this.formulario["form-moneda"];
+            
+        console.log(nombre, marca, unidad, precio, moneda);
+        
+//        const data = {
+//            user_id: userId,
+//            nombre: nombre.value,
+//            marca: marca.value,
+//            unidad: unidad.value,
+//            precio: (precio.value !== ""
+//                    ? (moneda.value === "Dolar"
+//                            ? JSON.parse(precio.value)
+//                            : JSON.parse(precio.value) / precioDolar)
+//                    : 0),
+//            auth_code: authCode
+//        };
+
+//        let data1 = "user_id=" + data.user_id + "&nombre=" + data.nombre +
+//                "&marca=" + data.marca + "&precio=" + data.precio +
+//                "&auth_code=" + data.auth_code;
+//
+//        let response = await fetch(
+//                "<%= AdministradorRecursos.GUARDAR_PRODUCTO%>",
+//                {
+//                    method: "POST",
+//                    body: data1,
+//                    headers: {
+//                        "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8"
+//                    }
+//                });
+    });
+};
+
+FormularioControlado.prototype = {
+    constructor: FormularioControlado
+};
+
+let Ocultable = function(id){
+    
+    const ocultable = document.getElementById(id);
+    
+    const showMoreBtns = ocultable.querySelectorAll(".ph-expandible__show-more-btn");
+    
+    const showMoreCont = ocultable.querySelector(".ph-expandible__show-more-container");
+    const showMoreContenido = showMoreCont.querySelector(".ph-expandible__show-more-content");
+    
+    const minimizeBtn = ocultable.querySelectorAll(".ph-expandible__minimize-btn");
+    
+    const innerDiv = ocultable.querySelector(".ph-expandible__inner");
+    
+    const expandir = function(e){
+        
+        const classes = ocultable.className.split(" ");
+        
+        const remove = classes.indexOf("ph-expandible--minimized");
+        classes.splice(remove, 1);
+        
+        ocultable.className = classes.join(" ");
+        
+        ocultable.style.width = "calc(100% - 40px)";
+        ocultable.style.height = (innerDiv.offsetHeight-33) + "px";
+        
+        ocultable.removeEventListener('click', expandir);
+        
+        setTimeout(()=>{
+            ocultable.style = {};
+        }, 400);
+        
+    };
+    
+    const minimizar = function(e){
+        
+        ocultable.style.width = "calc(100% - 40px)";
+        ocultable.style.height = innerDiv.offsetHeight + "px";
+        
+        const classes = ocultable.className.split(" ");
+        
+        classes.push("ph-expandible--minimized");
+
+        ocultable.className = classes.join(" ");
+        
+        setTimeout(()=>{ocultable.style.width = "50px";
+        ocultable.style.height = "50px";}, 10);
+        
+        setTimeout(()=>{
+            ocultable.addEventListener('click', expandir);
+        }, 400);
+    };
+    
+    const showMore = function(e){
+        showMoreContenido.style.height = "34px";
+        
+        showMoreCont.style.height = null;
+        
+        const classes = showMoreCont.className.split(" ");
+        
+        const remove = classes.indexOf("ph-expandible__show-more-container--oculto");
+        classes.splice(remove, 1);
+        
+        classes.push("ph-expandible__show-more-container--transition");
+        
+        showMoreCont.className = classes.join(" ");
+        
+        setTimeout(()=>{
+            const remove = classes.indexOf("ph-expandible__show-more-container--transition");
+            classes.splice(remove, 1);
+            
+            classes.push("ph-expandible__show-more-container--mostrado");
+            
+            showMoreCont.className = classes.join(" ");
+            
+            showMoreBtns.forEach(btn => {
+                btn.removeEventListener('click', showMore);
+                btn.addEventListener('click', showLess);
+                
+                const smbClasses = btn.className.split(" ");
+                const remove2 = classes.indexOf("ph-form__description-btn--show-more");
+                smbClasses.splice(remove2, 1);
+                smbClasses.push("ph-form__description-btn--show-less");
+                btn.className = smbClasses.join(" ");
+            });
+        },400);
+    };
+    
+    const showLess = function(e){
+        showMoreCont.style.height = showMoreCont.offsetHeight + "px";
+        
+        setTimeout(()=>{
+        
+            showMoreCont.style.height = "0px";
+
+            setTimeout(()=>{
+
+                const classes = showMoreCont.className.split(" ");
+
+                const remove = classes.indexOf("ph-expandible__show-more-container--mostrado");
+                classes.splice(remove, 1);
+
+                classes.push("ph-expandible__show-more-container--oculto");
+
+                showMoreCont.className = classes.join(" ");
+                
+                showMoreBtns.forEach(btn =>{ 
+                    btn.removeEventListener('click', showLess);
+                    btn.addEventListener('click', showMore);
+                    
+                    const smbClasses = btn.className.split(" ");
+                    const remove2 = classes.indexOf("ph-form__description-btn--show-less");
+                    smbClasses.splice(remove2, 1);
+                    smbClasses.push("ph-form__description-btn--show-more");
+                    btn.className = smbClasses.join(" ");
+                });
+            }, 400);
+            
+        }, 10);
+    };
+    
+    ocultable.addEventListener('click', expandir);
+    
+    showMoreBtns.forEach(btn => btn.addEventListener('click', showMore));
+    
+    minimizeBtn.forEach(btn => btn.addEventListener('click', minimizar));
+};
 
 let Tabla = function (id, productos = [], borrar ={}, editar={}) {
     this.tabla = document.getElementById(id);

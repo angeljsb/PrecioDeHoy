@@ -105,10 +105,6 @@
         <% } %>
         <title>Precio de hoy</title>
         <script type="text/javascript" src="Recursos/index.js" ></script>
-        <%
-            BuscadorMonedaApi scrapper = new ConectorBCV();
-            double precioDolar = scrapper.obtenerPrecio();
-        %>
     </head>
     <body>       
 
@@ -145,36 +141,62 @@
         <jsp:getProperty name="user" property="correo"/>
         <div id="cuerpo">
             <div>
-                <div class="ph-taxes__container">
+                <div class="ph-taxes__container ph-hidden-left">
                     <span class="ph-taxes__arrow"></span>
                     <div id="contenedor-tazas"></div>
                 </div>
-                <div id="contenedor-formulario" class="ph-form-productos__container">
-                    <form id="nuevo-producto" onsubmit="return submitSecure()">
-                        <div class="ph-container--small">
-                            <div class="form-element">
-                                <label for="form-nombre-producto" class="form-label">Nombre</label>
-                                <input type="text" maxlength="50" required id="form-nombre-producto">
+                <div id="contenedor-formulario" style="width: 50px; height: 50px;" class="ph-form-productos__container ph-expandible ph-expandible--minimized">
+                    <form id="nuevo-producto">
+                        <div class="ph-container--small ph-expandible__inner">
+                            <div class="ph-form__container">
+                                <input type="text" maxlength="50" 
+                                       placeholder="Nombre del producto"
+                                       required id="form-nombre-producto"
+                                       class="ph-form__text-input ph-form__text-input--primary ph-container--full">
                             </div>
-                            <div class="form-element">
-                                <label for="form-marca-producto" class="form-label">Marca</label>
-                                <input type="text" id="form-marca-producto">
+                            <div class="ph-form__container">
+                                <input type="text" maxlength="50" 
+                                       placeholder="Marca"
+                                       id="form-marca-producto"
+                                       class="ph-form__text-input ph-form__text-input--primary ph-container--full">
+                                <span class="ph-divider"></span>
+                                <input type="text" maxlength="50" 
+                                           placeholder="Unidad (Kg, pcs, ...etc)"
+                                           id="form-unit-producto"
+                                           class="ph-form__text-input ph-form__text-input--primary ph-container--full">
                             </div>
-                        </div>
-                        <div class="ph-container--small">
-                            <div class="form-element">
-                                <label for="dolar-nuevo-producto" class="form-label">Precio</label>
-                                <input type="number" min="0" step="0.01" id="dolar-nuevo-producto">
-                                <select name="moneda" form="nuevo-producto" id="form-moneda">
+                            <div class="ph-form__container">
+                                <input type="number" min="0" step="0.01" 
+                                       placeholder="Precio"
+                                       id="form-precio-producto"
+                                       class="ph-form__text-input ph-form__text-input--primary">
+
+                                <select name="moneda" form="nuevo-producto" id="form-moneda"
+                                        class="ph-form__text-input ph-form__text-input--primary ph-container--small-x">
                                     <option value="Dolar">$</option>
                                     <option value="Bolivar">Bs</option>
                                 </select>
                             </div>
-                        </div>
-                        <div class="ph-container--small">
-                            <input type="submit" value="Guardar">
+                            <div class="ph-form__container ph-expandible__show-more-container ph-expandible__show-more-container--oculto">
+                                <textarea type="text" maxlength="250"
+                                        placeholder="Descripción"
+                                        id="form-descripcion-producto"
+                                        class="ph-form__text-input ph-form__text-input--primary ph-container--full ph-expandible__show-more-content"
+                                        ></textarea>
+                            </div>
+                            <div class="ph-form__container">
+                                <div class="ph-container--full ph-container--center-text">
+                                    <input type="submit" value="Guardar" class="ph-button ph-button--primary">
+                                    <button type="button" class="ph-expandible__show-more-btn ph-form__description-btn ph-form__description-btn--show-more"></button>
+                                    <button type="button" class="ph-expandible__minimize-btn ph-button ph-button--primary">Cancelar</button>
+                                </div>
+                            </div>
                         </div>
                     </form>
+                    <script>
+                        const formularioProductos = new FormularioControlado("nuevo-producto");
+                        Ocultable("contenedor-formulario");
+                    </script>
                 </div>
             </div>
             <div id="barra-izquierda">
@@ -216,33 +238,6 @@
 
                 <h4 class="titulo-lista"> Productos </h4>
                 <div id="contenedor-tabla">
-                    <div id="formulario-producto">
-                        <!--<form id="nuevo-producto" onsubmit="return submitSecure()">
-                            <div class="form-row">
-                                <div class="form-element">
-                                    <label for="form-nombre-producto" class="form-label">Nombre</label>
-                                    <input type="text" maxlength="50" required id="form-nombre-producto">
-                                </div>
-                                <div class="form-element">
-                                    <label for="form-marca-producto" class="form-label">Marca</label>
-                                    <input type="text" id="form-marca-producto">
-                                </div>
-                            </div>
-                            <div class="form-row">
-                                <div class="form-element">
-                                    <label for="dolar-nuevo-producto" class="form-label">Precio</label>
-                                    <input type="number" min="0" step="0.01" id="dolar-nuevo-producto">
-                                    <select name="moneda" form="nuevo-producto" id="form-moneda">
-                                        <option value="Dolar">$</option>
-                                        <option value="Bolivar">Bs</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="form-row">
-                                <input type="submit" value="Guardar">
-                            </div>
-                        </form> -->
-                    </div>
 
                     <script>
                         let tablaProductos = new Tabla("tabla-productos",
@@ -290,7 +285,7 @@
                         }
 
                         async function enviarBD() {
-                            const precioDolar = <%= precioDolar%>;
+                            const precioDolar = global.precio;
 
                             const nombre = document.getElementById("form-nombre-producto"),
                                     marca = document.getElementById("form-marca-producto"),

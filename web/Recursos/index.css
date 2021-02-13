@@ -13,7 +13,7 @@ body{
     min-height: 100vh;
 }
 
-button, input{
+button, input, select, textarea{
     outline: none;
 }
 
@@ -73,16 +73,18 @@ a{
     transition: background-color 200ms;
     background-color: rgba(0,0,0,0);
     width: fit-content;
+    cursor: pointer;
 }
 
 .ph-button--primary{
     color: #960200;
     border: 2px solid #960200;
+    background-color: white;
     align-self: center;
 }
 
 .ph-button--primary:hover{
-    background-color: rgba(0,0,0,0.2);
+    background-color: #e8e8e8;
 }
 
 .ph-popup__container{
@@ -118,27 +120,48 @@ a{
     background-color: lightgray;
 }
 
-.ph-form-productos__container{
-    background-color: #404e4d;
-    width: 50px;
-    height: 50px;
+.ph-expandible{
     border-radius: 25px;
     margin: 20px;
     transition: width 400ms,height 400ms;
     overflow: hidden;
+    width: auto;
+    height: auto;
 }
 
-.ph-form-productos__container form{
+.ph-expandible--minimized{
+    cursor: pointer;
+}
+
+.ph-expandible--minimized *{
     display: none;
 }
 
-.ph-form-productos__container:hover{
-    width: calc(100% - 40px);
-    height: 150px;
+.ph-form-productos__container{
+    background-color: #404e4d;
 }
 
-.ph-form-productos__container:hover form{
+.ph-expandible__show-more-container{
+    transition: height 400ms;
+    overflow: hidden;
+}
+
+.ph-expandible__show-more-container--oculto{
+    height: 0;
+}
+
+.ph-expandible__show-more-container--oculto *{
+    display: none;
+}
+
+.ph-expandible__show-more-container--transition{
+    height: 54px;
     display: initial;
+}
+
+.ph-expandible__show-more-container--mostrado{
+    height: auto;
+    width: auto;
 }
 
 .ph-navbar__logo{
@@ -148,15 +171,18 @@ a{
     max-height: 75px;
 }
 
-.ph-taxes__container{
+.ph-hidden-left{
     position: fixed;
-    top: 90px;
     left: -200px;
     width: 200px;
-    background-color: #960200;
-    border-radius: 10px;
     z-index: 1;
     transition: left 400ms;
+}
+
+.ph-taxes__container{
+    top: 90px;
+    background-color: #960200;
+    border-radius: 10px;
 }
 
 .ph-taxes__card{
@@ -180,12 +206,44 @@ a{
     right: -40px;
 }
 
-.ph-taxes__container:hover{
+.ph-taxes__arrow:before{
+    content: "";
+    position: absolute;
+    border: 6px solid white;
+    border-bottom-color: transparent;
+    border-top-color: transparent;
+    border-right-color: transparent;
+    top: 14px;
+    left: 26px;
+}
+
+.ph-hidden-left:hover{
     left: -10px;
 }
 
 .ph-container--small{
     margin: 10px;
+}
+
+.ph-container--small-x{
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.ph-container--full{
+    width: 100%;
+}
+
+.ph-container--center-text{
+    text-align: center;
+}
+
+.ph-container--right-text{
+    text-align: right;
+}
+
+.ph-divider{
+    width: 20px;
 }
 
 #pagina-central{
