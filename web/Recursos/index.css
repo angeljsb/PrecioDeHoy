@@ -11,18 +11,54 @@ and open the template in the editor.
 body{
     margin: 0;
     min-height: 100vh;
+    font-family: sans-serif;
 }
 
 button, input, select, textarea{
     outline: none;
 }
 
-h3{
-    margin: 0;
+input[type="radio"]{
+    display: none;
 }
 
-h2{
+input[type="radio"] + label{
     font-family: sans-serif;
+    font-size: large;
+    color: #404e4d;
+}
+
+input[type="radio"]:hover + label,input[type="radio"]:checked + label{
+    color: black;
+}
+
+input[type="radio"] + label:before{
+    content: "";
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    margin: 0 0.5rem;
+    float: left;
+    border: 3px solid #404e4d;
+}
+
+input[type="radio"]:hover + label:before, input[type="radio"]:checked + label:before{
+    border-color: black;
+}
+
+input[type="radio"]:checked + label:after{
+    content: "";
+    float: left;
+    width: 11px;
+    height: 11px;
+    border-radius: 50%;
+    background-color: #960200;
+    margin-left: -24px;
+    margin-top: 5px;
+}
+
+h3{
+    margin: 0;
 }
 
 a{
@@ -47,10 +83,11 @@ a{
     display: inline-block;
 }
 
-.conversion-symbol{
+.ph-conversion__symbol{
     position: relative;
     top: 0;
     transition: top 1s;
+    color: white;
 }
 
 .dolar-cambiado{
@@ -76,6 +113,11 @@ a{
     cursor: pointer;
 }
 
+.ph-button--small{
+    padding: 3px 8px !important;
+    font-size: smaller !important;
+}
+
 .ph-button--primary{
     color: #960200;
     border: 2px solid #960200;
@@ -83,7 +125,14 @@ a{
     align-self: center;
 }
 
-.ph-button--primary:hover{
+.ph-button--terciary{
+    color: #358600;
+    border: 2px solid #358600;
+    background-color: white;
+    align-self: center;
+}
+
+.ph-button--primary:hover, .ph-button--terciary:hover{
     background-color: #e8e8e8;
 }
 
@@ -167,7 +216,6 @@ a{
 .ph-navbar__logo{
     display: inline-block;
     padding: 5px;
-    margin: auto;
     max-height: 75px;
 }
 
@@ -230,6 +278,25 @@ a{
     margin-right: 10px;
 }
 
+.ph-container--small-y{
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.ph-container--medium{
+    margin: 15px;
+}
+
+.ph-container--flex{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.ph-container--grid{
+    display: grid;
+    grid-template-columns: 50% 50%;
+}
+
 .ph-container--full{
     width: 100%;
 }
@@ -242,12 +309,42 @@ a{
     text-align: right;
 }
 
+.ph-card{
+    background-color: white;
+    border: 2px solid #960200;
+    border-radius: 10px;
+    margin: 10px;
+    padding: 5px;
+}
+
+.ph-card__title{
+    font-weight: normal;
+    margin: 0;
+}
+
+.ph-card__descripcion{
+    font-size: 0.9em;
+    text-align: justify;
+}
+
+.ph-card__moneda{
+    padding-right: 10px;
+    font-weight: bolder;
+    color: #358600;
+}
+
+.ph-card__acciones{
+    margin-top: 1em;
+}
+
 .ph-divider{
     width: 20px;
 }
 
-#pagina-central{
-    width: -webkit-fill-available;
+.ph-footer{
+    background-color: #404e4d;
+    margin-top: 50px;
+    padding: 20px;
 }
 
 #conversion{
@@ -263,24 +360,13 @@ a{
     padding-left: 2px;
 }
 
-#barra-izquierda{
-    background-color: rgb(240,240,220);
-    width: fit-content;
-    min-width: 200px;
-    height: inherit;
-    min-height: calc(100vh - 70px);
-    box-shadow: 12px 0px 18px -9px rgba(0,0,0,0.2);
-    align-content: center;
-    padding: 10px;
-}
-
 #barra-opciones{
     float: right !important;
     position: relative;
     align-self: center;
     min-height: inherit;
     display: inline-flex;
-    margin: 0px 10px;
+    margin: 0px 10px 0px auto;
 }
 
 .proveedor-symbol{

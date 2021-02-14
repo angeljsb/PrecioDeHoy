@@ -4,10 +4,12 @@
  * and open the template in the editor.
  */
 
-let Producto = function (id, nombre, marca = "", precioDolar = 0) {
+let Producto = function (id, nombre, marca = "", unidad="", descripcion="", precioDolar = 0) {
     this.id = id;
     this.nombre = nombre;
     this.marca = marca;
+    this.unidad = unidad;
+    this.descripcion = descripcion;
     this.precioDolar = precioDolar;
     this.precioBolivar = precioDolar * global.precio;
 };
@@ -29,9 +31,10 @@ let FormularioControlado = function(id){
             marca = this.formulario["form-marca-producto"],
             unidad = this.formulario["form-unit-producto"],
             precio = this.formulario["form-precio-producto"],
+            descripcion = this.formulario["form-descripcion-producto"],
             moneda = this.formulario["form-moneda"];
             
-        console.log(nombre, marca, unidad, precio, moneda);
+        console.log(nombre.value, marca.value, unidad.value, precio.value, moneda.value, descripcion.value);
         
 //        const data = {
 //            user_id: userId,
@@ -193,7 +196,74 @@ let Ocultable = function(id){
     minimizeBtn.forEach(btn => btn.addEventListener('click', minimizar));
 };
 
-let Tabla = function (id, productos = [], borrar ={}, editar={}) {
+let ListaProductos = function(productos = []){
+    this.page = 0;
+    this.container = document.getElementById("container-productos");
+    this.productos = productos;
+};
+
+ListaProductos.prototype = {
+    constructor: ListaProductos,
+    show: function(){
+        if(this.productos.length===0){
+            return;
+        }
+        const itemsPerPage = 10;
+        const prodcutosMostrados = this.productos.slice(this.page*itemsPerPage, itemsPerPage);
+        
+        let htmlCompleto = '<h2 class="ph-container--center-text">Productos</h2>';
+        
+        htmlCompleto += '<div class="ph-container--grid">';
+        
+        prodcutosMostrados.forEach((producto)=>{
+            htmlCompleto += `
+                    <div class="ph-card">
+                        <h3 class="ph-card__title">
+                            ${producto.nombre_producto}
+                        </h3>
+                        <span>`;
+            if(producto.marca && producto.marca!=="null"){
+                htmlCompleto += `${producto.marca} `;
+            }
+            if(producto.unidad && producto.unidad!=="null"){
+                htmlCompleto += `(${producto.unidad})`;
+            }
+            htmlCompleto += `</span>`;
+            if(producto.descripcion && producto.descripcion!=="null"){
+                htmlCompleto += `<p class="ph-card__descripcion">${producto.descripcion}</p>`;
+            }
+            if(producto.precio_dolares && producto.precio_dolares!=="null"){
+                htmlCompleto += `<table class="ph-container--small-y">
+                            <tbody>
+                                <tr><td class="ph-card__moneda">$</td>
+<td>${producto.precio_dolares.toLocaleString(["es"], {minimumFractionDigits: 2, maximumFractionDigits: 2})}</td></tr>
+                                <tr><td class="ph-card__moneda">Bs</td><td id="precio-bolivar-${producto.id}"></td></tr>
+                            </tbody>
+                        </table>`;
+            }
+            htmlCompleto += `<div class="ph-card__acciones ph-container--center-text">
+                            <button class="ph-button ph-button--small ph-button--terciary">Editar</button>
+                            <button class="ph-button ph-button--small ph-button--primary">Borrar</button>
+                        </div>
+                    </div>`;
+        });
+        htmlCompleto += '</div>';
+        
+        this.container.innerHTML = htmlCompleto;
+        
+        const cambiar = (e) => {
+            prodcutosMostrados.forEach((producto)=>{
+                const marco = document.getElementById(`precio-bolivar-${producto.id}`);
+                const precioBolivar = producto.precio_dolares * global.precio;
+                
+                marco.innerHTML = precioBolivar.toLocaleString(["es"], {minimumFractionDigits: 2, maximumFractionDigits: 2});
+            });
+        };
+        document.addEventListener('changeprice', cambiar);
+    }
+};
+
+/*let Tabla = function (id, productos = [], borrar ={}, editar={}) {
     this.tabla = document.getElementById(id);
     this.id = id;
     
@@ -204,7 +274,7 @@ let Tabla = function (id, productos = [], borrar ={}, editar={}) {
 
     for (let producto of productos) {
         this.addProducto(
-                new Producto(producto.id, producto.nombre_producto, producto.marca, producto.precio_dolares)
+                new Producto(producto.id, producto.nombre_producto, producto.marca, "","", producto.precio_dolares)
                 );
     }
 
@@ -249,6 +319,7 @@ Tabla.prototype = {
         this.tabla = document.createElement("table");
 
         this.tabla.id = this.id;
+        this.tabla.className = "ph-table";
         let thead = this.tabla.insertRow(0);
         
         this.tableHeaders.forEach((header)=>{
@@ -269,3 +340,4 @@ Tabla.prototype = {
         });
     }
 };
+*/

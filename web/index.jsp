@@ -4,15 +4,11 @@
     Author     : Angel
 --%>
 
-<%@page import="java.text.DecimalFormat"%>
 <%@page import="backend.Parametro"%>
 <%@page import="backend.Producto"%>
-<%@page import="backend.TablaProducto"%>
 <%@page import="backend.NoEncontradoException"%>
 <%@page import="java.sql.SQLException"%>
 <%@page import="backend.AdministradorRecursos"%>
-<%@page import="backend.BuscadorMonedaApi"%>
-<%@page import="backend.ConectorBCV"%>
 <%@page import="backend.TablaUsuario"%>
 <%@page import="backend.Usuario"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -140,7 +136,7 @@
         <jsp:getProperty name="user" property="authCode"/>
         <jsp:getProperty name="user" property="correo"/>
         <div id="cuerpo">
-            <div>
+            <div class="ph-container--flex">
                 <div class="ph-taxes__container ph-hidden-left">
                     <span class="ph-taxes__arrow"></span>
                     <div id="contenedor-tazas"></div>
@@ -198,9 +194,23 @@
                         Ocultable("contenedor-formulario");
                     </script>
                 </div>
+                <div id="checkboxes" class="ph-container--medium"></div>
             </div>
-            <div id="barra-izquierda">
-                <h2>Conversión</h2>
+            <div id="container-productos">
+                
+            </div>
+            <script>
+                const productosUsuario = <%= AdministradorRecursos.consultarApiLocal(
+                                AdministradorRecursos.PRODUCTOS_USUARIO, 
+                                new Parametro("user_id", user.getId()),
+                                new Parametro("auth_code", user.getAuthCode())
+                        ) %>;
+                            
+                const lista = new ListaProductos(productosUsuario);
+                
+                lista.show();
+            </script>
+            <div id="footer" class="ph-footer">
                 <div id="conversion">
                     <div>
                         <input 
@@ -212,7 +222,7 @@
                             onkeyup="convertir()"
                             onclick="convertir()"
                             >
-                        <span id="simbolo-dolar" class="conversion-symbol">$</span>
+                        <span id="simbolo-dolar" class="ph-conversion__symbol">$</span>
                     </div>
                     <div>
                         <input
@@ -222,32 +232,27 @@
                             value="0"
                             disabled
                             >
-                        <span id="simbolo-bolivar" class="conversion-symbol">Bs</span>
+                        <span id="simbolo-bolivar" class="ph-conversion__symbol">Bs</span>
                     </div>
                     <button onclick="cambiar()" style="margin-top: 5px">Cambiar</button>
                 </div>
-                <div id="checkboxes" ></div>
                 
                 <script>
+                    document.addEventListener('changeprice', (e)=>{convertir();});
+                    
                     let global = new Global(<%= AdministradorRecursos.consultarApiLocal(AdministradorRecursos.PRECIO_OFICIAL) %>);
+                    document.dispatchEvent(new Event('changeprice'));
                 </script>
                 
             </div>
             <div id="pagina-central">
                 <% if (loggeado) { %>
 
-                <h4 class="titulo-lista"> Productos </h4>
-                <div id="contenedor-tabla">
-
                     <script>
-                        let tablaProductos = new Tabla("tabla-productos",
-                        <%= AdministradorRecursos.consultarApiLocal(
-                                AdministradorRecursos.PRODUCTOS_USUARIO, 
-                                new Parametro("user_id", user.getId()),
-                                new Parametro("auth_code", user.getAuthCode())
-                        ) %>,
+                        /*let tablaProductos = new Tabla("tabla-productos",
+                            productosUsuario,
                             borrar
-                        );
+                        );*/
                         
                         
                         async function borrar(id){
@@ -330,7 +335,6 @@
                             }
                         }
                     </script>
-                </div>
 
                 <% } else { %>
                 <div>Aplicación para la conversión de dolares a bolivares</div>

@@ -8,13 +8,13 @@ and open the template in the editor.
     Author     : Angel
 */
 
-table{
+.ph-table{
     width: -webkit-fill-available;
     border: 1px solid black;
     background-color: lightgray;
 }
 
-th, td{
+.ph-table th, .ph-table td{
     border: 1px solid black;
     background-color: white;
     padding: 2px

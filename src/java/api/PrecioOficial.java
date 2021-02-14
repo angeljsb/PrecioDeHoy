@@ -17,7 +17,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.core.MediaType;
 import backend.ElementoApi;
-import java.util.Map;
 import org.json.JSONArray;
 import org.json.JSONObject;
 

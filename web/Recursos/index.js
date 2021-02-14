@@ -19,10 +19,7 @@ Global.prototype = {
     constructor: Global,
     set actual(simbolo){
         this.precio = this.preciosProveedores[simbolo];
-        if(tablaProductos){
-            tablaProductos.procesarCambioPrecio();
-        }
-        convertir();
+        document.dispatchEvent(new Event('changeprice'));
     }
 };
 
@@ -62,6 +59,9 @@ function mostrarPrecios(precios){
         radioBox.id = precio.proveedor.simbolo;
         radioBox.name = "precio-actual";
         radioBox.onclick = ()=>{ global.actual = precio.proveedor.simbolo; };
+        if(precio === precios[0]){
+            radioBox.checked = true;
+        }
         
         let label = document.createElement("label");
         label.htmlFor = radioBox.id;
