@@ -91,7 +91,7 @@ public class GuardarProducto extends HttpServlet {
         Producto ingresado;
         try{
             TablaProducto tp = new TablaProducto();
-            ingresado = tp.insert(userId, nombre, marca, descripcion, precioDolar, authCode);
+            ingresado = tp.insert(userId, nombre, marca, unidad, descripcion, precioDolar, authCode);
         }catch(SQLException|NoEncontradoException ex){
             response.sendError(400);
             return;

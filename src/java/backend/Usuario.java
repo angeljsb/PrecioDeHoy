@@ -14,6 +14,7 @@ public class Usuario {
     private int id;
     private String nombre;
     private String correo;
+    private String imagen;
     private int authCode;
 
     public Usuario() {
@@ -21,6 +22,14 @@ public class Usuario {
         nombre="";
         correo="";
         authCode=0;
+    }
+
+    public String getImagen() {
+        return imagen;
+    }
+
+    public void setImagen(String imagen) {
+        this.imagen = imagen;
     }
 
     public int getAuthCode() {

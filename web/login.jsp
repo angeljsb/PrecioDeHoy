@@ -18,8 +18,7 @@
             if(user.getId()>0){
                 response.sendRedirect(AdministradorRecursos.HOME_PAGE);
             }
-        %>
-        <% 
+            
             boolean post = request.getMethod().equals("POST");
             String correo = "";
             String pass = "";

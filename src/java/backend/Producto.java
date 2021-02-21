@@ -14,6 +14,7 @@ public class Producto {
     private int id;
     private String nombre;
     private String marca;
+    private String unidad;
     private String descripcion;
     private double precioDolar;
 
@@ -39,6 +40,14 @@ public class Producto {
 
     public void setMarca(String marca) {
         this.marca = marca;
+    }
+    
+    public String getUnidad() {
+        return unidad;
+    }
+
+    public void setUnidad(String unidad) {
+        this.unidad = unidad;
     }
 
     public String getDescripcion() {

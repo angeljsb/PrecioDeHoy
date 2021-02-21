@@ -19,9 +19,10 @@ public class TablaUsuario {
     public static final String NOMBRE_TABLA = "usuario";
     
     public static final String ID = "id",
-            NOMBRE = "nombre",
+            NOMBRE = "nombre_negocio",
             CORREO = "correo",
             PASSWORD = "contraseña",
+            IMAGEN = "ruta_imagen",
             CODIGO_AUTENTICACION = "auth_code";
     
     public void crearTabla() throws SQLException{
@@ -33,18 +34,20 @@ public class TablaUsuario {
                         + NOMBRE + " VARCHAR(50),"
                         + CORREO + " VARCHAR(200) NOT NULL UNIQUE,"
                         + PASSWORD + " VARCHAR(50) NOT NULL,"
+                        + IMAGEN + " VARCHAR(250),"
                         + CODIGO_AUTENTICACION + " INT NULL"
-                        + ")");
+                        + ") CHARACTER SET UTF8");
         preparedS.execute();
         
     }
     
     private String camposBusqueda(){
-        return String.format("%s, %s, %s, %s", ID, 
-                NOMBRE, CORREO, CODIGO_AUTENTICACION );
+        return String.format("%s, %s, %s, %s, %s", ID, 
+                NOMBRE, CORREO, IMAGEN , CODIGO_AUTENTICACION );
     }
     
-    public int insert(String nombre, String correo, String password) throws SQLException{
+    public int insert(String nombre, String correo, String password, String imagen) 
+            throws SQLException{
         
         crearTabla();
         
@@ -52,18 +55,20 @@ public class TablaUsuario {
         PreparedStatement preparedS = con.prepareStatement(
                 "INSERT INTO " + NOMBRE_TABLA + " ("
                         + NOMBRE + ", " + CORREO + ", " + PASSWORD + ", "
-                                + CODIGO_AUTENTICACION
+                        + IMAGEN + ", " + CODIGO_AUTENTICACION
                         + ") VALUES "
-                        + "(?,?,SHA1(?),FLOOR(RAND()*(99999-10000)+10000))"
+                        + "(?, ?, SHA1(?), ?, FLOOR(RAND()*(99999-10000)+10000))"
         );            
         preparedS.setString(1, nombre);
         preparedS.setString(2, correo);
         preparedS.setString(3, password);
+        preparedS.setString(4, imagen);
 
         return preparedS.executeUpdate();
     }
     
-    public Usuario obtenerUno(String campo, Object value) throws SQLException, NoEncontradoException{
+    public Usuario obtenerUno(String campo, Object value) 
+            throws SQLException, NoEncontradoException{
         
         
         Connection con = ControladorConexion.getConnection();
@@ -170,6 +175,7 @@ public class TablaUsuario {
         Usuario usuario = new Usuario();
         usuario.setNombre(rs.getString(NOMBRE));
         usuario.setCorreo(rs.getString(CORREO));
+        usuario.setImagen(rs.getString(IMAGEN));
         usuario.setId(rs.getInt(ID));
         usuario.setAuthCode(rs.getInt(CODIGO_AUTENTICACION));
         

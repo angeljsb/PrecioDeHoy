@@ -29,6 +29,7 @@
             String nombre = "";
             String correo = "";
             String contrasenna = "";
+            String imagen = "";
             boolean recordar = false;
             String errorStatus = "";
             if(post){
@@ -40,7 +41,7 @@
                 if(nombre!=null&&correo!=null&&contrasenna!=null)
                 try{
                     TablaUsuario tu = new TablaUsuario();
-                    tu.insert(nombre, correo, contrasenna);
+                    tu.insert(nombre, correo, contrasenna, imagen);
 
                     Usuario creado = tu.iniciarSeccion(correo, contrasenna);
 

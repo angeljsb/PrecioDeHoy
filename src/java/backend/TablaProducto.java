@@ -23,6 +23,7 @@ public class TablaProducto {
             USUARIO = "user_id",
             NOMBRE = "nombre_producto",
             MARCA = "marca",
+            UNIDAD = "unidad",
             DESCRIPCION = "descripcion",
             PRECIO = "precio_dolar",
             FECHA = "fecha_modificacion";
@@ -36,18 +37,20 @@ public class TablaProducto {
                         + USUARIO + " INT NOT NULL,"
                         + NOMBRE + " VARCHAR(50) NOT NULL,"
                         + MARCA + " VARCHAR(50),"
+                        + UNIDAD + " VARCHAR(50),"
                         + DESCRIPCION + " VARCHAR(250),"
                         + PRECIO + " DOUBLE UNSIGNED,"
                         + FECHA + " DATETIME NOT NULL,"
                         + " FOREIGN KEY (" + USUARIO + ") REFERENCES " 
                         + TablaUsuario.NOMBRE_TABLA + "(" + TablaUsuario.ID + ")"
-                        + ")");
+                        + ") CHARACTER SET UTF8");
         preparedS.execute();
         
     }
     
     public Producto insert(int usuario, String nombre, String marca, 
-            String descripcion, double precioDolares, int authCode) 
+            String unidad, String descripcion, double precioDolares, 
+            int authCode) 
             throws SQLException, NoEncontradoException{
         
         crearTabla();
@@ -59,21 +62,24 @@ public class TablaProducto {
         PreparedStatement insert = con.prepareStatement(
                 "INSERT INTO " + NOMBRE_TABLA + " ("
                         + USUARIO + ", " + NOMBRE + ", "
-                        + MARCA + ", " + DESCRIPCION + ", "
+                        + MARCA + ", " + UNIDAD + ", " 
+                        + DESCRIPCION + ", "
                         + PRECIO + ", " + FECHA
                         + ") VALUES "
-                        + "(?, ?, ?, ?, ?, CURRENT_TIMESTAMP())"
+                        + "(?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP())"
         );
         insert.setInt(1, usuario);
         insert.setString(2, nombre);
         insert.setString(3, marca);
-        insert.setString(4, descripcion);
-        insert.setDouble(5, precioDolares);
+        insert.setString(4, unidad);
+        insert.setString(5, descripcion);
+        insert.setDouble(6, precioDolares);
         
         insert.executeUpdate();
         
         PreparedStatement select = con.prepareStatement(
                 "SELECT P." + ID + ", P." + NOMBRE + ", P." + MARCA + ", P."
+                        + UNIDAD + ", P."
                         + DESCRIPCION + ", P." + PRECIO
                         + " FROM " + NOMBRE_TABLA + " P, " 
                         + TablaUsuario.NOMBRE_TABLA + " U "
@@ -91,9 +97,12 @@ public class TablaProducto {
     
     public Producto[] getProductosUsuario(int userId, int authCode) throws SQLException{
         
+        this.crearTabla();
+        
         Connection con = ControladorConexion.getConnection();
         PreparedStatement select = con.prepareStatement(
                 "SELECT P." + ID + ", P." + NOMBRE + ", P." + MARCA + ", P."
+                        + UNIDAD + ", P."
                         + DESCRIPCION + ", P." + PRECIO
                         + " FROM " + NOMBRE_TABLA + " P, " 
                         + TablaUsuario.NOMBRE_TABLA + " U "
@@ -138,6 +147,7 @@ public class TablaProducto {
         devuelto.setId(rs.getInt(ID));
         devuelto.setNombre(rs.getString(NOMBRE));
         devuelto.setMarca(rs.getString(MARCA));
+        devuelto.setUnidad(rs.getString(UNIDAD));
         devuelto.setDescripcion(rs.getString(DESCRIPCION));
         devuelto.setPrecioDolar(rs.getDouble(PRECIO));
         
