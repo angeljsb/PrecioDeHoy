@@ -25,43 +25,50 @@ let FormularioControlado = function(id){
     
     this.formulario.addEventListener('submit', async (e) => {
         e.preventDefault();
-        console.log(this.formulario);
         
-        const nombre = this.formulario["form-nombre-producto"],
+        const precioDolar = global.precio;
+        
+        const userId = this.formulario["form-id-user"],
+            authCode = this.formulario["form-auth-user"],
+            nombre = this.formulario["form-nombre-producto"],
             marca = this.formulario["form-marca-producto"],
             unidad = this.formulario["form-unit-producto"],
             precio = this.formulario["form-precio-producto"],
             descripcion = this.formulario["form-descripcion-producto"],
             moneda = this.formulario["form-moneda"];
             
-        console.log(nombre.value, marca.value, unidad.value, precio.value, moneda.value, descripcion.value);
-        
-//        const data = {
-//            user_id: userId,
-//            nombre: nombre.value,
-//            marca: marca.value,
-//            unidad: unidad.value,
-//            precio: (precio.value !== ""
-//                    ? (moneda.value === "Dolar"
-//                            ? JSON.parse(precio.value)
-//                            : JSON.parse(precio.value) / precioDolar)
-//                    : 0),
-//            auth_code: authCode
-//        };
+        const data = {
+            user_id: userId.value,
+            nombre_producto: nombre.value,
+            marca: marca.value,
+            unidad: unidad.value,
+            precio: (precio.value !== ""
+                    ? (moneda.value === "Dolar"
+                            ? JSON.parse(precio.value)
+                            : JSON.parse(precio.value) / precioDolar)
+                    : 0),
+            descripcion: descripcion.value,
+            auth_code: authCode.value
+        };
 
-//        let data1 = "user_id=" + data.user_id + "&nombre=" + data.nombre +
-//                "&marca=" + data.marca + "&precio=" + data.precio +
+//        let data1 = "user_id=" + data.user_id + "&nombre_producto=" + data.nombre +
+//                "&marca=" + data.marca + "&unidad=" + data.unidad +
+//                "&precio=" + data.precio + "&descripcion=" + data.descripcion +
 //                "&auth_code=" + data.auth_code;
-//
-//        let response = await fetch(
-//                "<%= AdministradorRecursos.GUARDAR_PRODUCTO%>",
-//                {
-//                    method: "POST",
-//                    body: data1,
-//                    headers: {
-//                        "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8"
-//                    }
-//                });
+        
+        let response = await fetch(
+                "/PrecioDolar/api/guardarproducto",
+                {
+                    method: "POST",
+                    body: JSON.stringify(data),
+                    headers: {
+                        "Content-Type": "application/json"
+                    }
+                });
+        
+        if(response.ok){
+            console.log(await response.json());
+        }
     });
 };
 
@@ -217,6 +224,7 @@ ListaProductos.prototype = {
         
         prodcutosMostrados.forEach((producto)=>{
             htmlCompleto += `
+            <div>
                     <div class="ph-card">
                         <h3 class="ph-card__title">
                             ${producto.nombre_producto}
@@ -245,7 +253,8 @@ ListaProductos.prototype = {
                             <button class="ph-button ph-button--small ph-button--terciary">Editar</button>
                             <button class="ph-button ph-button--small ph-button--primary">Borrar</button>
                         </div>
-                    </div>`;
+                    </div>
+                </div>`;
         });
         htmlCompleto += '</div>';
         

@@ -76,11 +76,15 @@ a{
     text-align: center;
 }
 
-.conversion-number{
-    width: 150px;
-    padding: 0;
-    margin-top: 5px;
-    display: inline-block;
+.ph-conversion{
+    text-align: center;
+}
+
+.ph-conversion__card{
+    border-radius: 25px;
+    background-color: #404e4d;
+    padding: 20px;
+    text-align: initial;
 }
 
 .ph-conversion__symbol{
@@ -91,11 +95,11 @@ a{
 }
 
 .dolar-cambiado{
-    top: 24px;
+    top: 51px;
 }
 
 .bolivar-cambiado{
-    top: -24px;
+    top: -47px;
 }
 
 .ph-button{
@@ -167,6 +171,30 @@ a{
 
 .ph-popup__popup a:hover{
     background-color: lightgray;
+}
+
+.ph-text-input{
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-radius: 5px;
+    font-family: sans-serif;
+}
+
+.ph-text-input--primary{
+    border: 2px solid gray;
+}
+
+.ph-text-input--primary:focus{
+    border-color: #960200;
+}
+
+.ph-text-input--ignore-disable{
+    color: black;
+    background-color: white;
+}
+
+.ph-text--white{
+    color: white;
 }
 
 .ph-expandible{
@@ -350,14 +378,6 @@ a{
 #conversion{
     width: fit-content;
     margin: auto;
-}
-
-#conversion-result{
-    color: black;
-    background-color: white;
-    border: 1px solid rgb(118, 118, 118);
-    border-radius: 2px;
-    padding-left: 2px;
 }
 
 #barra-opciones{

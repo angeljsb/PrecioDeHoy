@@ -37,21 +37,6 @@ select{
     display: flex;
 }
 
-.ph-form__text-input{
-    padding-top: 10px;
-    padding-bottom: 10px;
-    border-radius: 5px;
-    font-family: sans-serif;
-}
-
-.ph-form__text-input--primary{
-    border: 2px solid gray;
-}
-
-.ph-form__text-input--primary:focus{
-    border-color: #960200;
-}
-
 @keyframes show-more {
     from {top: -6px;}
     to {top: 0px;}

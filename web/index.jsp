@@ -141,43 +141,46 @@
                     <span class="ph-taxes__arrow"></span>
                     <div id="contenedor-tazas"></div>
                 </div>
+                <% if(loggeado){ %>
                 <div id="contenedor-formulario" style="width: 50px; height: 50px;" class="ph-form-productos__container ph-expandible ph-expandible--minimized">
-                    <form id="nuevo-producto">
+                    <form id="nuevo-producto" method="POST" action="api/guardarproducto">
+                        <input type="hidden" name="user_id" id="form-id-user" value="<jsp:getProperty name="user" property="id" />" >
+                        <input type="hidden" name="auth_code" id="form-auth-user" value="<jsp:getProperty name="user" property="authCode" />" >
                         <div class="ph-container--small ph-expandible__inner">
                             <div class="ph-form__container">
-                                <input type="text" maxlength="50" 
+                                <input type="text" maxlength="50" name="nombre_producto"
                                        placeholder="Nombre del producto"
                                        required id="form-nombre-producto"
-                                       class="ph-form__text-input ph-form__text-input--primary ph-container--full">
+                                       class="ph-text-input ph-text-input--primary ph-container--full">
                             </div>
                             <div class="ph-form__container">
                                 <input type="text" maxlength="50" 
-                                       placeholder="Marca"
+                                       placeholder="Marca" name="marca"
                                        id="form-marca-producto"
-                                       class="ph-form__text-input ph-form__text-input--primary ph-container--full">
+                                       class="ph-text-input ph-text-input--primary ph-container--full">
                                 <span class="ph-divider"></span>
                                 <input type="text" maxlength="50" 
                                            placeholder="Unidad (Kg, pcs, ...etc)"
-                                           id="form-unit-producto"
-                                           class="ph-form__text-input ph-form__text-input--primary ph-container--full">
+                                           id="form-unit-producto" name="unidad"
+                                           class="ph-text-input ph-text-input--primary ph-container--full">
                             </div>
                             <div class="ph-form__container">
                                 <input type="number" min="0" step="0.01" 
-                                       placeholder="Precio"
+                                       placeholder="Precio" name="precio"
                                        id="form-precio-producto"
-                                       class="ph-form__text-input ph-form__text-input--primary">
+                                       class="ph-text-input ph-text-input--primary">
 
-                                <select name="moneda" form="nuevo-producto" id="form-moneda"
-                                        class="ph-form__text-input ph-form__text-input--primary ph-container--small-x">
+                                <select name="moneda" form="nuevo-producto" id="form-moneda" name="moneda"
+                                        class="ph-text-input ph-text-input--primary ph-container--small-x">
                                     <option value="Dolar">$</option>
                                     <option value="Bolivar">Bs</option>
                                 </select>
                             </div>
                             <div class="ph-form__container ph-expandible__show-more-container ph-expandible__show-more-container--oculto">
                                 <textarea type="text" maxlength="250"
-                                        placeholder="Descripción"
+                                        placeholder="Descripción" name="descripcion"
                                         id="form-descripcion-producto"
-                                        class="ph-form__text-input ph-form__text-input--primary ph-container--full ph-expandible__show-more-content"
+                                        class="ph-text-input ph-text-input--primary ph-container--full ph-expandible__show-more-content"
                                         ></textarea>
                             </div>
                             <div class="ph-form__container">
@@ -194,8 +197,10 @@
                         Ocultable("contenedor-formulario");
                     </script>
                 </div>
+                <% } %>
                 <div id="checkboxes" class="ph-container--medium"></div>
             </div>
+            <% if(loggeado){ %>
             <div id="container-productos">
                 
             </div>
@@ -210,13 +215,15 @@
                 
                 lista.show();
             </script>
-            <div id="footer" class="ph-footer">
-                <div id="conversion">
-                    <div>
+            <% } %>
+            <div id="conversion-container" class="ph-conversion">
+                <div id="conversion" class="ph-conversion__card">
+                    <h3 class="ph-container--center-text ph-text--white">Conversión</h3>
+                    <div class="ph-container--small">
                         <input 
                             type="number" 
                             id="conversion-input" 
-                            class="conversion-number"
+                            class="ph-text-input ph-text-input--primary"
                             value="0"
                             min="0"
                             onkeyup="convertir()"
@@ -224,17 +231,17 @@
                             >
                         <span id="simbolo-dolar" class="ph-conversion__symbol">$</span>
                     </div>
-                    <div>
+                    <div class="ph-container--small">
                         <input
                             type="text"
                             id="conversion-result" 
-                            class="conversion-number"
+                            class="ph-text-input ph-text-input--primary ph-text-input--ignore-disable"
                             value="0"
                             disabled
                             >
                         <span id="simbolo-bolivar" class="ph-conversion__symbol">Bs</span>
                     </div>
-                    <button onclick="cambiar()" style="margin-top: 5px">Cambiar</button>
+                    <button onclick="cambiar()" class="ph-container--small-x ph-button ph-button--small ph-button--primary">Cambiar</button>
                 </div>
                 
                 <script>

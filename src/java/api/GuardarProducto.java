@@ -8,7 +8,9 @@ package api;
 import backend.NoEncontradoException;
 import backend.Producto;
 import backend.TablaProducto;
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.sql.SQLException;
 import javax.servlet.ServletException;
@@ -17,6 +19,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.core.MediaType;
+import org.json.JSONObject;
 
 /**
  *
@@ -37,29 +40,59 @@ public class GuardarProducto extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        String userId = request.getParameter("user_id"),
-                nombre = request.getParameter("nombre"),
-                marca = request.getParameter("marca"),
-                descripcion = request.getParameter("descripcion"), 
-                precioDolares = request.getParameter("precio"),
-                authCodeStr = request.getParameter("auth_code");
+        int userId,
+                authCode;
+        String nombre,
+                marca,
+                unidad,
+                descripcion;
+        double precioDolar;
         
-        if(userId==null||nombre==null||authCodeStr==null){
+        if(request.getContentType().equals(MediaType.APPLICATION_JSON)){
+            BufferedReader br = new BufferedReader(new InputStreamReader(request.getInputStream()));
+            JSONObject content = new JSONObject(br.readLine());
+            
+            userId = content.getInt("user_id");
+            authCode = content.getInt("auth_code");
+            nombre = content.getString("nombre_producto");
+            marca = content.getString("marca");
+            unidad = content.getString("unidad");
+            descripcion = content.getString("descripcion");
+            precioDolar = content.getDouble("precio");
+            
+        }else{
+        
+        
+            String userIdP = request.getParameter("user_id"), 
+                    precioDolaresP = request.getParameter("precio"),
+                    authCodeStr = request.getParameter("auth_code");
+            nombre = request.getParameter("nombre_producto");
+            marca = request.getParameter("marca");
+            unidad = request.getParameter("unidad");
+            descripcion = request.getParameter("descripcion");
+            
+            if(userIdP==null||nombre==null||authCodeStr==null
+                    ||userIdP.isEmpty()||nombre.isEmpty()||authCodeStr.isEmpty()){
+                response.sendError(400);
+                return;
+            }
+            userId = Integer.parseInt(userIdP);
+            authCode = Integer.parseInt(authCodeStr);
+            precioDolar = precioDolaresP.isEmpty() 
+                    ? 0 
+                    : Double.parseDouble(precioDolaresP);
+        }
+        
+        if(userId==0||nombre==null||nombre.isEmpty()||authCode==0){
             response.sendError(400);
             return;
         }
         
         Producto ingresado;
         try{
-            int userInt = Integer.parseInt(userId);
-            double precioDouble = precioDolares==null 
-                    ? 0 
-                    : Double.parseDouble(precioDolares);
-            int authCode = Integer.parseInt(authCodeStr);
-        
             TablaProducto tp = new TablaProducto();
-            ingresado = tp.insert(userInt, nombre, marca, descripcion, precioDouble, authCode);
-        }catch(SQLException|NumberFormatException|NoEncontradoException ex){
+            ingresado = tp.insert(userId, nombre, marca, descripcion, precioDolar, authCode);
+        }catch(SQLException|NoEncontradoException ex){
             response.sendError(400);
             return;
         }
