@@ -21,7 +21,11 @@ public abstract class BuscadorMoneda implements IBuscadorMoneda {
     @Override
     public double obtenerPrecio(){
         if(precio==0){
-            precio = obtenerDesdeWeb();
+            try{
+                precio = obtenerDesdeWeb();
+            }catch(Exception ex){
+                System.err.println(ex.getLocalizedMessage());
+            }
         }
         return precio;
     }
