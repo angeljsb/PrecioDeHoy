@@ -112,11 +112,16 @@ function convertir(){
     const input = document.getElementById("conversion-input");
     const resultado = document.getElementById("conversion-result");
     
-    if(input.value === ""){
+    if(!/[1-9]/.test(input.value)){
+        resultado.value = 0;
         return;
     }
     if(/^0+./g.test(input.value)){
-        while(input.value.charAt(0)==='0'){
+        if(input.value.includes(",")||input.value.includes(".")){
+            let i = input.value.indexOf(",")!==-1 ? input.value.indexOf(",") :
+                    input.value.indexOf(".");
+            input.value = input.value.substring(i-1);
+        }else while(input.value.charAt(0)==='0'){
             input.value = input.value.substring(1);
         }
     }
