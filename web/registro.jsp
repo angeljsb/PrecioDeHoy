@@ -4,26 +4,23 @@
     Author     : Angel
 --%>
 
+<%@page import="java.io.File"%>
+<%@page import="java.nio.file.Paths"%>
+<%@page import="javax.servlet.annotation.MultipartConfig" %>
 <%@page import="backend.NoEncontradoException"%>
 <%@page import="backend.AdministradorRecursos"%>
 <%@page import="java.sql.SQLException"%>
 <%@page import="backend.Usuario"%>
 <%@page import="backend.TablaUsuario"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-    <head>
+
+<jsp:include page="loghead.jsp" />
         <jsp:useBean id="user" class="backend.Usuario" scope="session"></jsp:useBean>
         <%
             if(user.getId()>0){
                 response.sendRedirect(AdministradorRecursos.HOME_PAGE);
             }
         %>
-        <link rel="stylesheet" href="Recursos/index.css" type="text/css"/>
-        <link rel="StyleSheet" type="text/css" href="Recursos/login.css" media="screen" >
-        <title>Precio de hoy - Registro</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <% 
             boolean post = request.getMethod().equals("POST");
             String nombre = "";
@@ -53,6 +50,7 @@
         <jsp:setProperty name="user" property="nombre" value="<%= creado.getNombre() %>"/>
         <jsp:setProperty name="user" property="authCode" value="<%= creado.getAuthCode() %>"/>
         <jsp:setProperty name="user" property="correo" value="<%= creado.getCorreo() %>"/>
+        <jsp:setProperty name="user" property="imagen" value="<%= creado.getImagen() %>"/>
         
         
         <%
@@ -84,20 +82,30 @@
                 
             }
         %>
-    </head>
-    <body>
-        <div id="fondo" class="total-size">
-            <div id="center-bar" class="total-size">
-                <div id="formulario">
-                    <form action="<%= AdministradorRecursos.REGISTRO %>" method="POST" onsubmit="return validacion()">
+        
+                <div class="ph-log__form">
+                    <form action="<%= AdministradorRecursos.REGISTRO %>"
+                          method="POST"
+                          onsubmit="return validacion()"
+                    >
                     <div class="form-element">
-                    <label for="name">Nombre/Nombre del negocio</label><br>
-                    <input type="text" id="name" name="nombre" maxlength="50" required
-                           <% if(post){ %> value="<%= nombre %>" <% } %> >
+                    <input type="text" 
+                           id="name" 
+                           name="nombre" 
+                           maxlength="50" 
+                           class="ph-text-input ph-text-input--terciary"
+                           placeholder="Nombre/Nombre del negocio"
+                           required
+                           <% if(post){ %> value="<%= nombre %>" <% } %> 
+                    >
                     </div>
                     <div class="form-element">
-                    <label for="email">Email</label><br>
-                    <input type="email" id="email" name="correo" required 
+                    <input type="email" 
+                           id="email" 
+                           name="correo"
+                           class="ph-text-input ph-text-input--terciary"
+                           placeholder="Email"
+                           required 
                            <% if(post){ %> value="<%= correo %>" <% } %> >
                     <% if(post && errorStatus.equals("23000")) {%>
                     <div class="error-message">
@@ -106,14 +114,22 @@
                     <% } %>
                     </div>
                     <div class="form-element">
-                    <label for="contraseña">Contraseña</label><br>
-                    <input type="password" id="contraseña" name="pass" 
-                           minlength="8" maxlength="50" required
+                    <input type="password" 
+                           id="contraseña" 
+                           name="pass" 
+                           minlength="8" 
+                           maxlength="50" 
+                           class="ph-text-input ph-text-input--terciary"
+                           placeholder="Contraseña"
+                           required
                            <% if(post){ %> value="<%= contrasenna %>" <% } %> >
                     </div>
                     <div class="form-element">
-                    <label for="confirmacion">Confirmar contraseña</label><br>
-                    <input type="password" id="confirmacion" required
+                    <input type="password" 
+                           id="confirmacion" 
+                           class="ph-text-input ph-text-input--terciary"
+                           placeholder="Confirmar contraseña"
+                           required
                            <% if(post){ %> value="<%= contrasenna %>" <% } %> >
                     <div class="error-message" id="error-confirmacion"></div>
                     </div>
@@ -121,8 +137,11 @@
                     <input type="checkbox" id="recordar" name="recordar" >
                     <label for="recordar">Recordar usuario</label>
                     </div>
-                    <div class="form-element">
-                        <input type="submit" id="submit-button">
+                    <div class="form-element ph-container--center-text">
+                        <input type="submit" 
+                               id="submit-button" 
+                               class="ph-button ph-button--basic"
+                        >
                     </div>
                 </form>
                 </div>
@@ -140,7 +159,4 @@
                         return true;
                     }
                 </script>
-            </div>
-        </div>
-    </body>
-</html>
+<jsp:include page="logfoot.jsp" />

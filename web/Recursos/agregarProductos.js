@@ -50,11 +50,6 @@ let FormularioControlado = function(id){
             descripcion: descripcion.value,
             auth_code: authCode.value
         };
-
-//        let data1 = "user_id=" + data.user_id + "&nombre_producto=" + data.nombre +
-//                "&marca=" + data.marca + "&unidad=" + data.unidad +
-//                "&precio=" + data.precio + "&descripcion=" + data.descripcion +
-//                "&auth_code=" + data.auth_code;
         
         let response = await fetch(
                 "/PrecioDolar/api/guardarproducto",
@@ -67,7 +62,11 @@ let FormularioControlado = function(id){
                 });
         
         if(response.ok){
-            console.log(await response.json());
+            const evento = new Event('addproduct');
+            evento.json = await response.json();
+            document.dispatchEvent(evento);
+            
+            this.formulario.reset();
         }
     });
 };
@@ -198,6 +197,8 @@ let Ocultable = function(id){
     
     ocultable.addEventListener('click', expandir);
     
+    document.addEventListener('addproduct', minimizar);
+    
     showMoreBtns.forEach(btn => btn.addEventListener('click', showMore));
     
     minimizeBtn.forEach(btn => btn.addEventListener('click', minimizar));
@@ -207,6 +208,7 @@ let ListaProductos = function(productos = []){
     this.page = 0;
     this.container = document.getElementById("container-productos");
     this.productos = productos;
+    document.addEventListener('addproduct', this.add.bind(this));
 };
 
 ListaProductos.prototype = {
@@ -243,8 +245,10 @@ ListaProductos.prototype = {
             if(producto.precio_dolares && producto.precio_dolares!=="null"){
                 htmlCompleto += `<table class="ph-container--small-y">
                             <tbody>
-                                <tr><td class="ph-card__moneda">$</td>
-<td>${producto.precio_dolares.toLocaleString(["es"], {minimumFractionDigits: 2, maximumFractionDigits: 2})}</td></tr>
+                                <tr>
+                                    <td class="ph-card__moneda">$</td>
+                                    <td>${producto.precio_dolares.toLocaleString(["es"], {minimumFractionDigits: 2, maximumFractionDigits: 2})}</td>
+                                </tr>
                                 <tr><td class="ph-card__moneda">Bs</td><td id="precio-bolivar-${producto.id}"></td></tr>
                             </tbody>
                         </table>`;
@@ -269,6 +273,11 @@ ListaProductos.prototype = {
             });
         };
         document.addEventListener('changeprice', cambiar);
+    },
+    add: function(event){
+        const nuevo = event.json;
+        this.productos.push(nuevo);
+        this.show();
     }
 };
 

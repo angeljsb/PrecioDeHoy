@@ -10,9 +10,7 @@
 <%@page import="backend.NoEncontradoException"%>
 <%@page import="backend.AdministradorRecursos"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-    <head>
+<jsp:include page="loghead.jsp" />
         <jsp:useBean id="user" scope="session" class="backend.Usuario"></jsp:useBean>
         <%
             if(user.getId()>0){
@@ -72,20 +70,16 @@
                 }
             }
         %>
-        <link rel="stylesheet" href="Recursos/login.css" type="text/css"/>
-        <link rel="stylesheet" href="Recursos/index.css" type="text/css"/>
-        <title>Precio de hoy - Iniciar sección</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    </head>
-    <body>
-        <div id="fondo" class="total-size">
-            <div id="center-bar" class="total-size">
-                <div id="formulario">
+                <div class="ph-log__form">
                     <form action="<%= AdministradorRecursos.INICIO_SECCION %>" method="POST">
                     <div class="form-element">
-                    <label for="email">Email</label><br>
-                    <input type="email" id="email" name="correo" required>
+                    <input type="email" 
+                           id="email" 
+                           name="correo" 
+                           class="ph-text-input ph-text-input--terciary"
+                           placeholder="Email"
+                           required
+                    >
                     <% if(post && campoError.equals("correo")) {%>
                     <div class="error-message">
                         El correo electronico no está registrado
@@ -93,9 +87,15 @@
                     <% } %>
                     </div>
                     <div class="form-element">
-                    <label for="contraseña">Contraseña</label><br>
-                    <input type="password" id="contraseña" name="pass" 
-                           minlength="8" maxlength="50" required>
+                    <input type="password" 
+                           id="contraseña" 
+                           name="pass" 
+                           minlength="8" 
+                           maxlength="50" 
+                           class="ph-text-input ph-text-input--terciary"
+                           placeholder="Contraseña"
+                           required
+                    >
                     <% if(post && campoError.equals("contraseña")) {%>
                     <div class="error-message">
                         Error de contraseña
@@ -106,12 +106,12 @@
                     <input type="checkbox" id="recordar" name="recordar" >
                     <label for="recordar">Recordar usuario</label>
                     </div>
-                    <div class="form-element">
-                        <input type="submit" id="submit-button">
+                    <div class="form-element ph-container--center-text">
+                        <input type="submit" 
+                               id="submit-button" 
+                               class="ph-button ph-button--basic"
+                        >
                     </div>
                 </form>
                 </div>
-            </div>
-        </div>
-    </body>
-</html>
+<jsp:include page="logfoot.jsp" />

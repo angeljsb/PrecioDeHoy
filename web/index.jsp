@@ -214,7 +214,10 @@
                 const lista = new ListaProductos(productosUsuario);
                 
                 lista.show();
+                document.addEventListener('changeproducts', lista.show.bind(lista));
             </script>
+            <% } else { %>
+                <div>Aplicación para la conversión de dolares a bolivares</div>
             <% } %>
             <div id="conversion-container" class="ph-conversion">
                 <div id="conversion" class="ph-conversion__card">
@@ -343,10 +346,9 @@
                         }
                     </script>
 
-                <% } else { %>
-                <div>Aplicación para la conversión de dolares a bolivares</div>
-                <% }%>
+                <% } %>
             </div>
         </div>
+        <jsp:include page="footer.html" />
     </body>
 </html>

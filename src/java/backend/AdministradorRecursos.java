@@ -17,6 +17,9 @@ import javax.ws.rs.core.Form;
  */
 public class AdministradorRecursos {
     
+    public static final String UPLOADS = "/Upload";
+    public static final String IMAGES_DIR = UPLOADS + "/img";
+    
     public static final String HOME_PAGE = "/PrecioDolar";
     public static final String REGISTRO = HOME_PAGE + "/registro.jsp";
     public static final String INICIO_SECCION = HOME_PAGE +"/login.jsp";

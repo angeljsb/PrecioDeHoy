@@ -10,6 +10,29 @@ and open the template in the editor.
 
 label{
     font-family: sans-serif;
+    color: white;
+}
+
+.ph-log__container{
+    border-radius: 20px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    max-width: 250px;
+    padding: 10px;
+}
+
+.ph-log__container--primary{
+    box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.3);
+    background-color: #960200;
+}
+
+.ph-log__form{
+    width: fit-content;
+    height: fit-content;
+    margin: auto;
+    margin-top: 20px;
 }
 
 .total-size{
@@ -37,10 +60,4 @@ label{
     margin: auto;
     background-image: linear-gradient(dodgerblue, rgb(240,240,220));
     display: flex;
-}
-
-#formulario{
-    width: fit-content;
-    height: fit-content;
-    margin: auto;
 }
