@@ -91,12 +91,11 @@
         %>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <!-- Look of this document is driven by a CSS referenced by an href attribute. See http://www.w3.org/TR/xml-stylesheet/ -->
-        <link rel="StyleSheet" type="text/css" href="http://Angel-PC:8082/resource/file%3A/C%3A/Users/Angel/Documents/NetBeansProjects/PrecioDolar/web/Recursos/index.css" media="screen" >
+        <link rel="StyleSheet" type="text/css" href="Recursos/index.css" media="screen" >
         <% if (loggeado) { %>
 
         <!-- Look of this document is driven by a CSS referenced by an href attribute. See http://www.w3.org/TR/xml-stylesheet/ -->
-        <link rel="StyleSheet" type="text/css" href="http://Angel-PC:8082/resource/file%3A/C%3A/Users/Angel/Documents/NetBeansProjects/PrecioDolar/web/Recursos/lista_productos.css" media="screen" >
-        <script type="text/javascript" src="Recursos/agregarProductos.js"></script>
+        <link rel="StyleSheet" type="text/css" href="Recursos/lista_productos.css" media="screen" >
         <script type="text/javascript" src="Recursos/opcionesUsuario.js" ></script>
         <% } %>
         <title>Precio de hoy</title>
@@ -192,10 +191,6 @@
                             </div>
                         </div>
                     </form>
-                    <script>
-                        const formularioProductos = new FormularioControlado("nuevo-producto");
-                        Ocultable("contenedor-formulario");
-                    </script>
                 </div>
                 <% } %>
                 <div id="checkboxes" class="ph-container--medium"></div>
@@ -204,18 +199,7 @@
             <div id="container-productos">
                 
             </div>
-            <script>
-                const productosUsuario = <%= AdministradorRecursos.consultarApiLocal(
-                                AdministradorRecursos.PRODUCTOS_USUARIO, 
-                                new Parametro("user_id", user.getId()),
-                                new Parametro("auth_code", user.getAuthCode())
-                        ) %>;
-                            
-                const lista = new ListaProductos(productosUsuario);
-                
-                lista.show();
-                document.addEventListener('changeproducts', lista.show.bind(lista));
-            </script>
+            
             <% } else { %>
                 <div>Aplicación para la conversión de dolares a bolivares</div>
             <% } %>
@@ -257,6 +241,16 @@
             </div>
             <div id="pagina-central">
                 <% if (loggeado) { %>
+            <script type="text/javascript" src="Recursos/agregarProductos.js"></script>
+            <script>
+                const productosUsuario = <%= AdministradorRecursos.consultarApiLocal(
+                                AdministradorRecursos.PRODUCTOS_USUARIO, 
+                                new Parametro("user_id", user.getId()),
+                                new Parametro("auth_code", user.getAuthCode())
+                        ) %>;
+                            
+                addProductos(productosUsuario);                
+            </script>
 
                     <script>
                         /*let tablaProductos = new Tabla("tabla-productos",

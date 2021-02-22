@@ -76,12 +76,14 @@ public class ProductoUsuario extends HttpServlet {
                 + "\"id\":%d,"
                 + "\"nombre_producto\":\"%s\","
                 + "\"marca\":\"%s\","
+                + "\"unidad\":\"%s\","
                 + "\"descripcion\":\"%s\","
                 + "\"precio_dolares\":%.2f"
                 + "}",
                 producto.getId(),
                 producto.getNombre(),
                 producto.getMarca(),
+                producto.getUnidad(),
                 producto.getDescripcion(),
                 producto.getPrecioDolar());
     }
