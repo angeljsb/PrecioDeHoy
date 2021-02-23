@@ -104,6 +104,7 @@ public class EditarProducto extends HttpServlet {
         }
         
         response.setContentType(MediaType.APPLICATION_JSON);
+        response.setCharacterEncoding("UTF-8");
         try (PrintWriter out = response.getWriter()) {
             out.println(ProductoUsuario.toJson(ingresado));
         }

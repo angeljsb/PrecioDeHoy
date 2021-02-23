@@ -48,8 +48,8 @@ public class GuardarProducto extends HttpServlet {
                 descripcion;
         double precioDolar;
         
-        if(request.getContentType().equals(MediaType.APPLICATION_JSON)){
-            BufferedReader br = new BufferedReader(new InputStreamReader(request.getInputStream()));
+        if(request.getContentType().startsWith(MediaType.APPLICATION_JSON)){
+            BufferedReader br = new BufferedReader(new InputStreamReader(request.getInputStream(), "UTF-8"));
             JSONObject content = new JSONObject(br.readLine());
             
             userId = content.getInt("user_id");
@@ -98,6 +98,7 @@ public class GuardarProducto extends HttpServlet {
         }
         
         response.setContentType(MediaType.APPLICATION_JSON);
+        response.setCharacterEncoding("UTF-8");
         try (PrintWriter out = response.getWriter()) {
             out.println(ProductoUsuario.toJson(ingresado));
         }
