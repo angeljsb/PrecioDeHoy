@@ -95,6 +95,43 @@ public class TablaProducto {
         return productoDesdeRS(resultado);
     }
     
+    public Producto update(int usuario, String nombre, String marca, 
+            String unidad, String descripcion, double precioDolares, 
+            int authCode, int idProducto) 
+            throws SQLException, NoEncontradoException{
+        
+        TablaUsuario tu = new TablaUsuario();
+        tu.autenticar(usuario, authCode);
+        
+        Connection con = ControladorConexion.getConnection();
+        PreparedStatement update = con.prepareStatement(
+                "UPDATE " + NOMBRE_TABLA + " SET "
+                        + NOMBRE + " = ?, "
+                        + MARCA + " = ?, "
+                        + UNIDAD + " = ?, "
+                        + DESCRIPCION + " = ?, "
+                        + PRECIO + " = ? "
+                        + " WHERE " + ID + " = ?");
+        update.setString(1, nombre);
+        update.setString(2, marca);
+        update.setString(3, unidad);
+        update.setString(4, descripcion);
+        update.setDouble(5, precioDolares);
+        update.setInt(6, idProducto);
+        
+        update.executeUpdate();
+        
+        Producto producto = new Producto();
+        producto.setId(idProducto);
+        producto.setNombre(nombre);
+        producto.setMarca(marca);
+        producto.setUnidad(unidad);
+        producto.setDescripcion(descripcion);
+        producto.setPrecioDolar(precioDolares);
+        
+        return producto;
+    }
+    
     public Producto[] getProductosUsuario(int userId, int authCode) throws SQLException{
         
         this.crearTabla();

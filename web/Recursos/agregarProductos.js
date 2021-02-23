@@ -20,7 +20,28 @@ const paginacion = {
     }
 };
 
-let editStatus = false;
+const edit = {
+    status: false,
+    init: function(id){
+        if(!this.status){
+            const inputId = document.createElement("input");
+            inputId.type = "hidden";
+            inputId.id = "form-id-producto";
+            inputId.value = id;
+            formularioProductos.appendChild(inputId);
+        }else{
+            const inputId = formularioProductos["form-id-producto"];
+            inputId.value = id;
+        }
+        this.status = true;
+    },
+    stop: function(){
+        if(this.status){
+            formularioProductos.removeChild(formularioProductos["form-id-producto"]);
+            this.status = false;
+        }
+    }
+};
 
 formularioProductos.addEventListener('submit', async (e) => {
     e.preventDefault();
@@ -47,19 +68,32 @@ formularioProductos.addEventListener('submit', async (e) => {
         descripcion: descripcion.value,
         auth_code: authCode
     };
+    
+    console.log(edit.status);
+    
+    if(edit.status){
+        data.producto_id = formularioProductos["form-id-producto"].value;
+    }
+    
+    const linkToFetch = edit.status ? "/PrecioDolar/api/editarproducto" : "/PrecioDolar/api/guardarproducto"; 
 
     let response = await fetch(
-            "/PrecioDolar/api/guardarproducto",
+            linkToFetch,
             {
                 method: "POST",
                 body: JSON.stringify(data),
                 headers: {
-                    "Content-Type": "application/json"
+                    "Content-Type": "application/json; charset=UTF-8"
                 }
             });
 
     if(response.ok){
         const nuevo = await response.json();
+        if(edit.status){
+            const indice = productos.findIndex(producto => producto.id === nuevo.id);
+            productos.splice(indice, 1);
+            edit.stop();
+        }
         addProductos(nuevo);
 
         formularioProductos.reset();
@@ -107,18 +141,7 @@ const presionarEditar = (id) => {
     precio.value = productoEdit.precio_dolares ? productoEdit.precio_dolares : "";
     descripcion.value = productoEdit.descripcion ? productoEdit.descripcion : "";
     
-    if(!editStatus){
-        const inputId = document.createElement("input");
-        inputId.type = "hidden";
-        inputId.id = "form-id-producto";
-        inputId.value = productoEdit.id;
-        formularioProductos.appendChild(inputId);
-    }else{
-        const inputId = formularioProductos["form-id-producto"];
-        inputId.value = productoEdit.id;
-    }
-    
-    editStatus = true;
+    edit.init(productoEdit.id);
     
     contenedorFormulario.click();
 };
@@ -237,10 +260,7 @@ let Ocultable = function(){
             return;
         }
         
-        if(editStatus){
-            formularioProductos.removeChild(formularioProductos["form-id-producto"]);
-            editStatus = false;
-        }
+        edit.stop();
         
         formularioProductos.reset();
         
