@@ -5,7 +5,6 @@
 --%>
 
 <%@page import="backend.Parametro"%>
-<%@page import="backend.Producto"%>
 <%@page import="backend.NoEncontradoException"%>
 <%@page import="java.sql.SQLException"%>
 <%@page import="backend.AdministradorRecursos"%>
