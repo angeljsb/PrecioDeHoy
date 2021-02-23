@@ -110,7 +110,8 @@ public class TablaProducto {
                         + MARCA + " = ?, "
                         + UNIDAD + " = ?, "
                         + DESCRIPCION + " = ?, "
-                        + PRECIO + " = ? "
+                        + PRECIO + " = ?, "
+                        + FECHA + " = CURRENT_TIMESTAMP()"
                         + " WHERE " + ID + " = ?");
         update.setString(1, nombre);
         update.setString(2, marca);

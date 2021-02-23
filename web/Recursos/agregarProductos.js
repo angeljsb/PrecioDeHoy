@@ -15,7 +15,7 @@ const paginacion = {
     pagina: 0,
     productosPorPagina: 10,
     get productosMostrados() {
-        return productos.slice(this.pagina*this.productosPorPagina, 
+        return productos.reverse().slice(this.pagina*this.productosPorPagina, 
             (this.pagina*this.productosPorPagina)+this.productosPorPagina);
     }
 };
@@ -68,8 +68,6 @@ formularioProductos.addEventListener('submit', async (e) => {
         descripcion: descripcion.value,
         auth_code: authCode
     };
-    
-    console.log(edit.status);
     
     if(edit.status){
         data.producto_id = formularioProductos["form-id-producto"].value;
