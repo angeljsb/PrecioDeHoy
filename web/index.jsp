@@ -142,54 +142,54 @@
                 <% if(loggeado){ %>
                 <div id="contenedor-formulario" style="width: 50px; height: 50px;" class="ph-form-productos__container ph-expandible ph-expandible--minimized">
                     <form id="nuevo-producto" method="POST" action="api/guardarproducto">
-                        <input type="hidden" name="user_id" id="form-id-user" value="<jsp:getProperty name="user" property="id" />" >
-                        <input type="hidden" name="auth_code" id="form-auth-user" value="<jsp:getProperty name="user" property="authCode" />" >
-                        <div class="ph-container--small ph-expandible__inner">
-                            <div class="ph-form__container">
-                                <input type="text" maxlength="50" name="nombre_producto"
-                                       placeholder="Nombre del producto"
-                                       required id="form-nombre-producto"
-                                       class="ph-text-input ph-text-input--primary ph-container--full">
-                            </div>
-                            <div class="ph-form__container">
-                                <input type="text" maxlength="50" 
-                                       placeholder="Marca" name="marca"
-                                       id="form-marca-producto"
-                                       class="ph-text-input ph-text-input--primary ph-container--full">
-                                <span class="ph-divider"></span>
-                                <input type="text" maxlength="50" 
-                                           placeholder="Unidad (Kg, pcs, ...etc)"
-                                           id="form-unit-producto" name="unidad"
+                            <input type="hidden" name="user_id" id="form-id-user" value="<jsp:getProperty name="user" property="id" />" >
+                            <input type="hidden" name="auth_code" id="form-auth-user" value="<jsp:getProperty name="user" property="authCode" />" >
+                            <div class="ph-container--small ph-expandible__inner">
+                                <div class="ph-form__container">
+                                    <input type="text" maxlength="50" name="nombre_producto"
+                                           placeholder="Nombre del producto"
+                                           required id="form-nombre-producto"
                                            class="ph-text-input ph-text-input--primary ph-container--full">
-                            </div>
-                            <div class="ph-form__container">
-                                <input type="number" min="0" step="0.01" 
-                                       placeholder="Precio" name="precio"
-                                       id="form-precio-producto"
-                                       class="ph-text-input ph-text-input--primary">
+                                </div>
+                                <div class="ph-form__container">
+                                    <input type="text" maxlength="50" 
+                                           placeholder="Marca" name="marca"
+                                           id="form-marca-producto"
+                                           class="ph-text-input ph-text-input--primary ph-container--full">
+                                    <span class="ph-divider"></span>
+                                    <input type="text" maxlength="50" 
+                                               placeholder="Unidad (Kg, pcs, ...etc)"
+                                               id="form-unit-producto" name="unidad"
+                                               class="ph-text-input ph-text-input--primary ph-container--full">
+                                </div>
+                                <div class="ph-form__container">
+                                    <input type="number" min="0" step="0.01" 
+                                           placeholder="Precio" name="precio"
+                                           id="form-precio-producto"
+                                           class="ph-text-input ph-text-input--primary">
 
-                                <select name="moneda" form="nuevo-producto" id="form-moneda" name="moneda"
-                                        class="ph-text-input ph-text-input--primary ph-container--small-x">
-                                    <option value="Dolar">$</option>
-                                    <option value="Bolivar">Bs</option>
-                                </select>
-                            </div>
-                            <div class="ph-form__container ph-expandible__show-more-container ph-expandible__show-more-container--oculto">
-                                <textarea type="text" maxlength="250"
-                                        placeholder="Descripción" name="descripcion"
-                                        id="form-descripcion-producto"
-                                        class="ph-text-input ph-text-input--primary ph-container--full ph-expandible__show-more-content"
-                                        ></textarea>
-                            </div>
-                            <div class="ph-form__container">
-                                <div class="ph-container--full ph-container--center-text">
-                                    <input type="submit" value="Guardar" class="ph-button ph-button--primary">
-                                    <button type="button" class="ph-expandible__show-more-btn ph-form__description-btn ph-form__description-btn--show-more"></button>
-                                    <button type="button" class="ph-expandible__minimize-btn ph-button ph-button--primary">Cancelar</button>
+                                    <select name="moneda" form="nuevo-producto" id="form-moneda" name="moneda"
+                                            class="ph-text-input ph-text-input--primary ph-container--small-x">
+                                        <option value="Dolar">$</option>
+                                        <option value="Bolivar">Bs</option>
+                                    </select>
+                                </div>
+                                <div class="ph-form__container ph-expandible__show-more-container ph-expandible__show-more-container--oculto">
+                                    <textarea type="text" maxlength="250"
+                                            placeholder="Descripción" name="descripcion"
+                                            id="form-descripcion-producto"
+                                            class="ph-text-input ph-text-input--primary ph-container--full ph-expandible__show-more-content"
+                                            ></textarea>
+                                </div>
+                                <div class="ph-form__container">
+                                    <div class="ph-container--full ph-container--center-text">
+                                        <input type="submit" value="Guardar" class="ph-button ph-button--primary">
+                                        <button type="button" class="ph-expandible__show-more-btn ph-form__description-btn ph-form__description-btn--show-more"></button>
+                                        <button type="button" class="ph-expandible__minimize-btn ph-button ph-button--primary">Cancelar</button>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </form>
+                        </form>
                 </div>
                 <% } %>
                 <div id="checkboxes" class="ph-container--medium"></div>

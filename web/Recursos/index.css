@@ -220,7 +220,7 @@ a{
     margin: 20px;
     transition: width 400ms,height 400ms;
     overflow: hidden;
-    width: auto;
+    width: 100%;
     height: auto;
 }
 

@@ -15,7 +15,7 @@ const paginacion = {
     pagina: 0,
     productosPorPagina: 10,
     get productosMostrados() {
-        return productos.reverse().slice(this.pagina*this.productosPorPagina, 
+        return productos.slice(this.pagina*this.productosPorPagina, 
             (this.pagina*this.productosPorPagina)+this.productosPorPagina);
     }
 };
@@ -358,7 +358,9 @@ Ocultable();
 
 const addProductos = function(nuevos){
     const newArray = [].concat(nuevos);
+    productos.reverse();
     productos.push(...newArray);
+    productos.reverse();
     
     contenedorListaProductos.dispatchEvent(new Event('changeproducts'));
 };
