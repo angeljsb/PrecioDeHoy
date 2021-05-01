@@ -263,6 +263,22 @@ a{
     display: none;
 }
 
+#add-icon {
+    display: none;
+}
+
+.ph-expandible--minimized #add-icon{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.ph-expandible--minimized #add-icon *{
+    display: initial;
+}
+
 .ph-form-productos__container{
     background-color: #404e4d;
 }
@@ -432,6 +448,12 @@ a{
     display: flex;
     width: 150px;
     justify-content: space-around;
+    align-items: center;
+}
+
+.ph-pagination__label {
+    font-size: xx-large;
+    color: #404e4d;
 }
 
 .ph-divider{
