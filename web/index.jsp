@@ -4,6 +4,7 @@
     Author     : Angel
 --%>
 
+<%@page import="api.ProductoUsuario"%>
 <%@page import="backend.Parametro"%>
 <%@page import="backend.NoEncontradoException"%>
 <%@page import="java.sql.SQLException"%>
@@ -59,7 +60,7 @@
                 user = revisar(datosU, user);
                 if (user.getId() > 0) {
                     //Si se pueden autenticar las cookies, se llenan los valores del bean
-%>
+            %>
             <jsp:setProperty name="user" property="id" value="<%= user.getId()%>"/>
             <jsp:setProperty name="user" property="nombre" value="<%= user.getNombre()%>"/>
             <jsp:setProperty name="user" property="authCode" value="<%= user.getAuthCode()%>"/>
@@ -102,46 +103,21 @@
     </head>
     <body>       
 
-        <header class="ph-navbar">
-            <img src="Recursos/precio-de-hoy-logo.svg" alt="logo" class="ph-navbar__logo"></img>
-            
-            <div id="barra-opciones">
-                <% if (!loggeado) {%>
-                <a href="<%= AdministradorRecursos.REGISTRO%>" class="ph-button ph-button--primary">Registrate</a>
-                <a href="<%= AdministradorRecursos.INICIO_SECCION%>" class="ph-button ph-button--primary">Iniciar sección</a>
-                <% } else {%>
-                <div class="ph-popup__container">
-                    <button class="ph-button pop-button ph-button--primary">Opciones</button>
-                    <div class="ph-popup__popup">
-                        <a href="" onclick="logout(event)">Cerrar sección</a>
-                    </div>
-                    <form method="POST" 
-                          action="<%= AdministradorRecursos.CERRAR_SECCION%>" 
-                          style="display: none;"
-                          id="logout-form"
-                          >
-                        <input type="hidden" 
-                               value="<jsp:getProperty name="user" property="id"/>"
-                               name="user_id"
-                               >
-                    </form>
-                </div>
-                <% }%>
-            </div>
-        </header>
-        <jsp:getProperty name="user" property="id"/>
-        <jsp:getProperty name="user" property="nombre"/>
-        <jsp:getProperty name="user" property="authCode"/>
-        <jsp:getProperty name="user" property="correo"/>
+        <jsp:include page="header.jsp" />
+
         <div id="cuerpo">
-            <div class="ph-container--flex">
+            <section id="taxes">
                 <div class="ph-taxes__container ph-hidden-left">
                     <span class="ph-taxes__arrow"></span>
                     <div id="contenedor-tazas"></div>
                 </div>
-                <% if(loggeado){ %>
-                <div id="contenedor-formulario" style="width: 50px; height: 50px;" class="ph-form-productos__container ph-expandible ph-expandible--minimized">
-                    <form id="nuevo-producto" method="POST" action="api/guardarproducto">
+            </section>
+            <section id="products">
+                <div class="ph-container--flex">
+
+                    <% if (loggeado) { %>
+                    <div id="contenedor-formulario" style="width: 50px; height: 50px;" class="ph-form-productos__container ph-expandible ph-expandible--minimized">
+                        <form id="nuevo-producto" method="POST" action="api/guardarproducto">
                             <input type="hidden" name="user_id" id="form-id-user" value="<jsp:getProperty name="user" property="id" />" >
                             <input type="hidden" name="auth_code" id="form-auth-user" value="<jsp:getProperty name="user" property="authCode" />" >
                             <div class="ph-container--small ph-expandible__inner">
@@ -158,9 +134,9 @@
                                            class="ph-text-input ph-text-input--primary ph-container--full">
                                     <span class="ph-divider"></span>
                                     <input type="text" maxlength="50" 
-                                               placeholder="Unidad (Kg, pcs, ...etc)"
-                                               id="form-unit-producto" name="unidad"
-                                               class="ph-text-input ph-text-input--primary ph-container--full">
+                                           placeholder="Unidad (Kg, pcs, ...etc)"
+                                           id="form-unit-producto" name="unidad"
+                                           class="ph-text-input ph-text-input--primary ph-container--full">
                                 </div>
                                 <div class="ph-form__container">
                                     <input type="number" min="0" step="0.01" 
@@ -176,10 +152,10 @@
                                 </div>
                                 <div class="ph-form__container ph-expandible__show-more-container ph-expandible__show-more-container--oculto">
                                     <textarea type="text" maxlength="250"
-                                            placeholder="Descripción" name="descripcion"
-                                            id="form-descripcion-producto"
-                                            class="ph-text-input ph-text-input--primary ph-container--full ph-expandible__show-more-content"
-                                            ></textarea>
+                                              placeholder="Descripción" name="descripcion"
+                                              id="form-descripcion-producto"
+                                              class="ph-text-input ph-text-input--primary ph-container--full ph-expandible__show-more-content"
+                                              ></textarea>
                                 </div>
                                 <div class="ph-form__container">
                                     <div class="ph-container--full ph-container--center-text">
@@ -190,19 +166,21 @@
                                 </div>
                             </div>
                         </form>
+                    </div>
+                    <% } %>
+                    <div id="checkboxes" class="ph-container--medium"></div>
+
                 </div>
-                <% } %>
-                <div id="checkboxes" class="ph-container--medium"></div>
-            </div>
-            <% if(loggeado){ %>
-            <div id="container-productos">
-                
-            </div>
-            
-            <% } else { %>
+                <% if (loggeado) { %>
+                <div id="container-productos">
+
+                </div>
+
+                <% } else { %>
                 <div>Aplicación para la conversión de dolares a bolivares</div>
-            <% } %>
-            <div id="conversion-container" class="ph-conversion">
+                <% }%>
+            </section>
+            <section id="conversion-container" class="ph-conversion">
                 <div id="conversion" class="ph-conversion__card">
                     <h3 class="ph-container--center-text ph-text--white">Conversión</h3>
                     <div class="ph-container--small">
@@ -229,117 +207,119 @@
                     </div>
                     <button onclick="cambiar()" class="ph-container--small-x ph-button ph-button--small ph-button--primary">Cambiar</button>
                 </div>
-                
+
                 <script>
-                    document.addEventListener('changeprice', (e)=>{convertir();});
-                    
-                    let global = new Global(<%= AdministradorRecursos.consultarApiLocal(AdministradorRecursos.PRECIO_OFICIAL) %>);
+                    document.addEventListener('changeprice', (e) => {
+                        convertir();
+                    });
+
+                    let global = new Global(<%= AdministradorRecursos.consultarApiLocal(AdministradorRecursos.PRECIO_OFICIAL)%>);
                     document.dispatchEvent(new Event('changeprice'));
                 </script>
-                
-            </div>
+
+            </section>
             <div id="pagina-central">
-                <% if (loggeado) { %>
-            <script type="text/javascript" src="Recursos/agregarProductos.js"></script>
-            <script>
-                const productosUsuario = <%= AdministradorRecursos.consultarApiLocal(
+                <% if (loggeado) {%>
+                <script type="text/javascript" src="Recursos/agregarProductos.js"></script>
+                <script>
+                    const productosUsuario = <%=ProductoUsuario.toJson(ProductoUsuario.getProductos(user.getId(), user.getAuthCode())) /*AdministradorRecursos.consultarApiLocal(
                                 AdministradorRecursos.PRODUCTOS_USUARIO, 
                                 new Parametro("user_id", user.getId()),
                                 new Parametro("auth_code", user.getAuthCode())
-                        ) %>;
-                            
-                addProductos(productosUsuario);                
-            </script>
+                        )*/%>;
 
-                    <script>
-                        /*let tablaProductos = new Tabla("tabla-productos",
-                            productosUsuario,
-                            borrar
-                        );*/
-                        
-                        
-                        async function borrar(id){
-                            const userId = <jsp:getProperty name="user" property="id"/>
-                            const authCode = <jsp:getProperty name="user" property="authCode"/>
-                            
-                            let data = "producto_id=" + id + "&user_id=" + userId 
-                                    + "&auth_code=" + authCode;
-                            
-                            let response = await fetch("<%= AdministradorRecursos.BORRAR_PRODUCTO %>",
-                            {
-                                method: "POST",
-                                body: data,
-                                headers: {
-                                    "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8"
+                    addProductos(productosUsuario);
+                </script>
+
+                <script>
+                    /*let tablaProductos = new Tabla("tabla-productos",
+                     productosUsuario,
+                     borrar
+                     );*/
+
+
+                    async function borrar(id) {
+                        const userId = <jsp:getProperty name="user" property="id"/>
+                        const authCode = <jsp:getProperty name="user" property="authCode"/>
+
+                        let data = "producto_id=" + id + "&user_id=" + userId
+                                + "&auth_code=" + authCode;
+
+                        let response = await fetch("<%= AdministradorRecursos.BORRAR_PRODUCTO%>",
+                                {
+                                    method: "POST",
+                                    body: data,
+                                    headers: {
+                                        "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8"
+                                    }
                                 }
-                            }
-                            );
-                    
-                            if(response.ok){
-                                tablaProductos.borrarProducto(JSON.parse(id));
-                            }else if(response.status===400){
-                                alert("No se pudó borrar el producto\n\
-                                Esto puede suceder si se cerró la sección desde\n\
-                                otro dispositivo. Recargue la pagina y \n\
-                                vualva a intentar");
-                            }
+                        );
+
+                        if (response.ok) {
+                            tablaProductos.borrarProducto(JSON.parse(id));
+                        } else if (response.status === 400) {
+                            alert("No se pudó borrar el producto\n\
+                            Esto puede suceder si se cerró la sección desde\n\
+                            otro dispositivo. Recargue la pagina y \n\
+                            vualva a intentar");
                         }
-                        
-                        function submitSecure() {
+                    }
 
-                            enviarBD();
+                    function submitSecure() {
 
-                            return false;
+                        enviarBD();
+
+                        return false;
+                    }
+
+                    async function enviarBD() {
+                        const precioDolar = global.precio;
+
+                        const nombre = document.getElementById("form-nombre-producto"),
+                                marca = document.getElementById("form-marca-producto"),
+                                precio = document.getElementById("dolar-nuevo-producto"),
+                                moneda = document.getElementById("form-moneda");
+
+                        let data = {
+                            user_id: <jsp:getProperty name="user" property="id"/>,
+                            nombre: nombre.value,
+                            marca: marca.value,
+                            precio: (precio.value !== ""
+                                    ? (moneda.value === "Dolar"
+                                            ? JSON.parse(precio.value)
+                                            : JSON.parse(precio.value) / precioDolar)
+                                    : 0),
+                            auth_code: <jsp:getProperty name="user" property="authCode"/>
+                        };
+
+                        let data1 = "user_id=" + data.user_id + "&nombre=" + data.nombre +
+                                "&marca=" + data.marca + "&precio=" + data.precio +
+                                "&auth_code=" + data.auth_code;
+
+                        let response = await fetch(
+                                "<%= AdministradorRecursos.GUARDAR_PRODUCTO%>",
+                                {
+                                    method: "POST",
+                                    body: data1,
+                                    headers: {
+                                        "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8"
+                                    }
+                                });
+
+                        if (response.ok) {
+                            let nuevo = await response.json();
+                            tablaProductos.addProducto(new Producto(nuevo.id, nuevo.nombre_producto,
+                                    nuevo.marca, nuevo.precio_dolares));
+                        } else {
+                            alert("No se pudó guardar el producto\n\
+                            Esto puede suceder si se cerró la sección desde\n\
+                            otro dispositivo. Recargue la pagina y \n\
+                            vuelva a intentar");
                         }
+                    }
+                </script>
 
-                        async function enviarBD() {
-                            const precioDolar = global.precio;
-
-                            const nombre = document.getElementById("form-nombre-producto"),
-                                    marca = document.getElementById("form-marca-producto"),
-                                    precio = document.getElementById("dolar-nuevo-producto"),
-                                    moneda = document.getElementById("form-moneda");
-
-                            let data = {
-                                user_id: <jsp:getProperty name="user" property="id"/>,
-                                nombre: nombre.value,
-                                marca: marca.value,
-                                precio: (precio.value !== ""
-                                        ? (moneda.value === "Dolar"
-                                                ? JSON.parse(precio.value)
-                                                : JSON.parse(precio.value) / precioDolar)
-                                        : 0),
-                                auth_code: <jsp:getProperty name="user" property="authCode"/>
-                            };
-
-                            let data1 = "user_id=" + data.user_id + "&nombre=" + data.nombre +
-                                    "&marca=" + data.marca + "&precio=" + data.precio +
-                                    "&auth_code=" + data.auth_code;
-
-                            let response = await fetch(
-                                    "<%= AdministradorRecursos.GUARDAR_PRODUCTO%>",
-                                    {
-                                        method: "POST",
-                                        body: data1,
-                                        headers: {
-                                            "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8"
-                                        }
-                                    });
-
-                            if (response.ok) {
-                                let nuevo = await response.json();
-                                tablaProductos.addProducto(new Producto(nuevo.id, nuevo.nombre_producto,
-                                        nuevo.marca, nuevo.precio_dolares));
-                            } else {
-                                alert("No se pudó guardar el producto\n\
-                                Esto puede suceder si se cerró la sección desde\n\
-                                otro dispositivo. Recargue la pagina y \n\
-                                vuelva a intentar");
-                            }
-                        }
-                    </script>
-
-                <% } %>
+                <% }%>
             </div>
         </div>
         <jsp:include page="footer.html" />

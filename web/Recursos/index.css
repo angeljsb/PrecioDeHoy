@@ -18,6 +18,15 @@ button, input, select, textarea{
     outline: none;
 }
 
+button {
+    cursor: pointer;
+}
+
+button:disabled {
+    cursor: not-allowed;
+    opacity: 0.4;
+}
+
 input[type="radio"]{
     display: none;
 }
@@ -65,6 +74,16 @@ a{
     text-decoration: none;
 }
 
+#cuerpo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#products {
+    max-width: 500px;
+}
+
 .ph-navbar{
     width: 100%;
     min-height: 50px;
@@ -82,6 +101,7 @@ a{
 
 .ph-conversion{
     text-align: center;
+    margin-top: 3rem;
 }
 
 .ph-conversion__card{
@@ -124,6 +144,17 @@ a{
 .ph-button--small{
     padding: 3px 8px !important;
     font-size: smaller !important;
+}
+
+.ph-button--icon{
+    background-color: #960200;
+    border-radius: 100%;
+    border: 0px;
+    width: 3rem;
+    height: 3rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .ph-button--primary{
@@ -338,6 +369,13 @@ a{
     flex-wrap: wrap;
 }
 
+.ph-container--responsive-form {
+    max-width: 550px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
 .ph-container--grid{
     display: grid;
     grid-template-columns: 50% 50%;
@@ -359,8 +397,15 @@ a{
     background-color: white;
     border: 2px solid #960200;
     border-radius: 10px;
+    min-width: 180px;
     margin: 10px;
     padding: 5px;
+}
+
+.ph-card__content {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
 }
 
 .ph-card__title{
@@ -380,7 +425,13 @@ a{
 }
 
 .ph-card__acciones{
-    margin-top: 1em;
+    margin-top: auto;
+}
+
+.ph-pagination {
+    display: flex;
+    width: 150px;
+    justify-content: space-around;
 }
 
 .ph-divider{
@@ -414,4 +465,35 @@ a{
 
 .proveedor-precio{
     text-align: center;
+}
+
+@media (min-width: 800px) {
+    #cuerpo {
+        flex-direction: row;
+        align-items: end;
+        justify-content: space-between;
+    }
+    
+    #products {
+        flex-grow: 1;
+    }
+    
+    #conversion-container {
+        margin-top: 0;
+    }
+    
+    .ph-taxes__arrow {
+        display: none;
+    }
+    
+    .ph-hidden-left{
+        position: inherit;
+        left: auto;
+        z-index: 1;
+        transition: left 400ms;
+    }
+    
+    .ph-taxes__container{
+        background-color: inherit;
+    }
 }
