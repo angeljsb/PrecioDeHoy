@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 import Expandible from "./expandible.js";
+import showMore from "./show-more.js";
 
 /**
  * 
@@ -11,11 +12,14 @@ import Expandible from "./expandible.js";
  */
 const iniciar = () => {
     const elementos = {
-        expandibleForm: document.getElementById("contenedor-formulario")
+        expandibleForm: document.getElementById("contenedor-formulario"),
+        showMoreContainer: document.getElementById("show-more-container"),
+        showMoreButton: document.getElementById("show-more-button")
     };
     
     const controladores = {
-        expandibleForm: Expandible(elementos.expandibleForm)
+        expandibleForm: Expandible(elementos.expandibleForm),
+        showMore: showMore(elementos.showMoreContainer, elementos.showMoreButton)
     };
 };
 

@@ -96,6 +96,7 @@
 
         <!-- Look of this document is driven by a CSS referenced by an href attribute. See http://www.w3.org/TR/xml-stylesheet/ -->
         <link rel="StyleSheet" type="text/css" href="Recursos/lista_productos.css" media="screen" >
+        <script type="module" src="Recursos/js/render.js"></script>
         <script type="text/javascript" src="Recursos/opcionesUsuario.js" ></script>
         <% } %>
         <title>Precio de hoy</title>
@@ -151,7 +152,7 @@
                                         <option value="Bolivar">Bs</option>
                                     </select>
                                 </div>
-                                <div class="ph-form__container ph-expandible__show-more-container ph-expandible__show-more-container--oculto">
+                                <div id="show-more-container" class="ph-form__container ph-expandible__show-more-container ph-expandible__show-more-container--oculto">
                                     <textarea type="text" maxlength="250"
                                               placeholder="Descripción" name="descripcion"
                                               id="form-descripcion-producto"
@@ -161,7 +162,7 @@
                                 <div class="ph-form__container">
                                     <div class="ph-container--full ph-container--center-text">
                                         <input type="submit" value="Guardar" class="ph-button ph-button--primary">
-                                        <button type="button" class="ph-expandible__show-more-btn ph-form__description-btn ph-form__description-btn--show-more"></button>
+                                        <button type="button" id="show-more-button" class="ph-expandible__show-more-btn ph-form__description-btn ph-form__description-btn--show-more"></button>
                                         <button type="button" class="ph-expandible__minimize-btn ph-button ph-button--primary">Cancelar</button>
                                     </div>
                                 </div>
@@ -221,7 +222,7 @@
             </section>
             <div style="display: none;">
                 <% if (loggeado) {%>
-                <script type="text/javascript" src="Recursos/agregarProductos.js"></script>
+                <!--<script type="text/javascript" src="Recursos/agregarProductos.js"></script>-->
                 <script>
                     const productosUsuario = <%=ProductoUsuario.toJson(ProductoUsuario.getProductos(user.getId(), user.getAuthCode())) %>;
 
