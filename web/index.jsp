@@ -219,25 +219,16 @@
                 </script>
 
             </section>
-            <div id="pagina-central">
+            <div style="display: none;">
                 <% if (loggeado) {%>
                 <script type="text/javascript" src="Recursos/agregarProductos.js"></script>
                 <script>
-                    const productosUsuario = <%=ProductoUsuario.toJson(ProductoUsuario.getProductos(user.getId(), user.getAuthCode())) /*AdministradorRecursos.consultarApiLocal(
-                                AdministradorRecursos.PRODUCTOS_USUARIO, 
-                                new Parametro("user_id", user.getId()),
-                                new Parametro("auth_code", user.getAuthCode())
-                        )*/%>;
+                    const productosUsuario = <%=ProductoUsuario.toJson(ProductoUsuario.getProductos(user.getId(), user.getAuthCode())) %>;
 
                     addProductos(productosUsuario);
                 </script>
 
                 <script>
-                    /*let tablaProductos = new Tabla("tabla-productos",
-                     productosUsuario,
-                     borrar
-                     );*/
-
 
                     async function borrar(id) {
                         const userId = <jsp:getProperty name="user" property="id"/>

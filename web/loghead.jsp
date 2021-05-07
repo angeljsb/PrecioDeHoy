@@ -20,5 +20,5 @@
     </head>
     <body>
         <jsp:include page="header.jsp" />
-        <div class="ph-container--full">
+        <div class="ph-container--full flex-grow">
             <div class="ph-log__container ph-log__container--primary" >

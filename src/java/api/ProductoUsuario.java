@@ -24,6 +24,20 @@ import javax.ws.rs.core.MediaType;
  */
 @WebServlet(name = "ProductoUsuario", urlPatterns = {"/api/productos"})
 public class ProductoUsuario extends HttpServlet {
+    
+    public static Producto[] getProductos(int userId, int authCode){
+        Producto[] productos;
+        try {
+            TablaProducto tp = new TablaProducto();
+            productos = tp.getProductosUsuario(
+                    userId,
+                    authCode
+            );
+        } catch (SQLException ex) {
+            productos = null;
+        }
+        return productos;
+    };
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -39,36 +53,46 @@ public class ProductoUsuario extends HttpServlet {
         
         String userId = request.getParameter("user_id");
         String authCode = request.getParameter("auth_code");
+        int id = 0;
+        int auth = 0;
         
         if(userId==null||authCode==null){
             response.sendError(400);
             return;
         }
         
-        Producto[] productos;
-        try {
-            TablaProducto tp = new TablaProducto();
-            productos = tp.getProductosUsuario(
-                    Integer.parseInt(userId),
-                    Integer.parseInt(authCode)
-            );
-        } catch (SQLException | NumberFormatException ex) {
+        try{
+            id = Integer.parseInt(userId);
+            auth = Integer.parseInt(authCode);
+        } catch (NumberFormatException ex){
+            response.sendError(400, "Parameters user_id and auth_code must be numbers");
+            return;
+        }
+        
+        Producto[] productos = getProductos(id, auth);
+        
+        if(productos == null){
             response.sendError(400);
             return;
         }
         
         response.setContentType(MediaType.APPLICATION_JSON);
         try (PrintWriter out = response.getWriter()) {
-
-            out.print("[");
-            for(int i=0; i<productos.length; i++){
-                out.print(toJson(productos[i]));
+            out.print(toJson(productos));
+        }
+    }
+    
+    public static String toJson(Producto[] productos){
+        String array = "[";
+        for(int i=0; i<productos.length; i++){
+                array += toJson(productos[i]);
                 if(i<productos.length-1){
-                    out.print(",");
+                    array += ",";
                 }
             }
-            out.print("]");
-        }
+        array += "]";
+        
+        return array;
     }
     
     public static String toJson(Producto producto){
