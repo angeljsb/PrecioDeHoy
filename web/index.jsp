@@ -96,7 +96,7 @@
 
         <!-- Look of this document is driven by a CSS referenced by an href attribute. See http://www.w3.org/TR/xml-stylesheet/ -->
         <link rel="StyleSheet" type="text/css" href="Recursos/lista_productos.css" media="screen" >
-        <script type="module" src="Recursos/js/render.js"></script>
+        <script type="module" src="Recursos/js/logged/render.js"></script>
         <script type="text/javascript" src="Recursos/opcionesUsuario.js" ></script>
         <% } %>
         <title>Precio de hoy</title>
