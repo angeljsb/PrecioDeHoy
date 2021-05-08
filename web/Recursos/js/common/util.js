@@ -48,4 +48,4 @@ const html = (str) => {
     return div.firstElementChild;
 };
 
-export { exec, escucha };
+export { exec, escucha, html };

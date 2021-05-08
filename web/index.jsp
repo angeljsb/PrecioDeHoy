@@ -99,9 +99,12 @@
         <!-- Look of this document is driven by a CSS referenced by an href attribute. See http://www.w3.org/TR/xml-stylesheet/ -->
         <link rel="StyleSheet" type="text/css" href="Recursos/index.css" media="screen" >
         <script>
-            window.PrecioDeHoy = <%= AdministradorRecursos.consultarApiLocal(AdministradorRecursos.PRECIO_OFICIAL)%>;
+            window.PrecioDeHoy = <%= PrecioOficial.proveedoresToJson(proveedores) %>;
         </script>
         <% if (loggeado) { %>
+        <script>
+            window.PDHProductos = <%=ProductoUsuario.toJson(ProductoUsuario.getProductos(user.getId(), user.getAuthCode())) %>;
+        </script>
 
         <!-- Look of this document is driven by a CSS referenced by an href attribute. See http://www.w3.org/TR/xml-stylesheet/ -->
         <link rel="StyleSheet" type="text/css" href="Recursos/lista_productos.css" media="screen" >
@@ -247,11 +250,6 @@
             <div style="display: none;">
                 <% if (loggeado) {%>
                 <!--<script type="text/javascript" src="Recursos/agregarProductos.js"></script>-->
-                <script>
-                    const productosUsuario = <%=ProductoUsuario.toJson(ProductoUsuario.getProductos(user.getId(), user.getAuthCode())) %>;
-
-                    addProductos(productosUsuario);
-                </script>
 
                 <script>
 

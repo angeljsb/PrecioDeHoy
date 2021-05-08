@@ -123,6 +123,14 @@ public class PrecioOficial extends HttpServlet {
         
         return buscador;
     }
+    
+    public static JSONArray proveedoresToJson(Proveedor[] proveedores){
+        JSONArray array = new JSONArray();
+        for(Proveedor proveedor : proveedores){
+            array.put(proveedorToJson(proveedor));
+        }
+        return array;
+    }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
