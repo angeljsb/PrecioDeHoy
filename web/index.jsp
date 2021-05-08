@@ -92,6 +92,9 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <!-- Look of this document is driven by a CSS referenced by an href attribute. See http://www.w3.org/TR/xml-stylesheet/ -->
         <link rel="StyleSheet" type="text/css" href="Recursos/index.css" media="screen" >
+        <script>
+            window.PrecioDeHoy = <%= AdministradorRecursos.consultarApiLocal(AdministradorRecursos.PRECIO_OFICIAL)%>;
+        </script>
         <% if (loggeado) { %>
 
         <!-- Look of this document is driven by a CSS referenced by an href attribute. See http://www.w3.org/TR/xml-stylesheet/ -->
@@ -102,8 +105,8 @@
         <title>Precio de hoy</title>
         <script type="text/javascript" src="Recursos/index.js" ></script>
     </head>
-    <body>       
-
+    <body>
+        
         <jsp:include page="header.jsp" />
 
         <div id="cuerpo">

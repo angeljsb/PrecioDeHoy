@@ -42,4 +42,10 @@ const escucha = () => {
     };
 };
 
+const html = (str) => {
+    const div = document.createElement("div");
+    div.innerHTML = str;
+    return div.firstElementChild;
+};
+
 export { exec, escucha };

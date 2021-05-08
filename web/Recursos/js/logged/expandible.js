@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-import { escucha } from "./util.js";
+import { escucha } from "../common/util.js";
 
 /**
  * Función para crear un elemento que pueda ocultarse como un pequeño botón
