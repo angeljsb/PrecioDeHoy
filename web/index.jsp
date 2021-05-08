@@ -103,7 +103,7 @@
         <script type="text/javascript" src="Recursos/opcionesUsuario.js" ></script>
         <% } %>
         <title>Precio de hoy</title>
-        <script type="text/javascript" src="Recursos/index.js" ></script>
+        <script type="module" src="Recursos/js/common/render.js" ></script>
     </head>
     <body>
         
@@ -182,7 +182,7 @@
                 </div>
 
                 <% } else { %>
-                <div>Aplicación para la conversión de dolares a bolivares</div>
+                <h1>Aplicación para la conversión de dolares a bolivares</h1>
                 <% }%>
             </section>
             <section id="conversion-container" class="ph-conversion">
@@ -190,37 +190,35 @@
                     <h3 class="ph-container--center-text ph-text--white">Conversión</h3>
                     <div class="ph-container--small">
                         <input 
-                            type="number" 
+                            type="number"
                             id="conversion-input" 
-                            class="ph-text-input ph-text-input--primary"
+                            class="ph-text-input ph-text-input--primary ph-conversion__input"
                             value="0"
                             min="0"
-                            onkeyup="convertir()"
-                            onclick="convertir()"
                             >
-                        <span id="simbolo-dolar" class="ph-conversion__symbol">$</span>
+                        <span id="simbolo-dolar" class="ph-conversion__symbol ph-conversion__dolar-symbol">$</span>
                     </div>
                     <div class="ph-container--small">
                         <input
                             type="text"
                             id="conversion-result" 
-                            class="ph-text-input ph-text-input--primary ph-text-input--ignore-disable"
+                            class="ph-text-input ph-text-input--primary ph-text-input--ignore-disable ph-conversion__result"
                             value="0"
                             disabled
                             >
-                        <span id="simbolo-bolivar" class="ph-conversion__symbol">Bs</span>
+                        <span id="simbolo-bolivar" class="ph-conversion__symbol ph-conversion__bolivar-symbol">Bs</span>
                     </div>
-                    <button onclick="cambiar()" class="ph-container--small-x ph-button ph-button--small ph-button--primary">Cambiar</button>
+                    <button id="conversion-button" class="ph-container--small-x ph-button ph-button--small ph-button--primary">Cambiar</button>
                 </div>
 
-                <script>
+                <!--<script>
                     document.addEventListener('changeprice', (e) => {
                         convertir();
                     });
 
-                    let global = new Global(<%= AdministradorRecursos.consultarApiLocal(AdministradorRecursos.PRECIO_OFICIAL)%>);
+                    let global = new Global();
                     document.dispatchEvent(new Event('changeprice'));
-                </script>
+                </script>-->
 
             </section>
             <div style="display: none;">

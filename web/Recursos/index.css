@@ -125,11 +125,11 @@ a{
     color: white;
 }
 
-.dolar-cambiado{
+.ph-conversion__dolar-symbol.ph-conversion__symbol--cambiado{
     top: 51px;
 }
 
-.bolivar-cambiado{
+.ph-conversion__bolivar-symbol.ph-conversion__symbol--cambiado{
     top: -47px;
 }
 
