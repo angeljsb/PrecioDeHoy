@@ -119,7 +119,17 @@
             <section id="taxes">
                 <div class="ph-taxes__container ph-hidden-left">
                     <span class="ph-taxes__arrow"></span>
-                    <div id="contenedor-tazas"></div>
+                    <div id="contenedor-tazas">
+                        <% for(Proveedor prov : proveedores) { %>
+                        <jsp:include page="/tax.jsp">
+                            <jsp:param name="nombre" value="<%= prov.getNombreProveedor() %>" />
+                            <jsp:param name="simbolo" value="<%= prov.getSimbolo() %>" />
+                            <jsp:param name="precio" value="<%= prov.getPrecioTexto() %>" />
+                            <jsp:param name="url" value="<%= prov.getUrl() %>" />
+                            <jsp:param name="color" value="<%= Integer.toHexString( prov.getColor() ) %>" />
+                        </jsp:include>
+                        <% } %>
+                    </div>
                 </div>
             </section>
             <section id="products">
