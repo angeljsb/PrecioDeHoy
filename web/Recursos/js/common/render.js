@@ -24,6 +24,8 @@ const iniciar = () => {
     Precio.subscribir(controladores.conversion.setPrecio);
     Precio.subscribir(controladores.checboxes.updateSelected);
     
+    Precio.setPrecio(Precio.getSimboloActual());
 };
 
+window.PrecioDeHoy.PrecioManager = Precio;
 window.addEventListener("DOMContentLoaded", iniciar);

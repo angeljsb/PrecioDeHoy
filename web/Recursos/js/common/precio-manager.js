@@ -9,7 +9,7 @@ import {escucha} from "./util.js";
 const PRECIOS = (() => {
     const precios = {};
     
-    window.PrecioDeHoy.forEach(precio => {
+    window.PrecioDeHoy.proveedores.forEach(precio => {
         const key = precio.proveedor.simbolo;
         const value = precio.precio.numero;
         precios[key] = value;

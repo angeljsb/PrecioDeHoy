@@ -99,11 +99,12 @@
         <!-- Look of this document is driven by a CSS referenced by an href attribute. See http://www.w3.org/TR/xml-stylesheet/ -->
         <link rel="StyleSheet" type="text/css" href="Recursos/index.css" media="screen" >
         <script>
-            window.PrecioDeHoy = <%= PrecioOficial.proveedoresToJson(proveedores) %>;
+            window.PrecioDeHoy = {};
+            window.PrecioDeHoy.proveedores = <%= PrecioOficial.proveedoresToJson(proveedores) %>;
         </script>
         <% if (loggeado) { %>
         <script>
-            window.PDHProductos = <%=ProductoUsuario.toJson(ProductoUsuario.getProductos(user.getId(), user.getAuthCode())) %>;
+            window.PrecioDeHoy.productos = <%=ProductoUsuario.toJson(ProductoUsuario.getProductos(user.getId(), user.getAuthCode())) %>;
         </script>
 
         <!-- Look of this document is driven by a CSS referenced by an href attribute. See http://www.w3.org/TR/xml-stylesheet/ -->

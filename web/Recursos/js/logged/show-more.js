@@ -32,10 +32,8 @@ const showMore = (container, button) => {
     const changeOpen = (forceOpen = "not") => {
         const open = isOculto();
         
-        if(forceOpen instanceof Boolean){
-            if(forceOpen !== open){
-                return;
-            }
+        if([true, false].includes(forceOpen) && forceOpen !== open){
+            return;
         }
 
         if (open) {

@@ -17,10 +17,6 @@ const volverExpandible = (ocultable) => {
     
     const eventos = escucha();
     
-    const showMoreBtns = ocultable.querySelectorAll(".ph-expandible__show-more-btn");
-    const showMoreCont = ocultable.querySelector(".ph-expandible__show-more-container");
-    const showMoreContenido = showMoreCont.querySelector(".ph-expandible__show-more-content");
-
     const minimizeBtn = ocultable.querySelectorAll(".ph-expandible__minimize-btn");
     const innerDiv = ocultable.querySelector(".ph-expandible__inner");
     
@@ -58,6 +54,7 @@ const volverExpandible = (ocultable) => {
         
         setTimeout(() => {
             ocultable.addEventListener('click', expandir);
+            window.PrecioDeHoy.controladoresUsuario.formControl.cancel();
             
             eventos.exec(false);
         }, 400);
