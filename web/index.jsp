@@ -4,6 +4,8 @@
     Author     : Angel
 --%>
 
+<%@page import="beans.Proveedor"%>
+<%@page import="api.PrecioOficial"%>
 <%@page import="api.ProductoUsuario"%>
 <%@page import="backend.Parametro"%>
 <%@page import="backend.NoEncontradoException"%>
@@ -48,6 +50,10 @@
 
         return new Usuario();
     }
+%>
+
+<%
+    Proveedor[] proveedores = PrecioOficial.getPrecios(null);
 %>
 
 <html>
@@ -173,7 +179,14 @@
                         </form>
                     </div>
                     <% } %>
-                    <div id="checkboxes" class="ph-container--medium"></div>
+                    <div id="checkboxes" class="ph-container--medium">
+                        <% for(Proveedor prov : proveedores) { %>
+                        <jsp:include page="/checkboxes.jsp" >
+                            <jsp:param name="simbolo" value="<%= prov.getSimbolo() %>" />
+                            <jsp:param name="nombre" value="<%= prov.getNombreProveedor() %>" />
+                        </jsp:include>
+                        <% } %>
+                    </div>
 
                 </div>
                 <% if (loggeado) { %>

@@ -19,11 +19,13 @@ const PRECIOS = (() => {
 })();
 
 const Precio = (() => {
-    let precio = Object.values(PRECIOS)[0];
+    let simboloActual = Object.keys(PRECIOS)[0];
+    let precio = PRECIOS[simboloActual];
     
     const eventos = escucha();
     
     const setPrecio = (simbolo) => {
+        simboloActual = simbolo;
         precio = PRECIOS[simbolo];
         eventos.exec(precio);
     };
@@ -31,6 +33,7 @@ const Precio = (() => {
     return {
         setPrecio,
         getPrecio: () => precio,
+        getSimboloActual: () => simboloActual,
         subscribir: eventos.subscribir,
         desubscribir: eventos.desubscribir
     };

@@ -26,7 +26,13 @@ const Conversion = ( container ) => {
     };
     
     const convertir = () => {
-        const entrada = JSON.parse(input.value);
+        let entrada;
+        
+        try{
+            entrada = JSON.parse(input.value);
+        } catch (e){
+            entrada = 0;
+        }
         
         if (!entrada){
             resultado.value = 0;
