@@ -26,6 +26,22 @@ import org.json.JSONObject;
  */
 @WebServlet(name = "PrecioOficial", urlPatterns = {"/api/precio/*"})
 public class PrecioOficial extends HttpServlet {
+    
+    public static Proveedor[] getPrecios(String simbolo){
+        TablaPrecio tp = new TablaPrecio();
+        
+        Proveedor[] proveedores = new Proveedor[0];
+        
+        if(simbolo == null || simbolo.equals("/")){
+            try {
+                proveedores = tp.read();
+            } catch (SQLException ex) {
+                System.err.println(ex.getLocalizedMessage());
+            }
+        }
+        
+        return proveedores;
+    }
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -89,7 +105,7 @@ public class PrecioOficial extends HttpServlet {
         }
     }
     
-    public JSONObject proveedorToJson(Proveedor prov){
+    public static JSONObject proveedorToJson(Proveedor prov){
         JSONObject proveedor = new JSONObject();
         proveedor.put("nombre", prov.getNombreProveedor());
         proveedor.put("simbolo", prov.getSimbolo());
