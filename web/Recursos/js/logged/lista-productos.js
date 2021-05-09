@@ -66,7 +66,9 @@ const ListaProductos = (container) => {
         
         container.appendChild(titulo);
         container.appendChild(containerProductos);
-        container.appendChild(paginacion());
+        
+        if(getPaginasTotales() > 1)
+            container.appendChild(paginacion());
         
         setPrecio(window.PrecioDeHoy.PrecioManager.getPrecio());
     };
