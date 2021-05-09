@@ -54,13 +54,12 @@ const volverExpandible = (ocultable) => {
         
         setTimeout(() => {
             ocultable.addEventListener('click', expandir);
-            window.PrecioDeHoy.controladoresUsuario.formControl.cancel();
             
             eventos.exec(false);
         }, 400);
     };
     
-    minimizeBtn.forEach(btn => btn.addEventListener('click', minimizar));
+//    minimizeBtn.forEach(btn => btn.addEventListener('click', minimizar));
     isMinimized() && ocultable.addEventListener('click', expandir);
     
     return {

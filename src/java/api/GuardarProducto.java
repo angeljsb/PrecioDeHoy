@@ -7,6 +7,7 @@ package api;
 
 import backend.NoEncontradoException;
 import backend.Producto;
+import backend.RequestReader;
 import backend.TablaProducto;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -40,15 +41,17 @@ public class GuardarProducto extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        int userId,
-                authCode;
-        String nombre,
-                marca,
-                unidad,
-                descripcion;
-        double precioDolar;
+        RequestReader reader = new RequestReader(request);
         
-        if(request.getContentType().startsWith(MediaType.APPLICATION_JSON)){
+        int userId = reader.getInt("user_id"),
+                authCode = reader.getInt("auth_code");
+        String nombre = reader.getString("nombre_producto"),
+                marca = reader.getString("marca"),
+                unidad = reader.getString("unidad"),
+                descripcion = reader.getString("descripcion");
+        double precioDolar = reader.getDouble("precio");
+        
+        /*if(request.getContentType().startsWith(MediaType.APPLICATION_JSON)){
             BufferedReader br = new BufferedReader(new InputStreamReader(request.getInputStream(), "UTF-8"));
             JSONObject content = new JSONObject(br.readLine());
             
@@ -81,7 +84,7 @@ public class GuardarProducto extends HttpServlet {
             precioDolar = precioDolaresP.isEmpty() 
                     ? 0 
                     : Double.parseDouble(precioDolaresP);
-        }
+        }*/
         
         if(userId==0||nombre==null||nombre.isEmpty()||authCode==0){
             response.sendError(400);

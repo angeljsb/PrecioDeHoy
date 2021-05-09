@@ -5,6 +5,8 @@
  */
 
 import { html } from "../common/util.js";
+import { spinner } from "../common/components.js";
+import { saveProductDB, editProductDB } from "./api-calls.js";
 
 const FormControl = (form) => {
     let editando = false;
@@ -15,7 +17,40 @@ const FormControl = (form) => {
             precio = form["form-precio-producto"],
             descripcion = form["form-descripcion-producto"],
             moneda = form["form-moneda"],
+            userId = form["form-id-user"],
+            authCode = form["form-auth-user"],
             edit = html(`<input type="hidden" id="form-id-producto" >`);
+            
+    const minimizeBtn = form.querySelectorAll(".ph-expandible__minimize-btn");
+    
+    const getPrecioProducto = () => {
+        let marcado = precio.value;
+        try{
+            marcado = JSON.parse(marcado);
+        }catch (ex){
+            marcado = 0;
+        }
+        return moneda.value === "Dolar" ? marcado : marcado / window.PrecioDeHoy.PrecioManager.getPrecio();
+    };
+    
+    const getFormJson = () => {
+        console.log(userId);
+        const json = {
+            user_id: userId.value,
+            auth_code: authCode.value,
+            nombre_producto: nombre.value,
+            marca: marca.value,
+            unidad: unidad.value,
+            descripcion: descripcion.value,
+            precio: getPrecioProducto()
+        };
+        
+        if (editando){
+            json["producto_id"] = edit.value;
+        }
+        
+        return json;
+    };
             
     const editar = (producto) => {
         if (!producto || !producto.id) return;
@@ -45,11 +80,46 @@ const FormControl = (form) => {
         }
         editando = false;
         form.reset();
+        
+        window.PrecioDeHoy.controladoresUsuario.expandibleForm.minimizar();
     };
+    
+    const spinnerObject = spinner(form);
+    
+    const onEdit = (pro) => {
+        window.PrecioDeHoy.controladoresUsuario.productList.editProducto(pro);
+        spinnerObject.hidde();
+        cancel();
+    };
+    
+    const onSave = (pro) => {
+        window.PrecioDeHoy.controladoresUsuario.productList.addProducto(pro);
+        spinnerObject.hidde();
+        cancel();
+    };
+    
+    form.addEventListener("submit", (e) => {
+        e.preventDefault();
+        spinnerObject.show();
+        
+        const action = {
+            success: editando ? onEdit : onSave,
+            error: console.error
+        };
+        
+        if(editando){
+            editProductDB(getFormJson(), action);
+        }else{
+            saveProductDB(getFormJson(), action); 
+        }
+    });
+    
+    minimizeBtn.forEach(btn => btn.addEventListener('click', cancel));
     
     return {
         editar,
-        cancel
+        cancel,
+        getFormJson
     };
 };
 

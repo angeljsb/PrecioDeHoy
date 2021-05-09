@@ -59,8 +59,9 @@ const ListaProductos = (container) => {
         container.appendChild(titulo);
         container.appendChild(containerProductos);
         container.appendChild(paginacion());
+        
+        setPrecio(window.PrecioDeHoy.PrecioManager.getPrecio());
     };
-    render();
     
     const setPagina = (nuevaPagina) => {
         if(nuevaPagina < 0 || nuevaPagina >= getPaginasTotales()){
@@ -75,9 +76,30 @@ const ListaProductos = (container) => {
         tarjetas.forEach(tarjeta => tarjeta.setPrecio(precio));
     };
     
+    const addProducto = (producto) => {
+        const rev = productos.reverse();
+        rev.push(producto);
+        window.PrecioDeHoy.productos = productos = rev.reverse();
+        render();
+    };
+    
+    const editProducto = (producto) => {
+        const id = producto.id;
+        const match = (otro) => otro.id === id;
+        const editado = productos.findIndex(match);
+        
+        productos[editado] = producto;
+        window.PrecioDeHoy.productos = productos;
+        render();
+    };
+    
+    render();
+    
     return {
         setPrecio,
-        setPagina
+        setPagina,
+        addProducto,
+        editProducto
     };
 };
 
