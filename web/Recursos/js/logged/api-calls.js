@@ -6,6 +6,7 @@
 
 const EDIT_URL = "/PrecioDolar/api/editarproducto";
 const SAVE_URL = "/PrecioDolar/api/guardarproducto";
+const DELETE_URL = "/PrecioDolar/api/eliminarproducto";
 
 const callApi = async (url, params = {}) => {
     return await fetch(
@@ -34,12 +35,35 @@ const callApiEffects = async (url, params = {}, on = {}) => {
     }
 };
 
+const getUserData = () => {
+    return {
+        user_id: window.PrecioDeHoy.usuario.id,
+        auth_code: window.PrecioDeHoy.usuario.authCode
+    };
+};
+
 const editProductDB = (product, on = {}) => {
-    callApiEffects(EDIT_URL, product, on);
+    const data = {
+        ...product,
+        ...getUserData()
+    };
+    callApiEffects(EDIT_URL, data, on);
 };
 
 const saveProductDB = (product, on = {}) => {
-    callApiEffects(SAVE_URL, product, on);
+    const data = {
+        ...product,
+        ...getUserData()
+    };
+    callApiEffects(SAVE_URL, data, on);
 };
 
-export { editProductDB, saveProductDB };
+const deleteProductDB = (productId, on = {}) => {
+    const data = {
+        producto_id: productId,
+        ...getUserData()
+    };
+    callApiEffects(DELETE_URL, data, on);
+};
+
+export { editProductDB, saveProductDB, deleteProductDB };

@@ -6,6 +6,7 @@
 
 import { html } from "../common/util.js"
 import TarjetaProducto from "./tarjeta-producto.js";
+import { deleteProductDB } from "./api-calls.js"
 
 const ListaProductos = (container) => {
     let productos = window.PrecioDeHoy.productos,
@@ -35,7 +36,14 @@ const ListaProductos = (container) => {
     };
     
     const accionesTarjeta = {
-        editar: (pro) => window.PrecioDeHoy.controladoresUsuario.formControl.editar(pro)
+        editar: (pro) => window.PrecioDeHoy.controladoresUsuario.formControl.editar(pro),
+        borrar: (pro) => {
+            const actions = {
+                success: (data) => removeProducto(data.id),
+                error: console.error
+            };
+            deleteProductDB(pro.id, actions);
+        }
     };
 
     const getPaginasTotales = () => Math.ceil(productos.length / productosPorPagina);
@@ -93,13 +101,22 @@ const ListaProductos = (container) => {
         render();
     };
     
+    const removeProducto = (idProducto) => {
+        const match = (otro) => otro.id === idProducto;
+        const editado = productos.findIndex(match);
+        productos.splice(editado, 1);
+        window.PrecioDeHoy.productos = productos;
+        render();
+    };
+    
     render();
     
     return {
         setPrecio,
         setPagina,
         addProducto,
-        editProducto
+        editProducto,
+        removeProducto
     };
 };
 

@@ -105,6 +105,10 @@
         <% if (loggeado) { %>
         <script>
             window.PrecioDeHoy.productos = <%=ProductoUsuario.toJson(ProductoUsuario.getProductos(user.getId(), user.getAuthCode())) %>;
+            window.PrecioDeHoy.usuario = {
+                id: <jsp:getProperty name="user" property="id"/>,
+                authCode: <jsp:getProperty name="user" property="authCode"/>
+            };
         </script>
 
         <!-- Look of this document is driven by a CSS referenced by an href attribute. See http://www.w3.org/TR/xml-stylesheet/ -->
@@ -237,106 +241,7 @@
                     </div>
                     <button id="conversion-button" class="ph-container--small-x ph-button ph-button--small ph-button--primary">Cambiar</button>
                 </div>
-
-                <!--<script>
-                    document.addEventListener('changeprice', (e) => {
-                        convertir();
-                    });
-
-                    let global = new Global();
-                    document.dispatchEvent(new Event('changeprice'));
-                </script>-->
-
             </section>
-            <div style="display: none;">
-                <% if (loggeado) {%>
-                <!--<script type="text/javascript" src="Recursos/agregarProductos.js"></script>-->
-
-                <script>
-
-                    async function borrar(id) {
-                        const userId = <jsp:getProperty name="user" property="id"/>
-                        const authCode = <jsp:getProperty name="user" property="authCode"/>
-
-                        let data = "producto_id=" + id + "&user_id=" + userId
-                                + "&auth_code=" + authCode;
-
-                        let response = await fetch("<%= AdministradorRecursos.BORRAR_PRODUCTO%>",
-                                {
-                                    method: "POST",
-                                    body: data,
-                                    headers: {
-                                        "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8"
-                                    }
-                                }
-                        );
-
-                        if (response.ok) {
-                            tablaProductos.borrarProducto(JSON.parse(id));
-                        } else if (response.status === 400) {
-                            alert("No se pudó borrar el producto\n\
-                            Esto puede suceder si se cerró la sección desde\n\
-                            otro dispositivo. Recargue la pagina y \n\
-                            vualva a intentar");
-                        }
-                    }
-
-                    function submitSecure() {
-
-                        enviarBD();
-
-                        return false;
-                    }
-
-                    async function enviarBD() {
-                        const precioDolar = global.precio;
-
-                        const nombre = document.getElementById("form-nombre-producto"),
-                                marca = document.getElementById("form-marca-producto"),
-                                precio = document.getElementById("dolar-nuevo-producto"),
-                                moneda = document.getElementById("form-moneda");
-
-                        let data = {
-                            user_id: <jsp:getProperty name="user" property="id"/>,
-                            nombre: nombre.value,
-                            marca: marca.value,
-                            precio: (precio.value !== ""
-                                    ? (moneda.value === "Dolar"
-                                            ? JSON.parse(precio.value)
-                                            : JSON.parse(precio.value) / precioDolar)
-                                    : 0),
-                            auth_code: <jsp:getProperty name="user" property="authCode"/>
-                        };
-
-                        let data1 = "user_id=" + data.user_id + "&nombre=" + data.nombre +
-                                "&marca=" + data.marca + "&precio=" + data.precio +
-                                "&auth_code=" + data.auth_code;
-
-                        let response = await fetch(
-                                "<%= AdministradorRecursos.GUARDAR_PRODUCTO%>",
-                                {
-                                    method: "POST",
-                                    body: data1,
-                                    headers: {
-                                        "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8"
-                                    }
-                                });
-
-                        if (response.ok) {
-                            let nuevo = await response.json();
-                            tablaProductos.addProducto(new Producto(nuevo.id, nuevo.nombre_producto,
-                                    nuevo.marca, nuevo.precio_dolares));
-                        } else {
-                            alert("No se pudó guardar el producto\n\
-                            Esto puede suceder si se cerró la sección desde\n\
-                            otro dispositivo. Recargue la pagina y \n\
-                            vuelva a intentar");
-                        }
-                    }
-                </script>
-
-                <% }%>
-            </div>
         </div>
         <jsp:include page="footer.html" />
     </body>

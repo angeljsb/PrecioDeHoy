@@ -17,8 +17,6 @@ const FormControl = (form) => {
             precio = form["form-precio-producto"],
             descripcion = form["form-descripcion-producto"],
             moneda = form["form-moneda"],
-            userId = form["form-id-user"],
-            authCode = form["form-auth-user"],
             edit = html(`<input type="hidden" id="form-id-producto" >`);
             
     const minimizeBtn = form.querySelectorAll(".ph-expandible__minimize-btn");
@@ -34,10 +32,7 @@ const FormControl = (form) => {
     };
     
     const getFormJson = () => {
-        console.log(userId);
         const json = {
-            user_id: userId.value,
-            auth_code: authCode.value,
             nombre_producto: nombre.value,
             marca: marca.value,
             unidad: unidad.value,
