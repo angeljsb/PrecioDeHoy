@@ -6,6 +6,7 @@
 package api;
 
 import backend.NoEncontradoException;
+import backend.RequestReader;
 import backend.TablaProducto;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -36,19 +37,21 @@ public class BorrarProducto extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        String idProductoStr = request.getParameter("producto_id");
-        String idUserStr = request.getParameter("user_id");
-        String authCodeStr = request.getParameter("auth_code");
+        RequestReader reader = new RequestReader(request);
         
-        if(idProductoStr==null||idUserStr==null||authCodeStr==null){
-            response.sendError(400);
-            return;
-        }
+        int productoId;
+        int userId;
+        int authCode;
         
         try{
-            int productoId = Integer.parseInt(idProductoStr),
-                    userId = Integer.parseInt(idUserStr),
-                    authCode = Integer.parseInt(authCodeStr);
+            productoId = reader.getInt("producto_id");
+            userId = reader.getInt("user_id");
+            authCode = reader.getInt("auth_code");
+
+            if(productoId==0||userId==0||authCode==0){
+                response.sendError(400);
+                return;
+            }
             
             TablaProducto tp = new TablaProducto();
             tp.borrarProducto(productoId, userId, authCode);
@@ -60,8 +63,10 @@ public class BorrarProducto extends HttpServlet {
         
         response.setContentType(MediaType.APPLICATION_JSON);
         try (PrintWriter out = response.getWriter()) {
-
-            out.println("{}");
+            out.println("{"
+                    + "\"id\":" 
+                    + productoId
+                    + "}");
         }
     }
 

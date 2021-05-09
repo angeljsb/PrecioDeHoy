@@ -57,43 +57,43 @@ public class RequestReader {
     
     public int getInt(String key){
         if(this.isJson()){
-            return this.jsonContent.getInt(key);
+            return this.jsonContent.has(key) ? this.jsonContent.getInt(key) : 0;
         }else{
             String val = mapa.get(key)[0];
-            return Integer.parseInt(val);
+            return val == null ? 0 : Integer.parseInt(val);
         }
     }
     
     public double getDouble(String key){
         if(this.isJson()){
-            return this.jsonContent.getDouble(key);
+            return this.jsonContent.has(key) ? this.jsonContent.getDouble(key) : 0;
         }else{
             String val = mapa.get(key)[0];
-            return Double.parseDouble(val);
+            return val == null ? 0 : Double.parseDouble(val);
         }
     }
     
     public long getLong(String key){
         if(this.isJson()){
-            return this.jsonContent.getLong(key);
+            return this.jsonContent.has(key) ? this.jsonContent.getLong(key) : 0;
         }else{
             String val = mapa.get(key)[0];
-            return Long.parseLong(val);
+            return val == null ? 0 : Long.parseLong(val);
         }
     }
     
     public boolean getBoolean(String key){
         if(this.isJson()){
-            return this.jsonContent.getBoolean(key);
+            return this.jsonContent.has(key) ? this.jsonContent.getBoolean(key) : false;
         }else{
             String val = mapa.get(key)[0];
-            return Boolean.parseBoolean(val);
+            return val == null ? false : Boolean.parseBoolean(val);
         }
     }
     
     public String getString(String key){
         if(this.isJson()){
-            return this.jsonContent.getString(key);
+            return this.jsonContent.has(key) ? this.jsonContent.getString(key) : "";
         }else{
             String val = mapa.get(key)[0];
             return val;
