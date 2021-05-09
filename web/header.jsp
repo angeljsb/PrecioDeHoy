@@ -30,18 +30,8 @@
                 <a href="<%= AdministradorRecursos.INICIO_SECCION%>">Iniciar sección</a>
                 <% } else {%>
 
-                <a href="#" onclick="logout(event)">Cerrar sección</a>
-
-                <form method="POST" 
-                      action="<%= AdministradorRecursos.CERRAR_SECCION%>" 
-                      style="display: none;"
-                      id="logout-form"
-                      >
-                    <input type="hidden" 
-                           value="<jsp:getProperty name="user" property="id"/>"
-                           name="user_id"
-                           >
-                </form>
+                <a href="<%= AdministradorRecursos.CERRAR_SECCION%>?user_id=<jsp:getProperty name="user" property="id"/>" onclick="logout(event)">Cerrar sección</a>
+                
             </div>
             <% } %>
         </div>

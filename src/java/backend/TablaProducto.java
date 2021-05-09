@@ -146,7 +146,7 @@ public class TablaProducto {
                         + TablaUsuario.NOMBRE_TABLA + " U "
                         + "WHERE P." + USUARIO + " = ? AND U." 
                         + TablaUsuario.CODIGO_AUTENTICACION + " = ?"
-                        + " ORDER BY " + FECHA + " ASC"
+                        + " ORDER BY " + FECHA + " DESC"
         );
         select.setInt(1, userId);
         select.setInt(2, authCode);
