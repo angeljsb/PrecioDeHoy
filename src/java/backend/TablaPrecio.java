@@ -13,8 +13,11 @@ import java.sql.PreparedStatement;
 import java.util.Arrays;
 
 /**
+ * Clase que controla las operaciones de guardado y lectura de los precios
+ * del dolar en la base de datos
  *
  * @author Angel
+ * @since v1.0.0
  */
 public class TablaPrecio {
     
@@ -29,6 +32,12 @@ public class TablaPrecio {
             PRECIO_S = "precio_texto",
             FECHA = "ultima_modificacion";
     
+    /**
+     * Crea la tabla si no existe
+     * 
+     * @throws SQLException Si hay un error en la consulta sql
+     * @since v1.0.0
+     */
     public void crearTabla() throws SQLException{
         Connection con = ControladorConexion.getConnection();
         
@@ -36,6 +45,14 @@ public class TablaPrecio {
         ps.execute();
     }
     
+    /**
+     * Crea un proveedor en la base de datos
+     * 
+     * @param insertar Los datos del nuevo proveedor
+     * @return El nuevo proveedor luego de ser insertado con su id actualizado
+     * @throws SQLException Si hay un error en la consulta sql
+     * @since v1.0.0
+     */
     public Proveedor create(Proveedor insertar) 
             throws SQLException{
         this.crearTabla();
@@ -70,7 +87,15 @@ public class TablaPrecio {
         return this.desdeResultSet(resultado);
     }
     
-    public Proveedor[] read(Object ...condiciones) throws SQLException{
+    /**
+     * Lee todos los proveedores con sus últimos precios guardados desde la
+     * base de datos
+     * 
+     * @return Un arreglo con todos los proveedores
+     * @throws SQLException Si ocurre un error en la consulta sql
+     * @since v1.0.0
+     */
+    public Proveedor[] read() throws SQLException{
         this.crearTabla();
         Connection con = ControladorConexion.getConnection();
         
@@ -80,6 +105,16 @@ public class TablaPrecio {
         return this.arrayDesdeResultSet(resultado);
     }
     
+    /**
+     * Lee el proveedor correspondiente al simbolo pasado.
+     * 
+     * @param simbolo El simbolo único del proveedor
+     * @return El proveedor con sus datos actualizados
+     * @throws SQLException Si ocurre un error en la consulta sql
+     * @throws NoEncontradoException Si el símbolo no se encuentra en la base
+     * de datos
+     * @since v1.0.0
+     */
     public Proveedor readOne(String simbolo) 
             throws SQLException, NoEncontradoException{
         this.crearTabla();
@@ -96,6 +131,18 @@ public class TablaPrecio {
         return this.desdeResultSet(resultado);
     }
 
+    /**
+     * Actualiza el precio según un proveedor en la base de datos, utilizando
+     * la devolución de un buscador
+     * 
+     * @param buscador El buscador que obtenga el precio de la moneda según el
+     * proveedor
+     * @param id El id del proveedor a actualizar
+     * @return Si el precio se atualizó correctamente
+     * @throws SQLException Si ocurre un error en la consulta sql
+     * @throws NoEncontradoException Si el id no se encuentra en la base de datos
+     * @since v1.0.0
+     */
     public boolean actualizarPrecio(BuscadorMoneda buscador, int id) throws SQLException, NoEncontradoException {        
         Connection con = ControladorConexion.getConnection();
         
@@ -123,6 +170,15 @@ public class TablaPrecio {
         return rows != 0;
     }
 
+    /**
+     * Borra un proveedor de la base de datos
+     * 
+     * @param idElemento El id del proveedor en la base de datso
+     * @return Si se borró correctamente
+     * @throws SQLException Si ocurre un error en la consulta sql
+     * @throws NoEncontradoException Si no se encuentra el id
+     * @since v1.0.0
+     */
     public boolean delete(int idElemento) 
             throws SQLException, NoEncontradoException {
         Connection con = ControladorConexion.getConnection();

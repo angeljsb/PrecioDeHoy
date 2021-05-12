@@ -11,8 +11,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 /**
+ * Clase que controla la lectura y actualización de usuarios en la base
+ * de datos
  *
  * @author Angel
+ * @since v1.0.0
  */
 public class TablaUsuario {
     
@@ -25,6 +28,12 @@ public class TablaUsuario {
             IMAGEN = "ruta_imagen",
             CODIGO_AUTENTICACION = "auth_code";
     
+    /**
+     * Crea la tabla si no existe
+     * 
+     * @throws SQLException Si ocurre un error en la consulta sql
+     * @since v1.0.0
+     */
     public void crearTabla() throws SQLException{
         
         Connection con = ControladorConexion.getConnection();
@@ -46,6 +55,17 @@ public class TablaUsuario {
                 NOMBRE, CORREO, IMAGEN , CODIGO_AUTENTICACION );
     }
     
+    /**
+     * Crea un usuario con los datos básicos de registro
+     * 
+     * @param nombre El nombre del usuario
+     * @param correo El correo del usuario
+     * @param password La contraseña del usuario
+     * @param imagen El logo del negocio del usuario
+     * @return La cantidad de columnas afectadas en la tabla
+     * @throws SQLException Si ocurre un error en la consulta sql
+     * @since v1.0.0
+     */
     public int insert(String nombre, String correo, String password, String imagen) 
             throws SQLException{
         
@@ -67,37 +87,17 @@ public class TablaUsuario {
         return preparedS.executeUpdate();
     }
     
-    public Usuario obtenerUno(String campo, Object value) 
-            throws SQLException, NoEncontradoException{
-        
-        
-        Connection con = ControladorConexion.getConnection();
-        PreparedStatement preparedS = con.prepareStatement(
-                "SELECT " + camposBusqueda() + " FROM " 
-                        + NOMBRE_TABLA
-                        + " WHERE " + campo + " = ?"
-                        + " LIMIT 1"
-        );
-        if(value instanceof String){
-            String string = (String) value;
-            preparedS.setString(1, string);
-        }else if(value instanceof Integer){
-            Integer integer = (Integer) value;
-            preparedS.setInt(1, integer);
-        }
-
-
-        ResultSet respuesta = preparedS.executeQuery();
-
-        if(!respuesta.first()){
-            throw new NoEncontradoException(campo);
-        }
-
-        return fromResultSet(respuesta);
-            
-        
-    }
-    
+    /**
+     * Obtiene el usuario con los datos comunes de inicio de sesión
+     * 
+     * @param correo El correo del usuario
+     * @param password La contraseña del usuario
+     * @return El usuario correspondiente a los datos
+     * @throws SQLException Si ocurre un error en la consulta sql
+     * @throws NoEncontradoException Si el correo no existe o la contraseña no
+     * coincide
+     * @since v1.0.0
+     */
     public Usuario iniciarSeccion(String correo, String password) throws SQLException, NoEncontradoException{
         
         Connection con = ControladorConexion.getConnection();
@@ -129,6 +129,17 @@ public class TablaUsuario {
         return fromResultSet(userRS);
     }
     
+    /**
+     * Obtiene un usuario según los datos de autenticación guardados en cokkies
+     * 
+     * @param id El id del usuario
+     * @param authCode El codigo de autenticación
+     * @return El usuario correspondiente
+     * @throws SQLException Si ocurre un error en la consulta sql
+     * @throws NoEncontradoException Si el id no se encuentra o el codigo de
+     * autenticació no coincide
+     * @since v1.0.0
+     */
     public Usuario autenticar(int id, int authCode) throws SQLException, NoEncontradoException{
         Connection con = ControladorConexion.getConnection();
         
@@ -151,6 +162,15 @@ public class TablaUsuario {
         return fromResultSet(userRS);
     }
     
+    /**
+     * Ejecuta el cierre de sesión e impide el inicio automatico por cokkies
+     * cambiando el codigo de autenticación en la base de datos
+     * 
+     * @param id El id del usuario a cerrar sesión
+     * @throws SQLException Si ocurre un error en la consulta sql
+     * @throws NoEncontradoException Si no se consigue el usuario
+     * @since v1.0.0 
+     */
     public void cerrarSeccion(int id) throws SQLException, NoEncontradoException{
         Connection con = ControladorConexion.getConnection();
         

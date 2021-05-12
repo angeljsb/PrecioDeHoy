@@ -12,8 +12,11 @@ import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Form;
 
 /**
+ * Clase con variables y funciones estaticas para guardar y manejar los url
+ * de los recursos que usa la aplicación
  *
  * @author Angel
+ * @since v1.0.0
  */
 public class AdministradorRecursos {
     
@@ -31,33 +34,17 @@ public class AdministradorRecursos {
     public static final String BORRAR_PRODUCTO = API + "/eliminarproducto";
     public static final String PRODUCTOS_USUARIO = API + "/productos";
     
-    public static String getAbsoluteUri(String uri){
-        return "http://localhost:8080" + uri;
-    }
-    
     /**
-     * Hace una consulta a la api local
-     * @param uri Una de las constantes que guardan los url's en esta misma clase
-     * @param parametros
-     * @return El resultado de la consulta como un string
+     * Ejecuta una consulta GET o POST a un recurso externo y devuelve el
+     * resultado como una cadena de texto
+     * 
+     * @param uri El url al que consultar
+     * @param method El metodo de la consulta (De momento solo acepta GET y POST)
+     * @param parametros Los parametros que se pasarán a la consulta.
+     * ---- To do cambiar parametros por un JSONObject o un Map
+     * @return La respuesta del servidor como un String
+     * @since v1.0.0
      */
-    public static String consultarApiLocal(String uri, Parametro... parametros){
-        
-        Client cliente = ClientBuilder.newClient();
-        WebTarget target = cliente.target(getAbsoluteUri(uri));
-        
-        Form form = new Form();
-        for(Parametro parametro : parametros){
-            form.param(parametro.getKey(), parametro.getValue());
-        }
-        
-        String resultado = target.request().post(Entity.form(form) ,String.class);
-        
-        cliente.close();
-        
-        return resultado;
-    }
-    
     public static String consultarApiForanea(String uri, String method, Parametro... parametros){
         
         Client cliente = ClientBuilder.newClient();

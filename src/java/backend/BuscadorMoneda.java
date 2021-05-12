@@ -6,8 +6,11 @@
 package backend;
 
 /**
+ * Clase abstracta que define los objetos encargados de obtener el precio
+ * del dolar desde un servicio o casa de cambio foraneo
  *
  * @author Angel
+ * @since v1.0.0
  */
 public abstract class BuscadorMoneda implements IBuscadorMoneda {
     
@@ -33,6 +36,7 @@ public abstract class BuscadorMoneda implements IBuscadorMoneda {
     /**
      * Se encarga de hacer las llamadas a la api del proveedor
      * @return El precio de la moneda según el proveedor
+     * @since v1.0.0
      */
     protected abstract double obtenerDesdeWeb();
     

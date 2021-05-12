@@ -8,11 +8,16 @@ package backend;
 import org.json.JSONObject;
 
 /**
+ * Clase encargada de obtener el precio actual del dolar según DolarToday
  *
  * @author Angel
+ * @since v1.0.0
  */
 public class BuscadorDolarToday extends BuscadorMoneda {
     
+    /**
+     * Url de la api desde la cual obtenemos este precio
+     */
     public static final String URL = "https://s3.amazonaws.com/dolartoday/data.json"; 
 
     private final String[] rutaJSON = new String[]{"USD", "dolartoday"};
