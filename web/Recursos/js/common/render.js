@@ -8,6 +8,10 @@ import Precio from "./precio-manager.js";
 import Conversion from "./conversion.js";
 import Checkboxes from "./checkboxes.js";
 
+/**
+ * Función encargada de iniciar toda la funcionalidad base de la aplicación.
+ * Esta se activa tanto si el usuario está loggeado como si no.
+ */
 const iniciar = () => {
     const elementos = {
         conversion: document.getElementById("conversion"),
