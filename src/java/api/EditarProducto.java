@@ -20,8 +20,12 @@ import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.core.MediaType;
 
 /**
+ * Endpoint para editar un producto. Recibe por paramteros la información nueva
+ * del producto y lo actualiza en la base de datos.<br>
+ * Devuelve un json con los datos del producto.
  *
  * @author Angel
+ * @since v1.0.0
  */
 @WebServlet(name = "EditarProducto", urlPatterns = {"/api/editarproducto"})
 public class EditarProducto extends HttpServlet {
@@ -34,6 +38,7 @@ public class EditarProducto extends HttpServlet {
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
+     * @since v1.0.0
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {

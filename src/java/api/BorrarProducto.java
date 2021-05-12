@@ -19,8 +19,11 @@ import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.core.MediaType;
 
 /**
+ * Endpoint que elimina un producto de la base de datos y devuelve un objeto
+ * con el id del producto se la solicitud se realizó con exito
  *
  * @author Angel
+ * @since v1.0.0
  */
 @WebServlet(name = "BorrarProducto", urlPatterns = {"/api/eliminarproducto"})
 public class BorrarProducto extends HttpServlet {
@@ -33,6 +36,7 @@ public class BorrarProducto extends HttpServlet {
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
+     * @since v1.0.0
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {

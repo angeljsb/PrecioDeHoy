@@ -19,8 +19,10 @@ import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.core.MediaType;
 
 /**
+ * Cierra la sesión de un usuario y redirecciona a index.jsp
  *
  * @author Angel
+ * @since v1.0.0
  */
 @WebServlet(name = "Logout", urlPatterns = {"/logout"})
 public class Logout extends HttpServlet {

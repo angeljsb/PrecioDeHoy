@@ -20,8 +20,11 @@ import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.core.MediaType;
 
 /**
+ * Endpoint para guardar un producto en la base de datos. Guarda el producto
+ * y lo devuelve como json con su id incluido
  *
  * @author Angel
+ * @since v1.0.0
  */
 @WebServlet(name = "GuardarProducto", urlPatterns = {"/api/guardarproducto"})
 public class GuardarProducto extends HttpServlet {

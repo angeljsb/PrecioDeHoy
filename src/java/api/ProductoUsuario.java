@@ -6,6 +6,7 @@
 package api;
 
 import backend.Producto;
+import backend.RequestReader;
 import backend.TablaProducto;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -19,8 +20,10 @@ import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.core.MediaType;
 
 /**
+ * Endpoint que devuelve todos los productos para un usuario
  *
  * @author Angel
+ * @since v1.0.0
  */
 @WebServlet(name = "ProductoUsuario", urlPatterns = {"/api/productos"})
 public class ProductoUsuario extends HttpServlet {
@@ -51,21 +54,13 @@ public class ProductoUsuario extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        String userId = request.getParameter("user_id");
-        String authCode = request.getParameter("auth_code");
-        int id = 0;
-        int auth = 0;
+        RequestReader reader = new RequestReader(request);
         
-        if(userId==null||authCode==null){
-            response.sendError(400);
-            return;
-        }
+        int id = reader.getInt("user_id");
+        int auth = reader.getInt("auth_code");
         
-        try{
-            id = Integer.parseInt(userId);
-            auth = Integer.parseInt(authCode);
-        } catch (NumberFormatException ex){
-            response.sendError(400, "Parameters user_id and auth_code must be numbers");
+        if(id==0||auth==0){
+            response.sendError(400, "Parameters user_id and auth_code are obligatory");
             return;
         }
         
