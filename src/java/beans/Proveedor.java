@@ -6,6 +6,8 @@
 package beans;
 
 /**
+ * Bean que define un proveedor. Se le llama proveedores a las casas de cambio
+ * que proveen el precio del dolar
  *
  * @author Angel
  */

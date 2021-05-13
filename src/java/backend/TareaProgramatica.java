@@ -5,10 +5,6 @@
  */
 package backend;
 
-/**
- *
- * @author Angel
- */
 import java.sql.SQLException;
 import javax.servlet.ServletContextListener;
 import javax.servlet.ServletContextEvent;
@@ -16,6 +12,13 @@ import java.util.TimerTask;
 import java.util.Timer;
 import javax.servlet.annotation.WebListener;
  
+/**
+ * Escucha el inicio del servlet context y ejecuta la obtención de los precios
+ * según los proveedores cada 15 minutos hasta que se destruye el context
+ *
+ * @author Angel
+ * @since v1.0.0
+ */
 @WebListener
 public class TareaProgramatica extends TimerTask implements ServletContextListener {
     private Timer timer;
@@ -43,13 +46,7 @@ public class TareaProgramatica extends TimerTask implements ServletContextListen
         
         for(int i=0; i<buscadores.length; i++){
             try{
-                if(tp.actualizarPrecio(buscadores[i], i+1)){
-                    System.out.println(buscadores[i].getClass().getSimpleName() 
-                            + " actualizó el precio");
-                }else{
-                    System.out.println(buscadores[i].getClass().getSimpleName() 
-                            + " no actualizó el precio");
-                }
+                tp.actualizarPrecio(buscadores[i], i+1);
             }catch(SQLException|NoEncontradoException ex){
                 System.err.println(ex);
             }

@@ -11,7 +11,7 @@ import { escucha } from "../common/util.js";
  * 
  * @param {HTMLElement} ocultable El elemento que se desea se pueda ocultar
  * y expandir
- * @returns {undefined}
+ * @returns {any}
  */
 const volverExpandible = (ocultable) => {
     
@@ -20,8 +20,14 @@ const volverExpandible = (ocultable) => {
     const minimizeBtn = ocultable.querySelectorAll(".ph-expandible__minimize-btn");
     const innerDiv = ocultable.querySelector(".ph-expandible__inner");
     
+    /**
+     * @returns {boolean} Si el componente está minimizado
+     */
     const isMinimized = () => ocultable.classList.contains("ph-expandible--minimized");
     
+    /**
+     * Expande el componente
+     */
     const expandir = () => {
         if (!isMinimized()) return;
         
@@ -39,6 +45,9 @@ const volverExpandible = (ocultable) => {
         }, 400);
     };
     
+    /**
+     * Minimiza el componente
+     */
     const minimizar = () => {
         if (isMinimized()) return;
         
@@ -59,7 +68,6 @@ const volverExpandible = (ocultable) => {
         }, 400);
     };
     
-//    minimizeBtn.forEach(btn => btn.addEventListener('click', minimizar));
     isMinimized() && ocultable.addEventListener('click', expandir);
     
     return {

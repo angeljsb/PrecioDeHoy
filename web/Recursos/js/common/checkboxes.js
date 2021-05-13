@@ -6,10 +6,21 @@
 
 import Precio from "./precio-manager.js";
 
+/**
+ * Inicia el control de los input de tipo radio para seleccionar el precio
+ * que se desea utilizar para las conversiones
+ * 
+ * @param {HTMLElement} container El contenedor de los input
+ * @returns {any} Un objeto con funciones para el control de las radio boxes
+ */
 const Checkboxes = (container) => {
     
     const boxes = container.querySelectorAll('input[type="radio"]');
     
+    /**
+     * Actualiza el radiobox seleccionado según el precio seleccionado
+     * actualmente
+     */
     const updateSelected = () => {
         const simbolo = Precio.getSimboloActual();
         container.querySelector("#check-" + simbolo).checked = true;

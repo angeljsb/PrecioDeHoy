@@ -12,8 +12,11 @@ import java.sql.ResultSet;
 import java.util.Arrays;
 
 /**
+ * Clase que controla la lectura y actualización de los productos en la base de
+ * datos
  *
  * @author Angel
+ * @since v1.0.0
  */
 public class TablaProducto {
     
@@ -28,6 +31,12 @@ public class TablaProducto {
             PRECIO = "precio_dolar",
             FECHA = "fecha_modificacion";
     
+    /**
+     * Crea la tabla de productos si no existe
+     * 
+     * @throws SQLException Si ocurre un error en la consulta sql
+     * @since v1.0.0
+     */
     public void crearTabla() throws SQLException{
         
         Connection con = ControladorConexion.getConnection();
@@ -48,6 +57,23 @@ public class TablaProducto {
         
     }
     
+    /**
+     * Crea un producto en la base de datos
+     * --- To do usar bean en lugar de los parametros actuales ---
+     * 
+     * @param usuario Id del usuario al que corresponde el producto
+     * @param nombre Nombre del producto
+     * @param marca Marca del producto
+     * @param unidad Cantidad que corresponde al precio
+     * @param descripcion Descripción del producto
+     * @param precioDolares Precio en dolares del producto
+     * @param authCode Código de autenticación de usuario
+     * @return El producto con su id actualizado
+     * @throws SQLException Si ocurre un error en la consulta sql
+     * @throws NoEncontradoException Si el usuario no se encuentra o si
+     * el codigo de autenticación no corresponde
+     * @since v1.0.0
+     */
     public Producto insert(int usuario, String nombre, String marca, 
             String unidad, String descripcion, double precioDolares, 
             int authCode) 
@@ -95,6 +121,24 @@ public class TablaProducto {
         return productoDesdeRS(resultado);
     }
     
+    /**
+     * Actualiza un producto
+     * --- To do usar bean en lugar de todos estos parametros ---
+     * 
+     * @param usuario Id del usuario
+     * @param nombre Nombre del producto
+     * @param marca Marca del producto
+     * @param unidad Cantidad del producto que corresponde al precio
+     * @param descripcion Descripción del producto
+     * @param precioDolares Precio en dolares del producto
+     * @param authCode Codigo de autenticación de usuario
+     * @param idProducto Id del producto a actualizar
+     * @return El producto actualizado
+     * @throws SQLException Si ocurre un error en la consulta sql
+     * @throws NoEncontradoException Si no se encuentra el id del producto o
+     * del usuario o si el codigo de autenticación no corresponde
+     * @since v1.0.0
+     */
     public Producto update(int usuario, String nombre, String marca, 
             String unidad, String descripcion, double precioDolares, 
             int authCode, int idProducto) 
@@ -133,6 +177,15 @@ public class TablaProducto {
         return producto;
     }
     
+    /**
+     * Obtiene todos los productos de un usuario
+     * 
+     * @param userId El id del usuario
+     * @param authCode El codigo de autenticación del usuario
+     * @return Un arreglo con todos sus productos
+     * @throws SQLException Si ocurre un error en la consulta sql
+     * @since v1.0.0
+     */
     public Producto[] getProductosUsuario(int userId, int authCode) throws SQLException{
         
         this.crearTabla();
@@ -156,6 +209,18 @@ public class TablaProducto {
         return arrayDesdeRS(resultado);
     }
     
+    /**
+     * Borra un producto de la base de datos
+     * 
+     * @param productoId El id del producto
+     * @param userId El id del usuario
+     * @param authCode El codigo de autenticación del usuario
+     * @return La cantidad de lineas afectadas en la base de datos
+     * @throws NoEncontradoException Si no se encuentra el producto o el usuario
+     * o si el codigo de autenticación no corresponde
+     * @throws SQLException  Si ocurre un error en la consulta sql
+     * @since v1.0.0
+     */
     public int borrarProducto(int productoId, int userId, int authCode) throws NoEncontradoException, SQLException{
         
         Connection con = ControladorConexion.getConnection();

@@ -53,7 +53,7 @@
 %>
 
 <%
-    Proveedor[] proveedores = PrecioOficial.getPrecios(null);
+    Proveedor[] proveedores = PrecioOficial.getPrecios();
 %>
 
 <html>

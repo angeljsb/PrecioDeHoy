@@ -8,6 +8,12 @@ import { html } from "../common/util.js";
 import { spinner } from "../common/components.js";
 import { saveProductDB, editProductDB } from "./api-calls.js";
 
+/**
+ * Inicia el control del formulario de agregar y editar productos
+ * 
+ * @param {HTMLFormElement} form El formulario
+ * @returns {any} Un objeto con funciones para controlar el formulario
+ */
 const FormControl = (form) => {
     let editando = false;
     
@@ -21,6 +27,12 @@ const FormControl = (form) => {
             
     const minimizeBtn = form.querySelectorAll(".ph-expandible__minimize-btn");
     
+    /**
+     * Obtiene el precio en dolares añadido actualmente al formulario según el 
+     * input de precio y el de moneda escogidos actualmente
+     * 
+     * @returns {Number} El precio en dolares marcado actualmente
+     */
     const getPrecioProducto = () => {
         let marcado = precio.value;
         try{
@@ -31,6 +43,11 @@ const FormControl = (form) => {
         return moneda.value === "Dolar" ? marcado : marcado / window.PrecioDeHoy.PrecioManager.getPrecio();
     };
     
+    /**
+     * Devuelve los datos escritos en el formulario en el formato de un producto
+     * 
+     * @returns {Producto} El producto creado a partir de los datos en el formulario
+     */
     const getFormJson = () => {
         const json = {
             nombre_producto: nombre.value,
@@ -46,7 +63,13 @@ const FormControl = (form) => {
         
         return json;
     };
-            
+
+    /**
+     * Inicia la edición de un producto. Esto añade los campos del producto
+     * en todos los input del formulario e inicia el modo de edición
+     * 
+     * @param {Producto} producto El producto a editar
+     */
     const editar = (producto) => {
         if (!producto || !producto.id) return;
         
@@ -68,6 +91,9 @@ const FormControl = (form) => {
         window.PrecioDeHoy.controladoresUsuario.showMore.cambiar(!descripcion.value.isEmpty());
     };
     
+    /**
+     * Reinicia el formulario y cancela el modo de edición
+     */
     const cancel = () => {
         if(editando){
             edit.value = null;

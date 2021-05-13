@@ -6,6 +6,8 @@
 package backend;
 
 /**
+ * Define un parametro llave/valor
+ * --- To do borrar esta clase ---
  *
  * @author Angel
  */

@@ -21,23 +21,33 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 /**
+ * Endpoint que devuelve los precios del dolar según los proveedores. Si
+ * después de /api/precio/ se coloca el simbolo de un proveedor, devuelve
+ * solo los datos de ese proveedor. Sino, devuelve un json array con todos
  *
  * @author Angel
+ * @since v1.0.0
  */
 @WebServlet(name = "PrecioOficial", urlPatterns = {"/api/precio/*"})
 public class PrecioOficial extends HttpServlet {
     
-    public static Proveedor[] getPrecios(String simbolo){
+    /**
+     * Obtiene todos los proveedores con sus precios actuales desde la base de
+     * datos
+     * --- To do cambiar de lugar la función estatica ---
+     * 
+     * @return Un arreglo con todos los proveedores
+     * @since v1.0.0
+     */
+    public static Proveedor[] getPrecios(){
         TablaPrecio tp = new TablaPrecio();
         
         Proveedor[] proveedores = new Proveedor[0];
         
-        if(simbolo == null || simbolo.equals("/")){
-            try {
-                proveedores = tp.read();
-            } catch (SQLException ex) {
-                System.err.println(ex.getLocalizedMessage());
-            }
+        try {
+            proveedores = tp.read();
+        } catch (SQLException ex) {
+            System.err.println(ex.getLocalizedMessage());
         }
         
         return proveedores;

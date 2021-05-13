@@ -6,8 +6,10 @@
 package backend;
 
 /**
+ * Bean que define un  Usuario
  *
  * @author Angel
+ * @since v1.0.0
  */
 public class Usuario {
     

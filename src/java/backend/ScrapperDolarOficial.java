@@ -12,6 +12,8 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 /**
+ * Clase encargada de buscar el precio actual del dolar según el banco central de
+ * Venezuela
  *
  * @author Angel
  */
