@@ -9,8 +9,8 @@ import ListaProductos from "./lista-productos.js";
 import FormControl from "./form-control.js";
 
 /**
- * 
- * @returns {undefined}
+ * Función que inicializa la funcionalidad de la aplicación para usuarios
+ * logueados
  */
 const iniciar = () => {
     const elementos = {

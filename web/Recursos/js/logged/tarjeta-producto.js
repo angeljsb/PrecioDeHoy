@@ -17,9 +17,10 @@ import { html } from "../common/util.js";
  */
 
 /**
+ * Crea una tarjeta para mostrar la info de un producto
  * 
- * @param {Producto} producto
- * @returns {HTMLElement}
+ * @param {Producto} producto El producto a mostrar
+ * @returns {HTMLElement} La tarjeta
  */
 const TarjetaProducto = (producto, on = {}) => {
     const id_producto = producto.id;
@@ -29,6 +30,12 @@ const TarjetaProducto = (producto, on = {}) => {
     const descripcion = producto.descripcion || "";
     const precioDolar = producto.precio_dolares || 0;
     
+    /**
+     * Convierte un numero en un string con el formato adecuado
+     * 
+     * @param {Number} precio El precio como un numero
+     * @returns {string} Una cadena con el precio en el formato normal
+     */
     const localize = (precio) => precio.toLocaleString(["es"], {minimumFractionDigits: 2, maximumFractionDigits: 2});
     
     const precio_dolares = localize(precioDolar);
@@ -76,6 +83,11 @@ const TarjetaProducto = (producto, on = {}) => {
     onEditar && botonEditar.addEventListener("click", onEditar);
     onBorrar && botonBorrar.addEventListener("click", onBorrar);
     
+    /**
+     * Cambia la taza de cambio usada para mostrar el precio en bolivares
+     * 
+     * @param {Number} precio La nueva taza
+     */
     const setPrecio = (precio) => {
         const bolivar = localize(precioDolar * precio);
         bolivarTabla.innerHTML = bolivar;
