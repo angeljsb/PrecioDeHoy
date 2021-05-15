@@ -5,9 +5,11 @@
  */
 package api;
 
+import backend.ControlUsuario;
 import backend.NoEncontradoException;
 import backend.RequestReader;
 import backend.TablaProducto;
+import backend.Usuario;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -41,27 +43,31 @@ public class BorrarProducto extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
+        Usuario user = ControlUsuario.getUsuarioActual(request);
         RequestReader reader = new RequestReader(request);
+        
+        if(user == null){
+            response.sendError(403, "Debes estár logueado para realizar esta acción");
+            return;
+        }
         
         int productoId;
         int userId;
-        int authCode;
         
         try{
             productoId = reader.getInt("producto_id");
-            userId = reader.getInt("user_id");
-            authCode = reader.getInt("auth_code");
+            userId = user.getId();
 
-            if(productoId==0||userId==0||authCode==0){
-                response.sendError(400);
+            if(productoId==0){
+                response.sendError(400, "El id del producto es un parametro obligatorio");
                 return;
             }
             
             TablaProducto tp = new TablaProducto();
-            tp.borrarProducto(productoId, userId, authCode);
+            tp.borrarProducto(productoId, userId);
             
         }catch(SQLException|NoEncontradoException|NumberFormatException ex){
-            response.sendError(400);
+            response.sendError(400, ex.getMessage());
             return;
         }
         

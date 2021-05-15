@@ -88,7 +88,7 @@ const FormControl = (form) => {
         edit.value = producto.id;
         
         window.PrecioDeHoy.controladoresUsuario.expandibleForm.expandir();
-        window.PrecioDeHoy.controladoresUsuario.showMore.cambiar(!descripcion.value.isEmpty());
+        window.PrecioDeHoy.controladoresUsuario.showMore.cambiar(Boolean(descripcion.value));
     };
     
     /**

@@ -39,7 +39,6 @@ public class RequestReader {
         while((line = br.readLine()) != null){
             res += line;
         }
-        System.out.println(res);
         return res;
     }
     

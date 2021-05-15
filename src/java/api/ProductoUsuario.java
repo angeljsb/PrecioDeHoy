@@ -5,9 +5,10 @@
  */
 package api;
 
+import backend.ControlUsuario;
 import backend.Producto;
-import backend.RequestReader;
 import backend.TablaProducto;
+import backend.Usuario;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -28,14 +29,11 @@ import javax.ws.rs.core.MediaType;
 @WebServlet(name = "ProductoUsuario", urlPatterns = {"/api/productos"})
 public class ProductoUsuario extends HttpServlet {
     
-    public static Producto[] getProductos(int userId, int authCode){
+    public static Producto[] getProductos(int userId){
         Producto[] productos;
         try {
             TablaProducto tp = new TablaProducto();
-            productos = tp.getProductosUsuario(
-                    userId,
-                    authCode
-            );
+            productos = tp.getProductosUsuario(userId);
         } catch (SQLException ex) {
             productos = null;
         }
@@ -54,20 +52,20 @@ public class ProductoUsuario extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        RequestReader reader = new RequestReader(request);
+        Usuario user = ControlUsuario.getUsuarioActual(request);
         
-        int id = reader.getInt("user_id");
-        int auth = reader.getInt("auth_code");
-        
-        if(id==0||auth==0){
-            response.sendError(400, "Parameters user_id and auth_code are obligatory");
+        if(user==null || user.getId() == 0){
+            response.sendError(403, "Debes estar logueado para realizar esta acción");
             return;
         }
         
-        Producto[] productos = getProductos(id, auth);
+        int id = user.getId();
+        
+        Producto[] productos = getProductos(id);
         
         if(productos == null){
-            response.sendError(400);
+            response.sendError(400, "Hubo un error al pedir a la base de datos"
+                    + " con los datos de usuario");
             return;
         }
         

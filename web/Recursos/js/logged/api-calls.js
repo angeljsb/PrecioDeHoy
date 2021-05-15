@@ -54,19 +54,6 @@ const callApiEffects = async (url, params = {}, on = {}) => {
 };
 
 /**
- * Devuelve los datos del usuario actual como un objeto que se puede enviar
- * a los endpoints como parametro
- * 
- * @returns {any} User id y codigo de autenticación
- */
-const getUserData = () => {
-    return {
-        user_id: window.PrecioDeHoy.usuario.id,
-        auth_code: window.PrecioDeHoy.usuario.authCode
-    };
-};
-
-/**
  * Llama al endpoint para editar un producto
  * 
  * @param {Producto} product El producto a editar. Debe incluir el id
@@ -75,8 +62,7 @@ const getUserData = () => {
  */
 const editProductDB = (product, on = {}) => {
     const data = {
-        ...product,
-        ...getUserData()
+        ...product
     };
     callApiEffects(EDIT_URL, data, on);
 };
@@ -90,8 +76,7 @@ const editProductDB = (product, on = {}) => {
  */
 const saveProductDB = (product, on = {}) => {
     const data = {
-        ...product,
-        ...getUserData()
+        ...product
     };
     callApiEffects(SAVE_URL, data, on);
 };
@@ -105,8 +90,7 @@ const saveProductDB = (product, on = {}) => {
  */
 const deleteProductDB = (productId, on = {}) => {
     const data = {
-        producto_id: productId,
-        ...getUserData()
+        producto_id: productId
     };
     callApiEffects(DELETE_URL, data, on);
 };

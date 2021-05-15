@@ -5,10 +5,12 @@
  */
 package api;
 
+import backend.ControlUsuario;
 import backend.NoEncontradoException;
 import backend.Producto;
 import backend.RequestReader;
 import backend.TablaProducto;
+import backend.Usuario;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -41,30 +43,40 @@ public class GuardarProducto extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
+        Usuario user = ControlUsuario.getUsuarioActual(request);
         RequestReader reader = new RequestReader(request);
         
-        int userId = reader.getInt("user_id"),
-                authCode = reader.getInt("auth_code");
-        String nombre = reader.getString("nombre_producto"),
-                marca = reader.getString("marca"),
-                unidad = reader.getString("unidad"),
-                descripcion = reader.getString("descripcion");
-        double precioDolar = reader.getDouble("precio");
+        if(user==null){
+            response.sendError(403, "Debes estar logueado para realizar esta acción");
+            return;
+        }
         
-        if(userId==0||nombre==null||nombre.isEmpty()||authCode==0){
-            response.sendError(400);
+        Producto ingresar = new Producto();
+        ingresar.setUser(user.getId());
+        ingresar.setNombre(reader.getString("nombre_producto"));
+        ingresar.setMarca(reader.getString("marca"));
+        ingresar.setUnidad(reader.getString("unidad"));
+        ingresar.setDescripcion(reader.getString("descripcion"));
+        ingresar.setPrecioDolar(reader.getDouble("precio"));
+        
+        if(ingresar.getNombre()==null||ingresar.getNombre().isEmpty()){
+            response.sendError(400, "Nombre del producto es obligatorio");
             return;
         }
         
         Producto ingresado;
         try{
             TablaProducto tp = new TablaProducto();
-            ingresado = tp.insert(userId, nombre, marca, unidad, descripcion, precioDolar, authCode);
+            ingresado = tp.insert(ingresar);
         }catch(SQLException|NoEncontradoException ex){
-            response.sendError(400);
+            System.err.println(ex);
+            response.sendError(400, ex.getMessage());
             return;
         }
         
+        
+//        System.out.println(new JSONObject(ingresado));
+//        
         response.setContentType(MediaType.APPLICATION_JSON);
         response.setCharacterEncoding("UTF-8");
         try (PrintWriter out = response.getWriter()) {

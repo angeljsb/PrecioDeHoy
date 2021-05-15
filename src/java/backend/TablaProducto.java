@@ -61,28 +61,29 @@ public class TablaProducto {
      * Crea un producto en la base de datos
      * --- To do usar bean en lugar de los parametros actuales ---
      * 
-     * @param usuario Id del usuario al que corresponde el producto
-     * @param nombre Nombre del producto
-     * @param marca Marca del producto
-     * @param unidad Cantidad que corresponde al precio
-     * @param descripcion Descripción del producto
-     * @param precioDolares Precio en dolares del producto
-     * @param authCode Código de autenticación de usuario
+     * @param producto El producto a ingresar
      * @return El producto con su id actualizado
      * @throws SQLException Si ocurre un error en la consulta sql
      * @throws NoEncontradoException Si el usuario no se encuentra o si
      * el codigo de autenticación no corresponde
      * @since v1.0.0
      */
-    public Producto insert(int usuario, String nombre, String marca, 
-            String unidad, String descripcion, double precioDolares, 
-            int authCode) 
+    public Producto insert(Producto producto) 
             throws SQLException, NoEncontradoException{
         
         crearTabla();
         
+        int usuario = producto.getUser();
+        String nombre = producto.getNombre();
+        String marca = producto.getMarca();
+        String unidad = producto.getUnidad();
+        String descripcion = producto.getDescripcion();
+        double precioDolares = producto.getPrecioDolar();
+        
         TablaUsuario tu = new TablaUsuario();
-        tu.autenticar(usuario, authCode);
+        if (!tu.exists(usuario)){
+            throw new NoEncontradoException(USUARIO);
+        }
         
         Connection con = ControladorConexion.getConnection();
         PreparedStatement insert = con.prepareStatement(
@@ -109,12 +110,10 @@ public class TablaProducto {
                         + DESCRIPCION + ", P." + PRECIO
                         + " FROM " + NOMBRE_TABLA + " P, " 
                         + TablaUsuario.NOMBRE_TABLA + " U "
-                        + "WHERE P." + USUARIO + " = ? AND U." 
-                        + TablaUsuario.CODIGO_AUTENTICACION + " = ?"
-                        + " ORDER BY P." + ID + " DESC LIMIT 1"
+                        + "WHERE P." + USUARIO + " = ? " 
+                        + "ORDER BY P." + ID + " DESC LIMIT 1"
         );
         select.setInt(1, usuario);
-        select.setInt(2, authCode);
         ResultSet resultado = select.executeQuery();
         resultado.first();
         
@@ -125,27 +124,28 @@ public class TablaProducto {
      * Actualiza un producto
      * --- To do usar bean en lugar de todos estos parametros ---
      * 
-     * @param usuario Id del usuario
-     * @param nombre Nombre del producto
-     * @param marca Marca del producto
-     * @param unidad Cantidad del producto que corresponde al precio
-     * @param descripcion Descripción del producto
-     * @param precioDolares Precio en dolares del producto
-     * @param authCode Codigo de autenticación de usuario
-     * @param idProducto Id del producto a actualizar
+     * @param producto El producto a editar
      * @return El producto actualizado
      * @throws SQLException Si ocurre un error en la consulta sql
      * @throws NoEncontradoException Si no se encuentra el id del producto o
      * del usuario o si el codigo de autenticación no corresponde
      * @since v1.0.0
      */
-    public Producto update(int usuario, String nombre, String marca, 
-            String unidad, String descripcion, double precioDolares, 
-            int authCode, int idProducto) 
+    public Producto update(Producto producto) 
             throws SQLException, NoEncontradoException{
         
+        int idProducto = producto.getId();
+        int usuario = producto.getUser();
+        String nombre = producto.getNombre();
+        String marca = producto.getMarca();
+        String unidad = producto.getUnidad();
+        String descripcion = producto.getDescripcion();
+        double precioDolares = producto.getPrecioDolar();
+        
         TablaUsuario tu = new TablaUsuario();
-        tu.autenticar(usuario, authCode);
+        if(!tu.exists(usuario)){
+            throw new NoEncontradoException(USUARIO);
+        }
         
         Connection con = ControladorConexion.getConnection();
         PreparedStatement update = con.prepareStatement(
@@ -166,14 +166,6 @@ public class TablaProducto {
         
         update.executeUpdate();
         
-        Producto producto = new Producto();
-        producto.setId(idProducto);
-        producto.setNombre(nombre);
-        producto.setMarca(marca);
-        producto.setUnidad(unidad);
-        producto.setDescripcion(descripcion);
-        producto.setPrecioDolar(precioDolares);
-        
         return producto;
     }
     
@@ -181,12 +173,11 @@ public class TablaProducto {
      * Obtiene todos los productos de un usuario
      * 
      * @param userId El id del usuario
-     * @param authCode El codigo de autenticación del usuario
      * @return Un arreglo con todos sus productos
      * @throws SQLException Si ocurre un error en la consulta sql
      * @since v1.0.0
      */
-    public Producto[] getProductosUsuario(int userId, int authCode) throws SQLException{
+    public Producto[] getProductosUsuario(int userId) throws SQLException{
         
         this.crearTabla();
         
@@ -197,12 +188,10 @@ public class TablaProducto {
                         + DESCRIPCION + ", P." + PRECIO
                         + " FROM " + NOMBRE_TABLA + " P, " 
                         + TablaUsuario.NOMBRE_TABLA + " U "
-                        + "WHERE P." + USUARIO + " = ? AND U." 
-                        + TablaUsuario.CODIGO_AUTENTICACION + " = ?"
+                        + "WHERE P." + USUARIO + " = ?"
                         + " ORDER BY " + FECHA + " DESC"
         );
         select.setInt(1, userId);
-        select.setInt(2, authCode);
         
         ResultSet resultado = select.executeQuery();
         
@@ -214,19 +203,15 @@ public class TablaProducto {
      * 
      * @param productoId El id del producto
      * @param userId El id del usuario
-     * @param authCode El codigo de autenticación del usuario
      * @return La cantidad de lineas afectadas en la base de datos
      * @throws NoEncontradoException Si no se encuentra el producto o el usuario
      * o si el codigo de autenticación no corresponde
      * @throws SQLException  Si ocurre un error en la consulta sql
      * @since v1.0.0
      */
-    public int borrarProducto(int productoId, int userId, int authCode) throws NoEncontradoException, SQLException{
+    public int borrarProducto(int productoId, int userId) throws NoEncontradoException, SQLException{
         
         Connection con = ControladorConexion.getConnection();
-        
-        TablaUsuario tu = new TablaUsuario();
-        tu.autenticar(userId, authCode);
         
         PreparedStatement delete = con.prepareStatement(
                 "DELETE FROM " + NOMBRE_TABLA + " WHERE " + ID + " = ? AND "
@@ -238,6 +223,10 @@ public class TablaProducto {
         int rows = delete.executeUpdate();
         
         if(rows==0){
+            TablaUsuario tu = new TablaUsuario();
+            if(!tu.exists(userId)){
+                throw new NoEncontradoException(USUARIO);
+            }
             throw new NoEncontradoException(ID);
         }
         
