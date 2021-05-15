@@ -98,6 +98,28 @@ select{
     font-family: sans-serif;
 }
 
+.ph-aviso {
+    padding: 1rem;
+    border-radius: 15px;
+    background-color: lightcoral;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+}
+
+.ph-aviso__icono {
+    display: flex;
+    align-items: center;
+}
+
+.ph-aviso__texto {
+    color: #960200;
+    margin: 0;
+    flex-grow: 1;
+    text-align: center;
+}
+
 #contenedor-tabla{
     width: fit-content;
     min-width: 70%;

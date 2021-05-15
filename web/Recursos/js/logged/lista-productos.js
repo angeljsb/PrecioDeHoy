@@ -6,7 +6,8 @@
 
 import { html } from "../common/util.js"
 import TarjetaProducto from "./tarjeta-producto.js";
-import { deleteProductDB } from "./api-calls.js"
+import { deleteProductDB } from "./api-calls.js";
+import Productos from "./productos-manager.js";
 
 /**
  * Inicializa el mostrado de los productos de un usuario
@@ -15,7 +16,7 @@ import { deleteProductDB } from "./api-calls.js"
  * @returns {any} Objeto con funciones que controlan los productos mostrados
  */
 const ListaProductos = (container) => {
-    let productos = window.PrecioDeHoy.productos,
+    let productos = Productos.getProductos(),
         productosPorPagina = 10,
         pagina = 0;
         
@@ -50,7 +51,7 @@ const ListaProductos = (container) => {
         editar: (pro) => window.PrecioDeHoy.controladoresUsuario.formControl.editar(pro),
         borrar: (pro) => {
             const actions = {
-                success: (data) => removeProducto(data.id),
+                success: (data) => Productos.removeProducto(data.id),
                 error: console.error
             };
             deleteProductDB(pro.id, actions);
@@ -121,43 +122,8 @@ const ListaProductos = (container) => {
         tarjetas.forEach(tarjeta => tarjeta.setPrecio(precio));
     };
     
-    /**
-     * Añade un producto a la lista
-     * 
-     * @param {Producto} producto El nuevo producto
-     */
-    const addProducto = (producto) => {
-        const rev = productos.reverse();
-        rev.push(producto);
-        window.PrecioDeHoy.productos = productos = rev.reverse();
-        render();
-    };
-    
-    /**
-     * Edita un producto en la lista
-     * 
-     * @param {Producto} producto El producto a editar
-     */
-    const editProducto = (producto) => {
-        const id = producto.id;
-        const match = (otro) => otro.id === id;
-        const editado = productos.findIndex(match);
-        
-        productos[editado] = producto;
-        window.PrecioDeHoy.productos = productos;
-        render();
-    };
-    
-    /**
-     * Quia un producto de la lista
-     * 
-     * @param {Number} idProducto El id del producto a quitar
-     */
-    const removeProducto = (idProducto) => {
-        const match = (otro) => otro.id === idProducto;
-        const editado = productos.findIndex(match);
-        productos.splice(editado, 1);
-        window.PrecioDeHoy.productos = productos;
+    const setProductos = (pros) => {
+        productos = pros;
         render();
     };
     
@@ -166,9 +132,7 @@ const ListaProductos = (container) => {
     return {
         setPrecio,
         setPagina,
-        addProducto,
-        editProducto,
-        removeProducto
+        setProductos
     };
 };
 

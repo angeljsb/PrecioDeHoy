@@ -7,6 +7,7 @@
 import { html } from "../common/util.js";
 import { spinner } from "../common/components.js";
 import { saveProductDB, editProductDB } from "./api-calls.js";
+import Productos from "./productos-manager.js";
 
 /**
  * Inicia el control del formulario de agregar y editar productos
@@ -108,13 +109,13 @@ const FormControl = (form) => {
     const spinnerObject = spinner(form);
     
     const onEdit = (pro) => {
-        window.PrecioDeHoy.controladoresUsuario.productList.editProducto(pro);
+        Productos.editProducto(pro);
         spinnerObject.hidde();
         cancel();
     };
     
     const onSave = (pro) => {
-        window.PrecioDeHoy.controladoresUsuario.productList.addProducto(pro);
+        Productos.addProducto(pro);
         spinnerObject.hidde();
         cancel();
     };
