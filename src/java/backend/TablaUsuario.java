@@ -162,6 +162,19 @@ public class TablaUsuario {
         return fromResultSet(userRS);
     }
     
+    public boolean exists(int id) throws SQLException{
+        Connection con = ControladorConexion.getConnection();
+        
+        PreparedStatement peticionId = con.prepareStatement(
+                "SELECT " + camposBusqueda() + " FROM " 
+                        + NOMBRE_TABLA + " WHERE " + ID + " = ?"
+        );
+        peticionId.setInt(1, id);
+        ResultSet userRS = peticionId.executeQuery();
+        
+        return userRS.first();
+    }
+    
     /**
      * Ejecuta el cierre de sesión e impide el inicio automatico por cokkies
      * cambiando el codigo de autenticación en la base de datos

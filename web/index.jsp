@@ -4,6 +4,7 @@
     Author     : Angel
 --%>
 
+<%@page import="backend.ControlUsuario"%>
 <%@page import="beans.Proveedor"%>
 <%@page import="api.PrecioOficial"%>
 <%@page import="api.ProductoUsuario"%>
@@ -15,42 +16,6 @@
 <%@page import="backend.Usuario"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<%!
-    public Usuario revisar(Cookie[] cookies, Usuario actual) {
-
-        if (cookies == null) {
-            return new Usuario();
-        }
-
-        Cookie id = null,
-                auth = null;
-
-        for (Cookie cookie : cookies) {
-            if (cookie.getName().equals("user_id")) {
-                id = cookie;
-            }
-            if (cookie.getName().equals("auth_code")) {
-                auth = cookie;
-            }
-        }
-
-        if (id == null || auth == null) {
-            return new Usuario();
-        }
-
-        TablaUsuario tu = new TablaUsuario();
-        try {
-            Usuario usuario = tu.autenticar(Integer.parseInt(id.getValue()), Integer.parseInt(auth.getValue()));
-            return usuario;
-        } catch (SQLException ex) {
-        } catch (NoEncontradoException ex) {
-            id.setMaxAge(0);
-            auth.setMaxAge(0);
-        }
-
-        return new Usuario();
-    }
-%>
 
 <%
     Proveedor[] proveedores = PrecioOficial.getPrecios();
@@ -61,9 +26,7 @@
         <% boolean loggeado = false; %>
         <jsp:useBean id="user" class="backend.Usuario" scope="session">
             <%
-                //Si el bean no está en uso, se buscan las cookies de autenticación
-                Cookie[] datosU = request.getCookies();
-                user = revisar(datosU, user);
+                user = ControlUsuario.getUsuarioActual(request);
                 if (user.getId() > 0) {
                     //Si se pueden autenticar las cookies, se llenan los valores del bean
             %>
@@ -104,11 +67,7 @@
         </script>
         <% if (loggeado) { %>
         <script>
-            window.PrecioDeHoy.productos = <%=ProductoUsuario.toJson(ProductoUsuario.getProductos(user.getId(), user.getAuthCode())) %>;
-            window.PrecioDeHoy.usuario = {
-                id: <jsp:getProperty name="user" property="id"/>,
-                authCode: <jsp:getProperty name="user" property="authCode"/>
-            };
+            window.PrecioDeHoy.productos = <%=ProductoUsuario.toJson(ProductoUsuario.getProductos(user.getId())) %>;
         </script>
 
         <!-- Look of this document is driven by a CSS referenced by an href attribute. See http://www.w3.org/TR/xml-stylesheet/ -->

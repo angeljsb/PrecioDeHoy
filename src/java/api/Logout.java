@@ -6,13 +6,16 @@
 package api;
 
 import backend.AdministradorRecursos;
+import backend.ControlUsuario;
 import backend.NoEncontradoException;
 import backend.TablaUsuario;
+import backend.Usuario;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -39,24 +42,37 @@ public class Logout extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        String userId = request.getParameter("user_id");
-        if(userId==null){
-            response.sendError(400);
+        Usuario user = ControlUsuario.getUsuarioActual(request);
+
+        if(user==null || user.getId() == 0){
+            response.sendError(403, "Debes estár logueado para realizar esta acción");
+            response.sendRedirect(AdministradorRecursos.HOME_PAGE);
             return;
         }
         
+        //Cambio el codigo de autenticación en la base de datos
         try {
-            int idInt = Integer.parseInt(userId);
+            int idInt = user.getId();
             
             TablaUsuario tu = new TablaUsuario();
             tu.cerrarSeccion(idInt);
         } catch (SQLException|NoEncontradoException|NumberFormatException ex) {
-            response.sendError(400);
+            response.sendError(400, ex.getMessage());
             return;
         }
         
-        response.sendRedirect(AdministradorRecursos.HOME_PAGE);
+        //Nulifico el atributo user
+        request.getSession().setAttribute("user", null);
         
+        //Elimino las cookies de autenticación
+        for(Cookie cookie : request.getCookies()){
+            String name = cookie.getName();
+            if(name.equals("user_id") || name.equals("auth_code")){
+                cookie.setMaxAge(0);
+            }
+        }
+        
+        response.sendRedirect(AdministradorRecursos.HOME_PAGE);
         response.setContentType(MediaType.APPLICATION_JSON);
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */

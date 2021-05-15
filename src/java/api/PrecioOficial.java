@@ -79,17 +79,9 @@ public class PrecioOficial extends HttpServlet {
         String proveedoresDevueltos;
         
         if(simbolo == null || simbolo.equals("/")){
-            Proveedor[] proveedores = new Proveedor[0];
-            try {
-                proveedores = tp.read();
-            } catch (SQLException ex) {
-                System.err.println(ex.getLocalizedMessage());
-            }
+            Proveedor[] proveedores = getPrecios();
 
-            JSONArray array = new JSONArray();
-            for(Proveedor proveedor : proveedores){
-                array.put(proveedorToJson(proveedor));
-            }
+            JSONArray array = new JSONArray(proveedores);
             proveedoresDevueltos = array.toString();
         }else{
             simbolo = simbolo.substring(1);
@@ -106,7 +98,7 @@ public class PrecioOficial extends HttpServlet {
                 response.sendError(400);
                 return;
             }
-            proveedoresDevueltos = proveedorToJson(proveedor).toString();
+            proveedoresDevueltos = new JSONObject(proveedor).toString();
         }
         
         
