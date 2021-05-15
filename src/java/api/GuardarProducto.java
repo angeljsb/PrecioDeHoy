@@ -31,7 +31,7 @@ import javax.ws.rs.core.MediaType;
 @WebServlet(name = "GuardarProducto", urlPatterns = {"/api/guardarproducto"})
 public class GuardarProducto extends HttpServlet {
     
-    public static final int MAXIMO_PRODUCTOS = 10;
+    public static final int MAXIMO_PRODUCTOS = 30;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
