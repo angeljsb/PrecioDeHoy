@@ -30,6 +30,8 @@ import javax.ws.rs.core.MediaType;
  */
 @WebServlet(name = "GuardarProducto", urlPatterns = {"/api/guardarproducto"})
 public class GuardarProducto extends HttpServlet {
+    
+    public static final int MAXIMO_PRODUCTOS = 30;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -46,7 +48,7 @@ public class GuardarProducto extends HttpServlet {
         Usuario user = ControlUsuario.getUsuarioActual(request);
         RequestReader reader = new RequestReader(request);
         
-        if(user==null){
+        if(user == null || user.getId() == 0){
             response.sendError(403, "Debes estar logueado para realizar esta acción");
             return;
         }
@@ -64,9 +66,15 @@ public class GuardarProducto extends HttpServlet {
             return;
         }
         
+        TablaProducto tp = new TablaProducto();
+        
         Producto ingresado;
         try{
-            TablaProducto tp = new TablaProducto();
+            if(tp.countProductosUsuario(user.getId()) >= MAXIMO_PRODUCTOS){
+                response.sendError(403, "Limite de productos exedido");
+                return;
+            }
+            
             ingresado = tp.insert(ingresar);
         }catch(SQLException|NoEncontradoException ex){
             System.err.println(ex);

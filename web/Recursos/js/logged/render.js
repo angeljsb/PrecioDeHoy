@@ -7,6 +7,8 @@ import Expandible from "./expandible.js";
 import showMore from "./show-more.js";
 import ListaProductos from "./lista-productos.js";
 import FormControl from "./form-control.js";
+import Productos from "./productos-manager.js";
+import {bloqueadorCantidad} from "./functions.js";
 
 /**
  * Función que inicializa la funcionalidad de la aplicación para usuarios
@@ -25,12 +27,14 @@ const iniciar = () => {
         expandibleForm: Expandible(elementos.expandibleForm),
         showMore: showMore(elementos.showMoreContainer, elementos.showMoreButton),
         productList:  ListaProductos(elementos.productsContainer),
-        formControl: FormControl(elementos.addForm)
+        formControl: FormControl(elementos.addForm),
+        bloqueador: bloqueadorCantidad(elementos.expandibleForm)
     };
     
     const Precio = window.PrecioDeHoy.PrecioManager;
     
     Precio.subscribir(controladores.productList.setPrecio);
+    Productos.subscribir(controladores.productList.setProductos);
     
     window.PrecioDeHoy.controladoresUsuario = controladores;
 };

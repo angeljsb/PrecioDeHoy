@@ -183,12 +183,11 @@ public class TablaProducto {
         
         Connection con = ControladorConexion.getConnection();
         PreparedStatement select = con.prepareStatement(
-                "SELECT P." + ID + ", P." + NOMBRE + ", P." + MARCA + ", P."
-                        + UNIDAD + ", P."
-                        + DESCRIPCION + ", P." + PRECIO
-                        + " FROM " + NOMBRE_TABLA + " P, " 
-                        + TablaUsuario.NOMBRE_TABLA + " U "
-                        + "WHERE P." + USUARIO + " = ?"
+                "SELECT " + ID + ", " + NOMBRE + ", " + MARCA + ", "
+                        + UNIDAD + ", "
+                        + DESCRIPCION + ", " + PRECIO
+                        + " FROM " + NOMBRE_TABLA
+                        + " WHERE " + USUARIO + " = ?"
                         + " ORDER BY " + FECHA + " DESC"
         );
         select.setInt(1, userId);
@@ -196,6 +195,32 @@ public class TablaProducto {
         ResultSet resultado = select.executeQuery();
         
         return arrayDesdeRS(resultado);
+    }
+    
+    /**
+     * Obtiene la cantidad de productos del usuario
+     * 
+     * @param userId El id del usuario
+     * @return La cantidad de productos
+     * @throws SQLException Si ocurre un error en la consulta sql
+     * @since v1.0.0
+     */
+    public int countProductosUsuario(int userId) throws SQLException{
+        
+        this.crearTabla();
+        
+        Connection con = ControladorConexion.getConnection();
+        PreparedStatement select = con.prepareStatement(
+                "SELECT COUNT(*) FROM " + NOMBRE_TABLA
+                        + " WHERE " + USUARIO + " = ?"
+                        + " ORDER BY " + FECHA + " DESC"
+        );
+        select.setInt(1, userId);
+        
+        ResultSet resultado = select.executeQuery();
+        resultado.first();
+        
+        return resultado.getInt(1);
     }
     
     /**
