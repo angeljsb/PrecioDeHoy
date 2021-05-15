@@ -7,13 +7,15 @@
 import Bloqueador from "./bloqueador.js";
 import Productos from "./productos-manager.js";
 
+const MAXIMO_PRODUCTOS = 30;
+
 const bloqueadorCantidad = (elemento) => {
     const bloqueador = Bloqueador(elemento);
     
     bloqueador.setTexto( "¡Has alcanzado el limite de productos!" );
     
     const evaluarBloqueo = (pro) => {
-        bloqueador.setBloqueado(pro.length >= 10);
+        bloqueador.setBloqueado(pro.length >= MAXIMO_PRODUCTOS);
     };
     evaluarBloqueo(Productos.getProductos());
     Productos.subscribir(evaluarBloqueo);

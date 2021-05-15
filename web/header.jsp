@@ -30,7 +30,7 @@
                 <a href="<%= AdministradorRecursos.INICIO_SECCION%>">Iniciar sección</a>
                 <% } else {%>
 
-                <a href="<%= AdministradorRecursos.CERRAR_SECCION%>?user_id=<jsp:getProperty name="user" property="id"/>" onclick="logout(event)">Cerrar sección</a>
+                <a href="<%= AdministradorRecursos.CERRAR_SECCION%>">Cerrar sección</a>
                 
             </div>
             <% } %>
