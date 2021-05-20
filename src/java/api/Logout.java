@@ -20,6 +20,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.core.MediaType;
+import static javax.servlet.http.HttpServletResponse.SC_UNAUTHORIZED;
+import static javax.servlet.http.HttpServletResponse.SC_BAD_REQUEST;
+import static javax.servlet.http.HttpServletResponse.SC_NO_CONTENT;
 
 /**
  * Cierra la sesión de un usuario y redirecciona a index.jsp
@@ -45,7 +48,7 @@ public class Logout extends HttpServlet {
         Usuario user = ControlUsuario.getUsuarioActual(request);
 
         if(user==null || user.getId() == 0){
-            response.sendError(403, "Debes estár logueado para realizar esta acción");
+            response.sendError(SC_UNAUTHORIZED, "Debes estár logueado para realizar esta acción");
             response.sendRedirect(AdministradorRecursos.HOME_PAGE);
             return;
         }
@@ -57,7 +60,7 @@ public class Logout extends HttpServlet {
             TablaUsuario tu = new TablaUsuario();
             tu.cerrarSeccion(idInt);
         } catch (SQLException|NoEncontradoException|NumberFormatException ex) {
-            response.sendError(400, ex.getMessage());
+            response.sendError(SC_BAD_REQUEST, ex.getMessage());
             return;
         }
         
@@ -72,6 +75,7 @@ public class Logout extends HttpServlet {
             }
         }
         
+        response.setStatus(SC_NO_CONTENT);
         response.sendRedirect(AdministradorRecursos.HOME_PAGE);
         response.setContentType(MediaType.APPLICATION_JSON);
         try (PrintWriter out = response.getWriter()) {

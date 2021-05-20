@@ -7,6 +7,7 @@ package api;
 
 import backend.ControlUsuario;
 import backend.Producto;
+import backend.ResponseWriter;
 import backend.TablaProducto;
 import backend.Usuario;
 import java.io.IOException;
@@ -19,6 +20,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.core.MediaType;
+import static javax.servlet.http.HttpServletResponse.SC_UNAUTHORIZED;
+import static javax.servlet.http.HttpServletResponse.SC_BAD_REQUEST;
 
 /**
  * Endpoint que devuelve todos los productos para un usuario
@@ -53,9 +56,10 @@ public class ProductoUsuario extends HttpServlet {
             throws ServletException, IOException {
         
         Usuario user = ControlUsuario.getUsuarioActual(request);
+        ResponseWriter writer = new ResponseWriter(response);
         
         if(user==null || user.getId() == 0){
-            response.sendError(403, "Debes estar logueado para realizar esta acción");
+            writer.sendError(SC_UNAUTHORIZED, "Debes estar logueado para realizar esta acción");
             return;
         }
         
@@ -64,7 +68,7 @@ public class ProductoUsuario extends HttpServlet {
         Producto[] productos = getProductos(id);
         
         if(productos == null){
-            response.sendError(400, "Hubo un error al pedir a la base de datos"
+            writer.sendError(SC_BAD_REQUEST, "Hubo un error al pedir a la base de datos"
                     + " con los datos de usuario");
             return;
         }

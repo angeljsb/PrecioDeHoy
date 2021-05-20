@@ -8,6 +8,7 @@ import Dialog from "../common/dialog.js";
 import Productos from "./productos-manager.js";
 import { html } from "../common/util.js";
 import { deleteProductDB } from "./api-calls.js";
+import DialogError from "../common/dialog-error.js";
 
 const DialogBorrar = (producto) => {
     const dialog = Dialog();
@@ -32,7 +33,10 @@ const DialogBorrar = (producto) => {
                     Productos.removeProducto(data.id);
                     dialog.close();
                 },
-                error: console.error
+                error: (data) => {
+                    dialog.close();
+                    DialogError(data);
+                }
             };
             deleteProductDB(producto.id, actions);
         }}
