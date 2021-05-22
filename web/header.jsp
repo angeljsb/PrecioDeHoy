@@ -27,10 +27,10 @@
             <div class="ph-popup__popup">
                 <% if (!loggeado) {%>
                 <a href="<%= AdministradorRecursos.REGISTRO%>">Registrate</a>
-                <a href="<%= AdministradorRecursos.INICIO_SECCION%>">Iniciar sección</a>
+                <a href="<%= AdministradorRecursos.INICIO_SECCION%>">Iniciar sesión</a>
                 <% } else {%>
 
-                <a href="<%= AdministradorRecursos.CERRAR_SECCION%>">Cerrar sección</a>
+                <a href="<%= AdministradorRecursos.CERRAR_SECCION%>">Cerrar sesión</a>
                 <a id="ph-imprimir-link" target="_blank" href="<%= AdministradorRecursos.IMPRIMIR%>">Imprimir Lista</a>
                 
             </div>
