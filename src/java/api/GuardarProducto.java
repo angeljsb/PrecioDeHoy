@@ -9,6 +9,7 @@ import backend.ControlUsuario;
 import backend.NoEncontradoException;
 import backend.Producto;
 import backend.RequestReader;
+import backend.ResponseWriter;
 import backend.TablaProducto;
 import backend.Usuario;
 import java.io.IOException;
@@ -20,6 +21,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.core.MediaType;
+import static javax.servlet.http.HttpServletResponse.SC_UNAUTHORIZED;
+import static javax.servlet.http.HttpServletResponse.SC_PAYMENT_REQUIRED;
+import static javax.servlet.http.HttpServletResponse.SC_BAD_REQUEST;
 
 /**
  * Endpoint para guardar un producto en la base de datos. Guarda el producto
@@ -47,9 +51,10 @@ public class GuardarProducto extends HttpServlet {
         
         Usuario user = ControlUsuario.getUsuarioActual(request);
         RequestReader reader = new RequestReader(request);
+        ResponseWriter writer = new ResponseWriter(response);
         
         if(user == null || user.getId() == 0){
-            response.sendError(403, "Debes estar logueado para realizar esta acción");
+            writer.sendError(SC_UNAUTHORIZED, "Debes estar logueado para realizar esta acción");
             return;
         }
         
@@ -62,7 +67,7 @@ public class GuardarProducto extends HttpServlet {
         ingresar.setPrecioDolar(reader.getDouble("precio"));
         
         if(ingresar.getNombre()==null||ingresar.getNombre().isEmpty()){
-            response.sendError(400, "Nombre del producto es obligatorio");
+            writer.sendError(SC_BAD_REQUEST, "Nombre del producto es obligatorio");
             return;
         }
         
@@ -71,14 +76,14 @@ public class GuardarProducto extends HttpServlet {
         Producto ingresado;
         try{
             if(tp.countProductosUsuario(user.getId()) >= MAXIMO_PRODUCTOS){
-                response.sendError(403, "Limite de productos exedido");
+                writer.sendError(SC_PAYMENT_REQUIRED, "Limite de productos exedido");
                 return;
             }
             
             ingresado = tp.insert(ingresar);
         }catch(SQLException|NoEncontradoException ex){
             System.err.println(ex);
-            response.sendError(400, ex.getMessage());
+            writer.sendError(SC_BAD_REQUEST, ex.getMessage());
             return;
         }
         

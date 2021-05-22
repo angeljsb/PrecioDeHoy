@@ -8,6 +8,7 @@ import { html } from "../common/util.js"
 import TarjetaProducto from "./tarjeta-producto.js";
 import { deleteProductDB } from "./api-calls.js";
 import Productos from "./productos-manager.js";
+import DialogBorrar from "./dialog-borrar.js";
 
 /**
  * Inicializa el mostrado de los productos de un usuario
@@ -50,11 +51,7 @@ const ListaProductos = (container) => {
     const accionesTarjeta = {
         editar: (pro) => window.PrecioDeHoy.controladoresUsuario.formControl.editar(pro),
         borrar: (pro) => {
-            const actions = {
-                success: (data) => Productos.removeProducto(data.id),
-                error: console.error
-            };
-            deleteProductDB(pro.id, actions);
+            DialogBorrar(pro);
         }
     };
 

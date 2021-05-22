@@ -26,6 +26,7 @@ public class AdministradorRecursos {
     public static final String HOME_PAGE = "/PrecioDolar";
     public static final String REGISTRO = HOME_PAGE + "/registro.jsp";
     public static final String INICIO_SECCION = HOME_PAGE +"/login.jsp";
+    public static final String IMPRIMIR = HOME_PAGE + "/print.jsp";
     public static final String CERRAR_SECCION = HOME_PAGE + "/logout";
     
     public static final String API = HOME_PAGE + "/api";

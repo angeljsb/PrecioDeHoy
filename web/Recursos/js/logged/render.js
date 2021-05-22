@@ -9,6 +9,7 @@ import ListaProductos from "./lista-productos.js";
 import FormControl from "./form-control.js";
 import Productos from "./productos-manager.js";
 import {bloqueadorCantidad} from "./functions.js";
+import Imprimir from "./print-link.js";
 
 /**
  * Función que inicializa la funcionalidad de la aplicación para usuarios
@@ -20,7 +21,8 @@ const iniciar = () => {
         showMoreContainer: document.getElementById("show-more-container"),
         showMoreButton: document.getElementById("show-more-button"),
         productsContainer: document.getElementById("container-productos"),
-        addForm: document.getElementById("nuevo-producto")
+        addForm: document.getElementById("nuevo-producto"),
+        printLink: document.getElementById("ph-imprimir-link")
     };
     
     const controladores = {
@@ -28,7 +30,8 @@ const iniciar = () => {
         showMore: showMore(elementos.showMoreContainer, elementos.showMoreButton),
         productList:  ListaProductos(elementos.productsContainer),
         formControl: FormControl(elementos.addForm),
-        bloqueador: bloqueadorCantidad(elementos.expandibleForm)
+        bloqueador: bloqueadorCantidad(elementos.expandibleForm),
+        printLink: Imprimir(elementos.printLink)
     };
     
     const Precio = window.PrecioDeHoy.PrecioManager;

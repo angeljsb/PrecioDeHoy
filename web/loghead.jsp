@@ -14,7 +14,7 @@
         %>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Precio de hoy - <%= (url.equals(AdministradorRecursos.REGISTRO) ? "Registro" : "Iniciar Sección") %></title>
+        <title>Precio de hoy - <%= (url.equals(AdministradorRecursos.REGISTRO) ? "Registro" : "Iniciar Sesión") %></title>
         <link rel="stylesheet" href="Recursos/index.css" type="text/css"/>
         <link rel="StyleSheet" type="text/css" href="Recursos/login.css" media="screen" >
     </head>

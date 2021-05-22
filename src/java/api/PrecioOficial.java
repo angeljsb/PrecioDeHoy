@@ -6,6 +6,7 @@
 package api;
 
 import backend.NoEncontradoException;
+import backend.ResponseWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -19,6 +20,7 @@ import beans.Proveedor;
 import java.sql.SQLException;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import static javax.servlet.http.HttpServletResponse.SC_BAD_REQUEST;
 
 /**
  * Endpoint que devuelve los precios del dolar según los proveedores. Si
@@ -52,6 +54,29 @@ public class PrecioOficial extends HttpServlet {
         
         return proveedores;
     }
+    
+    /**
+     * Obtiene el precio de un dolar en la base de datos según un proveedor
+     * --- To do cambiar de lugar la función estatica ---
+     * 
+     * @param simbolo El simbolo único del proveedor
+     * @return Un arreglo con todos los proveedores
+     * @throws backend.NoEncontradoException Si el simbolo no existe
+     * @since v1.0.0
+     */
+    public static Proveedor getPrecio(String simbolo) throws NoEncontradoException{
+        TablaPrecio tp = new TablaPrecio();
+        
+        Proveedor proveedor = new Proveedor();
+        
+        try {
+            proveedor = tp.readOne(simbolo);
+        } catch (SQLException ex) {
+            System.err.println(ex.getLocalizedMessage());
+        }
+        
+        return proveedor;
+    }
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -68,6 +93,7 @@ public class PrecioOficial extends HttpServlet {
         //Cambio las especificaciones de la respuesta
         response.setContentType(MediaType.APPLICATION_JSON);
         response.setCharacterEncoding("UTF-8");
+        ResponseWriter writer = new ResponseWriter(response);
         
         //Obtengo los datos del url
         String simbolo = request.getPathInfo();
@@ -89,13 +115,7 @@ public class PrecioOficial extends HttpServlet {
             try{
                 proveedor = tp.readOne(simbolo);
             }catch(SQLException|NoEncontradoException ex){
-                System.err.println(ex.getLocalizedMessage());
-                try (PrintWriter out = response.getWriter()) {
-                    out.print("{");
-                    out.print("\"Error\":\"400 El simbolo " + simbolo + " no existe\"");
-                    out.print("}");
-                }
-                response.sendError(400);
+                writer.sendError(SC_BAD_REQUEST, ex.getMessage());
                 return;
             }
             proveedoresDevueltos = new JSONObject(proveedor).toString();

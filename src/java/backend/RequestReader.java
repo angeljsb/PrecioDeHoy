@@ -67,8 +67,9 @@ public class RequestReader {
      * @since v1.0.0
      */
     public RequestReader(HttpServletRequest request){
+        String content = request.getContentType();
         
-        this.json = request.getContentType().startsWith(MediaType.APPLICATION_JSON);
+        this.json = content != null && content.startsWith(MediaType.APPLICATION_JSON);
         this.mapa = request.getParameterMap();
         
         if(this.json){
@@ -92,8 +93,10 @@ public class RequestReader {
         if(this.isJson()){
             return this.jsonContent.has(key) ? this.jsonContent.getInt(key) : 0;
         }else{
-            String val = mapa.get(key)[0];
-            return val == null ? 0 : Integer.parseInt(val);
+            String[] mapVal = mapa.get(key);
+            if (mapVal == null) return 0;
+            String val = mapVal[0];
+            return Integer.parseInt(val);
         }
     }
     
@@ -108,8 +111,10 @@ public class RequestReader {
         if(this.isJson()){
             return this.jsonContent.has(key) ? this.jsonContent.getDouble(key) : 0;
         }else{
-            String val = mapa.get(key)[0];
-            return val == null ? 0 : Double.parseDouble(val);
+            String[] mapVal = mapa.get(key);
+            if (mapVal == null) return 0;
+            String val = mapVal[0];
+            return Double.parseDouble(val);
         }
     }
     
@@ -124,8 +129,10 @@ public class RequestReader {
         if(this.isJson()){
             return this.jsonContent.has(key) ? this.jsonContent.getLong(key) : 0;
         }else{
-            String val = mapa.get(key)[0];
-            return val == null ? 0 : Long.parseLong(val);
+            String[] mapVal = mapa.get(key);
+            if (mapVal == null) return 0;
+            String val = mapVal[0];
+            return Long.parseLong(val);
         }
     }
     
@@ -140,8 +147,10 @@ public class RequestReader {
         if(this.isJson()){
             return this.jsonContent.has(key) ? this.jsonContent.getBoolean(key) : false;
         }else{
-            String val = mapa.get(key)[0];
-            return val == null ? false : Boolean.parseBoolean(val);
+            String[] mapVal = mapa.get(key);
+            if (mapVal == null) return false;
+            String val = mapVal[0];
+            return Boolean.parseBoolean(val);
         }
     }
     
@@ -156,8 +165,10 @@ public class RequestReader {
         if(this.isJson()){
             return this.jsonContent.has(key) ? this.jsonContent.getString(key) : "";
         }else{
-            String val = mapa.get(key)[0];
-            return val == null ? "" : val;
+            String[] mapVal = mapa.get(key);
+            if (mapVal == null) return "";
+            String val = mapVal[0];
+            return val;
         }
     }
 

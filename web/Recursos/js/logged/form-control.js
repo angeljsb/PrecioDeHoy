@@ -8,6 +8,7 @@ import { html } from "../common/util.js";
 import { spinner } from "../common/components.js";
 import { saveProductDB, editProductDB } from "./api-calls.js";
 import Productos from "./productos-manager.js";
+import DialogError from "../common/dialog-error.js";
 
 /**
  * Inicia el control del formulario de agregar y editar productos
@@ -126,7 +127,7 @@ const FormControl = (form) => {
         
         const action = {
             success: editando ? onEdit : onSave,
-            error: console.error
+            error: DialogError
         };
         
         if(editando){

@@ -8,6 +8,7 @@ package api;
 import backend.ControlUsuario;
 import backend.NoEncontradoException;
 import backend.RequestReader;
+import backend.ResponseWriter;
 import backend.TablaProducto;
 import backend.Usuario;
 import java.io.IOException;
@@ -19,6 +20,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.core.MediaType;
+import static javax.servlet.http.HttpServletResponse.SC_UNAUTHORIZED;
+import static javax.servlet.http.HttpServletResponse.SC_BAD_REQUEST;
 
 /**
  * Endpoint que elimina un producto de la base de datos y devuelve un objeto
@@ -45,9 +48,10 @@ public class BorrarProducto extends HttpServlet {
         
         Usuario user = ControlUsuario.getUsuarioActual(request);
         RequestReader reader = new RequestReader(request);
+        ResponseWriter writer = new ResponseWriter(response);
         
         if(user == null){
-            response.sendError(403, "Debes estár logueado para realizar esta acción");
+            writer.sendError(SC_UNAUTHORIZED, "Debes estár logueado para realizar esta acción");
             return;
         }
         
@@ -59,7 +63,8 @@ public class BorrarProducto extends HttpServlet {
             userId = user.getId();
 
             if(productoId==0){
-                response.sendError(400, "El id del producto es un parametro obligatorio");
+                writer.sendError(SC_BAD_REQUEST, 
+                        "El id del producto es un parametro obligatorio");
                 return;
             }
             
@@ -67,7 +72,7 @@ public class BorrarProducto extends HttpServlet {
             tp.borrarProducto(productoId, userId);
             
         }catch(SQLException|NoEncontradoException|NumberFormatException ex){
-            response.sendError(400, ex.getMessage());
+            writer.sendError(SC_BAD_REQUEST, ex.getMessage());
             return;
         }
         

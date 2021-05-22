@@ -9,6 +9,7 @@ import backend.ControlUsuario;
 import backend.NoEncontradoException;
 import backend.Producto;
 import backend.RequestReader;
+import backend.ResponseWriter;
 import backend.TablaProducto;
 import backend.Usuario;
 import java.io.IOException;
@@ -20,6 +21,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.core.MediaType;
+import static javax.servlet.http.HttpServletResponse.SC_UNAUTHORIZED;
+import static javax.servlet.http.HttpServletResponse.SC_BAD_REQUEST;
 
 /**
  * Endpoint para editar un producto. Recibe por paramteros la información nueva
@@ -47,9 +50,10 @@ public class EditarProducto extends HttpServlet {
         
         Usuario user = ControlUsuario.getUsuarioActual(request);
         RequestReader reader = new RequestReader(request);
+        ResponseWriter writer = new ResponseWriter(response);
         
         if(user == null){
-            response.sendError(403, "Debes estar logueado para realizar esta acción");
+            writer.sendError(SC_UNAUTHORIZED, "Debes estar logueado para realizar esta acción");
             return;
         }
         
@@ -63,7 +67,7 @@ public class EditarProducto extends HttpServlet {
         actualizar.setPrecioDolar(reader.getDouble("precio"));
         
         if(actualizar.getNombre()==null||actualizar.getNombre().isEmpty()){
-            response.sendError(400, "El nombre del producto es obligatorio");
+            writer.sendError(SC_BAD_REQUEST, "El nombre del producto es obligatorio");
             return;
         }
         
@@ -72,7 +76,7 @@ public class EditarProducto extends HttpServlet {
             TablaProducto tp = new TablaProducto();
             ingresado = tp.update(actualizar);
         }catch(SQLException|NoEncontradoException ex){
-            response.sendError(400);
+            writer.sendError(SC_BAD_REQUEST, ex.getMessage());
             return;
         }
         
