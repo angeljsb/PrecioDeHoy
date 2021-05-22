@@ -54,6 +54,29 @@ public class PrecioOficial extends HttpServlet {
         
         return proveedores;
     }
+    
+    /**
+     * Obtiene el precio de un dolar en la base de datos según un proveedor
+     * --- To do cambiar de lugar la función estatica ---
+     * 
+     * @param simbolo El simbolo único del proveedor
+     * @return Un arreglo con todos los proveedores
+     * @throws backend.NoEncontradoException Si el simbolo no existe
+     * @since v1.0.0
+     */
+    public static Proveedor getPrecio(String simbolo) throws NoEncontradoException{
+        TablaPrecio tp = new TablaPrecio();
+        
+        Proveedor proveedor = new Proveedor();
+        
+        try {
+            proveedor = tp.readOne(simbolo);
+        } catch (SQLException ex) {
+            System.err.println(ex.getLocalizedMessage());
+        }
+        
+        return proveedor;
+    }
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>

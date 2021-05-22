@@ -31,6 +31,7 @@
                 <% } else {%>
 
                 <a href="<%= AdministradorRecursos.CERRAR_SECCION%>">Cerrar sección</a>
+                <a id="ph-imprimir-link" target="_blank" href="<%= AdministradorRecursos.IMPRIMIR%>">Imprimir Lista</a>
                 
             </div>
             <% } %>

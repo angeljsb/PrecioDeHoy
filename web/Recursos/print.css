@@ -1,0 +1,54 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 20/05/2021, 08:10:33 PM
+    Author     : Angel
+*/
+
+p, h1, h2, h3, h4, h5, h6 {
+    margin: 0;
+}
+
+body {
+    font-family: arial, sans-serif;
+    font-size: small;
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+}
+
+tr:nth-child(even) {
+    background-color: #dddddd;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin: 2rem;
+}
+
+section {
+    margin-left: 2rem;
+    margin-right: 2rem;
+}
+
+.ph-tabla__info {
+    min-width: 20%;
+}
+
+.ph-tabla__publicidad {
+    font-size: small;
+    text-align: right;
+}
