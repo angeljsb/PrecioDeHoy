@@ -5,6 +5,8 @@
  */
 package com.preciodehoy.preciodehoy.backend;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -29,6 +31,22 @@ public class ControladorConexion {
     private static Connection conexion = null;
     
     /**
+     * --- Función proveida por la documentación de heroku ---
+     * @return
+     * @throws URISyntaxException
+     * @throws SQLException 
+     */
+    private static Connection getHerokuConnection() throws URISyntaxException, SQLException {
+        URI dbUri = new URI(System.getenv("DATABASE_URL"));
+
+        String username = dbUri.getUserInfo().split(":")[0];
+        String password = dbUri.getUserInfo().split(":")[1];
+        String dbUrl = "jdbc:postgresql://" + dbUri.getHost() + ':' + dbUri.getPort() + dbUri.getPath() + "?sslmode=require";
+
+        return DriverManager.getConnection(dbUrl, username, password);
+    }
+    
+    /**
      * Establece la conexión con la base de datos
      * @since v1.0.0
      */
@@ -36,8 +54,8 @@ public class ControladorConexion {
         
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            conexion = DriverManager.getConnection(PORT,USERNAME,PASSWORD);
-        } catch (ClassNotFoundException|SQLException ex) {
+            conexion = getHerokuConnection(); //DriverManager.getConnection(PORT,USERNAME,PASSWORD);
+        } catch (ClassNotFoundException|SQLException|URISyntaxException ex) {
             System.err.println(ex);
         }
         
