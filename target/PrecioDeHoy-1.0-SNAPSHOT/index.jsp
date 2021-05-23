@@ -27,7 +27,7 @@
         <jsp:useBean id="user" class="com.preciodehoy.preciodehoy.backend.Usuario" scope="session">
             <%
                 user = ControlUsuario.getUsuarioActual(request);
-                if (user.getId() > 0) {
+                if (user.getId() > 0) {  
                     //Si se pueden autenticar las cookies, se llenan los valores del bean
             %>
             <jsp:setProperty name="user" property="id" value="<%= user.getId()%>"/>
