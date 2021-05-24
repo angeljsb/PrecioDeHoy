@@ -23,17 +23,17 @@ public class AdministradorRecursos {
     public static final String UPLOADS = "/Upload";
     public static final String IMAGES_DIR = UPLOADS + "/img";
     
-    public static final String HOME_PAGE = "/PrecioDeHoy";
-    public static final String REGISTRO = HOME_PAGE + "/registro.jsp";
-    public static final String INICIO_SECCION = HOME_PAGE +"/login.jsp";
-    public static final String IMPRIMIR = HOME_PAGE + "/print.jsp";
-    public static final String CERRAR_SECCION = HOME_PAGE + "/logout";
+    public static final String HOME_PAGE = "/";
+    public static final String REGISTRO = HOME_PAGE + "registro.jsp";
+    public static final String INICIO_SECCION = HOME_PAGE +"login.jsp";
+    public static final String IMPRIMIR = HOME_PAGE + "print.jsp";
+    public static final String CERRAR_SECCION = HOME_PAGE + "logout";
     
-    public static final String API = HOME_PAGE + "/api";
-    public static final String PRECIO_OFICIAL = API + "/precio";
-    public static final String GUARDAR_PRODUCTO = API + "/guardarproducto";
-    public static final String BORRAR_PRODUCTO = API + "/eliminarproducto";
-    public static final String PRODUCTOS_USUARIO = API + "/productos";
+    public static final String API = HOME_PAGE + "api/";
+    public static final String PRECIO_OFICIAL = API + "precio";
+    public static final String GUARDAR_PRODUCTO = API + "guardarproducto";
+    public static final String BORRAR_PRODUCTO = API + "eliminarproducto";
+    public static final String PRODUCTOS_USUARIO = API + "productos";
     
     /**
      * Ejecuta una consulta GET o POST a un recurso externo y devuelve el

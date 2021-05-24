@@ -1,0 +1,614 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 05/01/2021, 10:01:11 PM
+    Author     : Angel
+*/
+
+body{
+    margin: 0;
+    min-height: 100vh;
+    font-family: sans-serif;
+    display: flex;
+    flex-direction: column;
+}
+
+button, input, select, textarea{
+    outline: none;
+}
+
+button {
+    cursor: pointer;
+}
+
+button:disabled {
+    cursor: not-allowed;
+    opacity: 0.4;
+}
+
+input[type="radio"]{
+    display: none;
+}
+
+input[type="radio"] + label{
+    font-family: sans-serif;
+    font-size: large;
+    color: #404e4d;
+}
+
+input[type="radio"]:hover + label,input[type="radio"]:checked + label{
+    color: black;
+}
+
+input[type="radio"] + label:before{
+    content: "";
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    margin: 0 0.5rem;
+    float: left;
+    border: 3px solid #404e4d;
+}
+
+input[type="radio"]:hover + label:before, input[type="radio"]:checked + label:before{
+    border-color: black;
+}
+
+input[type="radio"]:checked + label:after{
+    content: "";
+    float: left;
+    width: 11px;
+    height: 11px;
+    border-radius: 50%;
+    background-color: #960200;
+    margin-left: -24px;
+    margin-top: 5px;
+}
+
+h3{
+    margin: 0;
+}
+
+a{
+    text-decoration: none;
+}
+
+#cuerpo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-grow: 1;
+}
+
+#products {
+    max-width: 500px;
+}
+
+.ph-navbar{
+    width: 100%;
+    min-height: 50px;
+    background-color: white;
+    display: flex;
+}
+
+.flex-grow {
+    flex-grow: 1
+}
+
+.conversion{
+    text-align: center;
+}
+
+.ph-component--hidden{
+    display: none;
+}
+
+.ph-conversion{
+    text-align: center;
+    margin-top: 3rem;
+}
+
+.ph-conversion__card{
+    border-radius: 25px;
+    background-color: #404e4d;
+    padding: 20px;
+    text-align: initial;
+}
+
+.ph-conversion__symbol{
+    position: relative;
+    top: 0;
+    transition: top 1s;
+    color: white;
+}
+
+.ph-conversion__dolar-symbol.ph-conversion__symbol--cambiado{
+    top: 51px;
+}
+
+.ph-conversion__bolivar-symbol.ph-conversion__symbol--cambiado{
+    top: -47px;
+}
+
+.ph-button{
+    font-family: sans-serif;
+    font-size: medium;
+    text-transform: uppercase;
+    font-weight: bold;
+    border-radius: 5px;
+    padding: 5px 10px 5px 10px;
+    margin-right: 5px;
+    margin-left: 5px;
+    transition: background-color 200ms;
+    background-color: rgba(0,0,0,0);
+    width: fit-content;
+    cursor: pointer;
+}
+
+.ph-button--small{
+    padding: 3px 8px !important;
+    font-size: smaller !important;
+}
+
+.ph-button--icon{
+    background-color: #960200;
+    border-radius: 100%;
+    border: 0px;
+    width: 3rem;
+    height: 3rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.ph-button--primary{
+    color: #960200;
+    border: 2px solid #960200;
+    background-color: white;
+    align-self: center;
+}
+
+.ph-button--terciary{
+    color: #358600;
+    border: 2px solid #358600;
+    background-color: white;
+    align-self: center;
+}
+
+.ph-button--basic{
+    color: #404e4d;
+    border: 2px solid #404e4d;
+    background-color: white;
+}
+
+.ph-button--primary:hover, .ph-button--terciary:hover, .ph-button--basic:hover{
+    background-color: #e8e8e8;
+}
+
+.ph-button--basic:active{
+    border-color: black;
+}
+
+.ph-popup__container{
+    position: relative;
+    display: block;
+    margin: auto;
+}
+
+.ph-popup__popup{
+    display: none;
+    position: absolute;
+    box-shadow: 0 8px 10px 0 rgba(0,0,0,0.2);
+    z-index: 1;
+    right: 0;
+    overflow: hidden;
+    border-radius: 5px;
+    background-color: white;
+    min-width: 160px;
+}
+
+.ph-popup__container:hover .ph-popup__popup{
+    display:block;
+}
+
+.ph-popup__popup a{
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.ph-popup__popup a:hover{
+    background-color: lightgray;
+}
+
+.ph-text-input{
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-radius: 5px;
+    font-family: sans-serif;
+}
+
+.ph-text-input--primary, .ph-text-input--terciary{
+    border: 2px solid gray;
+}
+
+.ph-text-input--primary:focus{
+    border-color: #960200;
+}
+
+.ph-text-input--terciary:focus{
+    border-color: #358600;
+}
+
+.ph-text-input--ignore-disable{
+    color: black;
+    background-color: white;
+}
+
+.ph-text--white{
+    color: white;
+}
+
+.ph-expandible{
+    border-radius: 25px;
+    margin: 20px;
+    transition: width 400ms,height 400ms;
+    overflow: hidden;
+    width: 100%;
+    height: auto;
+}
+
+.ph-expandible--minimized{
+    cursor: pointer;
+}
+
+.ph-expandible--minimized *{
+    display: none;
+}
+
+#add-icon {
+    display: none;
+}
+
+.ph-expandible--minimized #add-icon{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.ph-expandible--minimized #add-icon *{
+    display: initial;
+}
+
+.ph-form-productos__container{
+    background-color: #404e4d;
+    position: relative;
+}
+
+.ph-expandible__show-more-container{
+    transition: height 400ms;
+    overflow: hidden;
+}
+
+.ph-expandible__show-more-container--oculto{
+    height: 0;
+}
+
+.ph-expandible__show-more-container--oculto *{
+    display: none;
+}
+
+.ph-expandible__show-more-container--transition{
+    height: 54px;
+    display: initial;
+}
+
+.ph-expandible__show-more-container--mostrado{
+    height: auto;
+    width: auto;
+}
+
+.ph-navbar__logo{
+    display: inline-block;
+    padding: 5px;
+    max-height: 75px;
+}
+
+.ph-hidden-left{
+    position: fixed;
+    left: -200px;
+    width: 200px;
+    z-index: 1;
+    transition: left 400ms;
+}
+
+.ph-taxes__container{
+    top: 90px;
+    background-color: #960200;
+    border-radius: 10px;
+}
+
+.ph-taxes__card{
+    background-color: white;
+    min-width: 120px;
+    width: fit-content;
+    margin: 10px auto;
+    border-radius: 10px;
+    border: 1px solid black;
+    overflow: hidden;
+}
+
+.ph-taxes__arrow{
+    position: absolute;
+    background-color: #960200;
+    width: 50px;
+    border-radius: 10px;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    height: 40px;
+    right: -40px;
+}
+
+.ph-taxes__arrow:before{
+    content: "";
+    position: absolute;
+    border: 6px solid white;
+    border-bottom-color: transparent;
+    border-top-color: transparent;
+    border-right-color: transparent;
+    top: 14px;
+    left: 26px;
+}
+
+.ph-hidden-left:hover{
+    left: -10px;
+}
+
+.ph-container--small{
+    margin: 10px;
+}
+
+.ph-container--small-x{
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.ph-container--small-y{
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.ph-container--medium{
+    margin: 15px;
+}
+
+.ph-container--flex{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.ph-container--responsive-form {
+    max-width: 550px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+.ph-container--grid{
+    display: grid;
+    grid-template-columns: 50% 50%;
+}
+
+.ph-container--full{
+    width: 100%;
+}
+
+.ph-container--center-text{
+    text-align: center;
+}
+
+.ph-container--right-text{
+    text-align: right;
+}
+
+.ph-card{
+    background-color: white;
+    border: 2px solid #960200;
+    border-radius: 10px;
+    min-width: 180px;
+    margin: 10px;
+    padding: 5px;
+}
+
+.ph-card__content {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.ph-card__title{
+    font-weight: normal;
+    margin: 0;
+}
+
+.ph-card__descripcion{
+    font-size: 0.9em;
+    text-align: justify;
+}
+
+.ph-card__moneda{
+    padding-right: 10px;
+    font-weight: bolder;
+    color: #358600;
+}
+
+.ph-card__acciones{
+    margin-top: auto;
+}
+
+.ph-pagination {
+    display: flex;
+    width: 150px;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.ph-pagination__label {
+    font-size: xx-large;
+    color: #404e4d;
+}
+
+.ph-divider{
+    width: 20px;
+}
+
+.ph-footer{
+    background-color: #404e4d;
+    margin-top: 50px;
+    padding: 20px;
+    color: white;
+}
+
+#conversion{
+    width: fit-content;
+    margin: auto;
+}
+
+#barra-opciones{
+    float: right !important;
+    position: relative;
+    align-self: center;
+    min-height: inherit;
+    display: inline-flex;
+    margin: 0px 10px 0px auto;
+}
+
+.proveedor-symbol{
+    padding: 5px;
+}
+
+.proveedor-precio{
+    text-align: center;
+}
+
+.ph-spinner{
+    animation: spin 500ms infinite linear;
+    border-top-color: transparent;
+    background-color: transparent;
+    border: 2px solid;
+    border-radius: 100%;
+    height: 15px;
+    width: 15px;
+}
+
+.ph-spinner--white{
+    border-left-color: white;
+    border-right-color: white;
+    border-bottom-color: white;
+    border-top-color: transparent;
+}
+
+.ph-modal__container {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 20;
+}
+
+.ph-modal__back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    background-color: black;
+    opacity: 0.2;
+    z-index: 0;
+}
+
+.ph-modal {
+    width: 50%;
+    height: 50%;
+    max-width: 450px;
+    max-height: 400px;
+    background-color: white;
+    border-radius: 15px;
+    padding: 2rem;
+    z-index: 1;
+}
+
+.ph-modal__body {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.ph-modal__content{
+    flex-grow: 1;
+}
+
+.ph-modal__options {
+    display: flex;
+    flex-direction: row-reverse;
+    gap: 0.5rem;
+}
+
+.ph-position--sw{
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+}
+
+@keyframes spin {
+    from{
+        transform: rotate(0deg);
+    }
+    to{
+        transform: rotate(360deg);
+    }
+}
+
+@media (min-width: 800px) {
+    #cuerpo {
+        flex-direction: row;
+        align-items: end;
+        justify-content: space-between;
+    }
+    
+    #products {
+        flex-grow: 1;
+    }
+    
+    #conversion-container {
+        margin-top: 0;
+        margin-right: 1rem;
+    }
+    
+    .ph-taxes__arrow {
+        display: none;
+    }
+    
+    .ph-hidden-left{
+        position: inherit;
+        left: auto;
+        z-index: 1;
+        transition: left 400ms;
+    }
+    
+    .ph-taxes__container{
+        background-color: inherit;
+    }
+}

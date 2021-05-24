@@ -5,7 +5,7 @@
  */
 package com.preciodehoy.preciodehoy.backend;
 
-import java.net.URI;
+//import java.net.URI;
 import java.net.URISyntaxException;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -20,9 +20,9 @@ import java.sql.SQLException;
  */
 public class ControladorConexion {
     
-    private final static String USERNAME = "root",
-            PORT = "jdbc:mysql://localhost:3306/precio_de_hoy",
-            PASSWORD = "hermanita";
+//    private final static String USERNAME = "root",
+//            PORT = "jdbc:mysql://localhost:3306/precio_de_hoy",
+//            PASSWORD = "hermanita";
     
     /**
      * Variable que guarda la conexion a la base de datos
@@ -37,13 +37,9 @@ public class ControladorConexion {
      * @throws SQLException 
      */
     private static Connection getHerokuConnection() throws URISyntaxException, SQLException {
-        URI dbUri = new URI(System.getenv("DATABASE_URL"));
-
-        String username = dbUri.getUserInfo().split(":")[0];
-        String password = dbUri.getUserInfo().split(":")[1];
-        String dbUrl = "jdbc:postgresql://" + dbUri.getHost() + ':' + dbUri.getPort() + dbUri.getPath() + "?sslmode=require";
-
-        return DriverManager.getConnection(dbUrl, username, password);
+        String dbUrl = System.getenv("JDBC_DATABASE_URL");
+        System.out.println(dbUrl);
+        return DriverManager.getConnection(dbUrl);
     }
     
     /**

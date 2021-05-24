@@ -10,6 +10,7 @@
 <%@page import="com.preciodehoy.preciodehoy.backend.NoEncontradoException"%>
 <%@page import="com.preciodehoy.preciodehoy.backend.AdministradorRecursos"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+
 <jsp:include page="loghead.jsp" />
         <jsp:useBean id="user" scope="session" class="com.preciodehoy.preciodehoy.backend.Usuario"></jsp:useBean>
         <%
