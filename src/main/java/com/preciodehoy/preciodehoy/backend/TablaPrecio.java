@@ -227,8 +227,9 @@ public class TablaPrecio {
     }
     
     protected String crearTablaQuery() {
-        return "CREATE TABLE IF NOT EXISTS " + NOMBRE_TABLA + " ("
-                + ID + " INT NOT NULL AUTO_INCREMENT PRIMARY KEY,"
+        return "CREATE SEQUENCE IF NOT EXISTS id_precio;"
+                + " CREATE TABLE IF NOT EXISTS " + NOMBRE_TABLA + " ("
+                + ID + " INT DEFAULT NEXTVAL('id_precio') PRIMARY KEY,"
                 + NOMBRE + " VARCHAR(50) NOT NULL,"
                 + SIMBOLO + " VARCHAR(15) UNIQUE NOT NULL,"
                 + URL + " VARCHAR(200) NOT NULL,"
@@ -236,7 +237,7 @@ public class TablaPrecio {
                 + PRECIO_D + " DOUBLE UNSIGNED,"
                 + PRECIO_S + " VARCHAR(20),"
                 + FECHA + " DATETIME ) "
-                + "CHARACTER SET UTF8";
+                + "CHARACTER SET UTF8;";
     }
 
     private String readQuery() {
