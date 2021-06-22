@@ -234,9 +234,9 @@ public class TablaPrecio {
                 + SIMBOLO + " VARCHAR(15) UNIQUE NOT NULL,"
                 + URL + " VARCHAR(200) NOT NULL,"
                 + COLOR + " INT NOT NULL,"
-                + PRECIO_D + " DOUBLE,"
+                + PRECIO_D + " FLOAT8,"
                 + PRECIO_S + " VARCHAR(20),"
-                + FECHA + " DATETIME );";
+                + FECHA + " TIMESTAMP );";
     }
 
     private String readQuery() {

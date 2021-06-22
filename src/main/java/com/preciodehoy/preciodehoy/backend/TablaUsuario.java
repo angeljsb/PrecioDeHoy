@@ -38,14 +38,15 @@ public class TablaUsuario {
         
         Connection con = ControladorConexion.getConnection();
         PreparedStatement preparedS = con.prepareStatement(
-                "CREATE TABLE IF NOT EXISTS "+ NOMBRE_TABLA +" ("
-                        + ID + " INT NOT NULL AUTO_INCREMENT PRIMARY KEY,"
+                "CREATE SEQUENCE IF NOT EXISTS id_usuario;"
+                        + " CREATE TABLE IF NOT EXISTS "+ NOMBRE_TABLA +" ("
+                        + ID + " INT DEFAULT NEXTVAL('id_usuario') PRIMARY KEY,"
                         + NOMBRE + " VARCHAR(50),"
                         + CORREO + " VARCHAR(200) NOT NULL UNIQUE,"
                         + PASSWORD + " VARCHAR(50) NOT NULL,"
                         + IMAGEN + " VARCHAR(250),"
                         + CODIGO_AUTENTICACION + " INT NULL"
-                        + ")");
+                        + ");");
         preparedS.execute();
         
     }

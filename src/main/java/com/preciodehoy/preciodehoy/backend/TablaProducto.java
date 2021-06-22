@@ -41,18 +41,19 @@ public class TablaProducto {
         
         Connection con = ControladorConexion.getConnection();
         PreparedStatement preparedS = con.prepareStatement(
-                "CREATE TABLE IF NOT EXISTS "+ NOMBRE_TABLA +" ("
-                        + ID + " INT NOT NULL AUTO_INCREMENT PRIMARY KEY,"
+                "CREATE SEQUENCE IF NOT EXISTS id_producto;"
+                        + " CREATE TABLE IF NOT EXISTS "+ NOMBRE_TABLA +" ("
+                        + ID + " INT DEFAULT NEXTVAL('id_producto') PRIMARY KEY,"
                         + USUARIO + " INT NOT NULL,"
                         + NOMBRE + " VARCHAR(50) NOT NULL,"
                         + MARCA + " VARCHAR(50),"
                         + UNIDAD + " VARCHAR(50),"
                         + DESCRIPCION + " VARCHAR(250),"
-                        + PRECIO + " DOUBLE,"
-                        + FECHA + " DATETIME NOT NULL,"
+                        + PRECIO + " FLOAT8,"
+                        + FECHA + " TIMESTAMP NOT NULL,"
                         + " FOREIGN KEY (" + USUARIO + ") REFERENCES " 
                         + TablaUsuario.NOMBRE_TABLA + "(" + TablaUsuario.ID + ")"
-                        + ")");
+                        + ");");
         preparedS.execute();
         
     }
