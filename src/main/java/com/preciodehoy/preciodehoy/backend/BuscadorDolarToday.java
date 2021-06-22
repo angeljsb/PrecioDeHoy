@@ -5,6 +5,7 @@
  */
 package com.preciodehoy.preciodehoy.backend;
 
+import com.preciodehoy.preciodehoy.beans.Proveedor;
 import org.json.JSONObject;
 
 /**
@@ -38,4 +39,16 @@ public class BuscadorDolarToday extends BuscadorMoneda {
         
     }
     
+    @Override
+    public Proveedor getProveedor() {
+        Proveedor prov = new Proveedor();
+        prov.setId(2);
+        prov.setNombreProveedor("DolarToday");
+        prov.setSimbolo("DToday");
+        prov.setUrl("https://dolartoday.com/");
+        prov.setColor(0x108f34);
+        prov.setPrecio(this.obtenerPrecio());
+        prov.setPrecioTexto(this.obtenerPrecioFormateado());
+        return prov;
+    }
 }

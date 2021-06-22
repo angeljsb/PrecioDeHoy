@@ -5,6 +5,7 @@
  */
 package com.preciodehoy.preciodehoy.backend;
 
+import com.preciodehoy.preciodehoy.beans.Proveedor;
 import org.json.JSONObject;
 
 /**
@@ -30,5 +31,18 @@ public class BuscadorLocalBitcoins extends BuscadorMoneda {
         double localbtc =  rJson.getDouble("data");
         
         return localbtc;
+    }
+
+    @Override
+    public Proveedor getProveedor() {
+        Proveedor prov = new Proveedor();
+        prov.setId(3);
+        prov.setNombreProveedor("LocalBitcoins");
+        prov.setSimbolo("LocalBTC");
+        prov.setUrl("https://localbitcoins.com/");
+        prov.setColor(0xf58220);
+        prov.setPrecio(this.obtenerPrecio());
+        prov.setPrecioTexto(this.obtenerPrecioFormateado());
+        return prov;
     }
 }

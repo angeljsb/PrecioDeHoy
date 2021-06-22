@@ -25,6 +25,22 @@ public class TareaProgramatica extends TimerTask implements ServletContextListen
  
     @Override
     public void contextInitialized(ServletContextEvent evt) {
+        TablaPrecio tp = new TablaPrecio();
+        if(tp.read().length == 0){
+            BuscadorMoneda[] buscadores = new BuscadorMoneda[]{
+                new ScrapperDolarOficial(), 
+                new BuscadorDolarToday(),
+                new BuscadorLocalBitcoins()
+            };
+            for(BuscadorMoneda buscador:buscadores){
+                try{
+                    tp.create(buscador.getProveedor());
+                }catch(SQLException ex){
+                    System.err.println(ex);
+                }
+            }
+        }
+        
         timer = new Timer();
         timer.schedule(this, 0, 15*60*1000);
     }
@@ -48,7 +64,7 @@ public class TareaProgramatica extends TimerTask implements ServletContextListen
             try{
                 tp.actualizarPrecio(buscadores[i], i+1);
             }catch(SQLException|NoEncontradoException ex){
-                System.err.println(ex);
+                ex.printStackTrace(System.err);
             }
         }
     }

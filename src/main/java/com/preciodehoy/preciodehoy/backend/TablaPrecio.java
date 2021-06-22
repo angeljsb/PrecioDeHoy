@@ -40,7 +40,6 @@ public class TablaPrecio {
      */
     public void crearTabla() throws SQLException{
         Connection con = ControladorConexion.getConnection();
-        System.out.println(con == null);
         
         PreparedStatement ps = con.prepareStatement(this.crearTablaQuery());
         ps.execute();
@@ -93,17 +92,20 @@ public class TablaPrecio {
      * base de datos
      * 
      * @return Un arreglo con todos los proveedores
-     * @throws SQLException Si ocurre un error en la consulta sql
      * @since v1.0.0
      */
-    public Proveedor[] read() throws SQLException{
-        this.crearTabla();
-        Connection con = ControladorConexion.getConnection();
-        
-        PreparedStatement read = con.prepareStatement(this.readQuery());
-        ResultSet resultado = read.executeQuery();
-        
-        return this.arrayDesdeResultSet(resultado);
+    public Proveedor[] read(){
+        try{
+            this.crearTabla();
+            Connection con = ControladorConexion.getConnection();
+
+            PreparedStatement read = con.prepareStatement(this.readQuery());
+            ResultSet resultado = read.executeQuery();
+
+            return this.arrayDesdeResultSet(resultado);
+        }catch(SQLException ex){
+            return new Proveedor[0];
+        }
     }
     
     /**
@@ -145,13 +147,14 @@ public class TablaPrecio {
      * @since v1.0.0
      */
     public boolean actualizarPrecio(BuscadorMoneda buscador, int id) throws SQLException, NoEncontradoException {        
+        this.crearTabla();
         Connection con = ControladorConexion.getConnection();
         
         double precio = buscador.obtenerPrecio();
         String precioF = buscador.obtenerPrecioFormateado();
         
         if(precio == 0){
-            System.err.println("Falló al buscar el precio");
+            System.err.println(buscador.getClass() + " falló al buscar el precio");
             return false;
         }
         
@@ -182,6 +185,7 @@ public class TablaPrecio {
      */
     public boolean delete(int idElemento) 
             throws SQLException, NoEncontradoException {
+        this.crearTabla();
         Connection con = ControladorConexion.getConnection();
         
         PreparedStatement delete = con.prepareStatement(

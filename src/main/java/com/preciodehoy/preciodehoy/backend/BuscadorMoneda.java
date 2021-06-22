@@ -5,6 +5,8 @@
  */
 package com.preciodehoy.preciodehoy.backend;
 
+import com.preciodehoy.preciodehoy.beans.Proveedor;
+
 /**
  * Clase abstracta que define los objetos encargados de obtener el precio
  * del dolar desde un servicio o casa de cambio foraneo
@@ -27,7 +29,7 @@ public abstract class BuscadorMoneda implements IBuscadorMoneda {
             try{
                 precio = obtenerDesdeWeb();
             }catch(Exception ex){
-                System.err.println(ex.getLocalizedMessage());
+                ex.printStackTrace(System.err);
             }
         }
         return precio;
@@ -39,5 +41,12 @@ public abstract class BuscadorMoneda implements IBuscadorMoneda {
      * @since v1.0.0
      */
     protected abstract double obtenerDesdeWeb();
+    
+    /**
+     * Devuelve el proveedor base para este buscador
+     * 
+     * @return El objeto (bean) con los datos de este proveedor
+     */
+    public abstract Proveedor getProveedor();
     
 }

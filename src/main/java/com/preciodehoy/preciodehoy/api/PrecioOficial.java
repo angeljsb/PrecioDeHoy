@@ -43,15 +43,7 @@ public class PrecioOficial extends HttpServlet {
      */
     public static Proveedor[] getPrecios(){
         TablaPrecio tp = new TablaPrecio();
-        
-        Proveedor[] proveedores = new Proveedor[0];
-        
-        try {
-            proveedores = tp.read();
-        } catch (SQLException ex) {
-            System.err.println(ex.getLocalizedMessage());
-        }
-        
+        Proveedor[] proveedores = tp.read();
         return proveedores;
     }
     
@@ -61,7 +53,7 @@ public class PrecioOficial extends HttpServlet {
      * 
      * @param simbolo El simbolo único del proveedor
      * @return Un arreglo con todos los proveedores
-     * @throws backend.NoEncontradoException Si el simbolo no existe
+     * @throws com.preciodehoy.preciodehoy.backend.NoEncontradoException Si el simbolo no existe
      * @since v1.0.0
      */
     public static Proveedor getPrecio(String simbolo) throws NoEncontradoException{

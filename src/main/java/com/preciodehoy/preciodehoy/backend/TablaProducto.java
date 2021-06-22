@@ -133,6 +133,7 @@ public class TablaProducto {
      */
     public Producto update(Producto producto) 
             throws SQLException, NoEncontradoException{
+        this.crearTabla();
         
         int idProducto = producto.getId();
         int usuario = producto.getUser();

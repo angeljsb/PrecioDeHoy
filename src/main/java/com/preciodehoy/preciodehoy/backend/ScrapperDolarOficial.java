@@ -5,6 +5,7 @@
  */
 package com.preciodehoy.preciodehoy.backend;
 
+import com.preciodehoy.preciodehoy.beans.Proveedor;
 import java.io.IOException;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -44,4 +45,16 @@ public class ScrapperDolarOficial extends BuscadorMoneda {
         return 0;
     }
     
+    @Override
+    public Proveedor getProveedor() {
+        Proveedor prov = new Proveedor();
+        prov.setId(1);
+        prov.setNombreProveedor("Banco central de Venezuela");
+        prov.setSimbolo("BCV");
+        prov.setUrl("http://www.bcv.org.ve/");
+        prov.setColor(0x252F5D);
+        prov.setPrecio(this.obtenerPrecio());
+        prov.setPrecioTexto(this.obtenerPrecioFormateado());
+        return prov;
+    }
 }

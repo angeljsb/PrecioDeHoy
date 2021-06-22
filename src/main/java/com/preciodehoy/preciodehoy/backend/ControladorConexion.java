@@ -20,9 +20,9 @@ import java.sql.SQLException;
  */
 public class ControladorConexion {
     
-//    private final static String USERNAME = "root",
-//            PORT = "jdbc:mysql://localhost:3306/precio_de_hoy",
-//            PASSWORD = "hermanita";
+    private final static String USERNAME = "root",
+            PORT = "jdbc:mysql://localhost:3306/precio_de_hoy",
+            PASSWORD = "hermanita";
     
     /**
      * Variable que guarda la conexion a la base de datos
@@ -50,8 +50,8 @@ public class ControladorConexion {
         
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            conexion = getHerokuConnection(); //DriverManager.getConnection(PORT,USERNAME,PASSWORD);
-        } catch (ClassNotFoundException|SQLException|URISyntaxException ex) {
+            conexion = /*getHerokuConnection(); */DriverManager.getConnection(PORT,USERNAME,PASSWORD);
+        } catch (ClassNotFoundException|SQLException/*|URISyntaxException*/ ex) {
             System.err.println(ex);
         }
         

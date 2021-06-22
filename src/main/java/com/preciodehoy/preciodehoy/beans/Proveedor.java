@@ -17,7 +17,7 @@ public class Proveedor {
     private String nombreProveedor;
     private String simbolo;
     private String url;
-    private int Color;
+    private int color;
     private double precio;
     private String precioTexto;
 
@@ -54,11 +54,11 @@ public class Proveedor {
     }
 
     public int getColor() {
-        return Color;
+        return color;
     }
 
     public void setColor(int Color) {
-        this.Color = Color;
+        this.color = Color;
     }
 
     public double getPrecio() {

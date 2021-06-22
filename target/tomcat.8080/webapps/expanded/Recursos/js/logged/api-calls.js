@@ -2,9 +2,9 @@
  * @author Angel Suárez
  */
 
-const EDIT_URL = "/PrecioDolar/api/editarproducto";
-const SAVE_URL = "/PrecioDolar/api/guardarproducto";
-const DELETE_URL = "/PrecioDolar/api/eliminarproducto";
+const EDIT_URL = "/api/editarproducto";
+const SAVE_URL = "/api/guardarproducto";
+const DELETE_URL = "/api/eliminarproducto";
 
 /**
  * Hace una llamada de tipo POST a la api
