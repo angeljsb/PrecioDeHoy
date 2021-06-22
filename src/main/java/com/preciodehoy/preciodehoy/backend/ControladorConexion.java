@@ -49,9 +49,9 @@ public class ControladorConexion {
     private static void establecerConexion(){
         
         try {
-            Class.forName("com.mysql.jdbc.Driver");
+            //Class.forName("com.mysql.jdbc.Driver");
             conexion = getHerokuConnection(); /*DriverManager.getConnection(PORT,USERNAME,PASSWORD);*/
-        } catch (ClassNotFoundException|SQLException|URISyntaxException ex) {
+        } catch (/*ClassNotFoundException|*/SQLException|URISyntaxException ex) {
             System.err.println(ex);
         }
         
