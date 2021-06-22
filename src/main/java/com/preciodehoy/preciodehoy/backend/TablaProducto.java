@@ -52,7 +52,7 @@ public class TablaProducto {
                         + FECHA + " DATETIME NOT NULL,"
                         + " FOREIGN KEY (" + USUARIO + ") REFERENCES " 
                         + TablaUsuario.NOMBRE_TABLA + "(" + TablaUsuario.ID + ")"
-                        + ") CHARACTER SET UTF8");
+                        + ")");
         preparedS.execute();
         
     }

@@ -236,8 +236,7 @@ public class TablaPrecio {
                 + COLOR + " INT NOT NULL,"
                 + PRECIO_D + " DOUBLE,"
                 + PRECIO_S + " VARCHAR(20),"
-                + FECHA + " DATETIME ) "
-                + "CHARACTER SET UTF8;";
+                + FECHA + " DATETIME );";
     }
 
     private String readQuery() {

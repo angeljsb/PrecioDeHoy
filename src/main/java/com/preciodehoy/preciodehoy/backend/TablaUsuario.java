@@ -45,7 +45,7 @@ public class TablaUsuario {
                         + PASSWORD + " VARCHAR(50) NOT NULL,"
                         + IMAGEN + " VARCHAR(250),"
                         + CODIGO_AUTENTICACION + " INT NULL"
-                        + ") CHARACTER SET UTF8");
+                        + ")");
         preparedS.execute();
         
     }
