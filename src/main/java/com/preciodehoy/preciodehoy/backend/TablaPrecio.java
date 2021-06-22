@@ -233,8 +233,8 @@ public class TablaPrecio {
                 + NOMBRE + " VARCHAR(50) NOT NULL,"
                 + SIMBOLO + " VARCHAR(15) UNIQUE NOT NULL,"
                 + URL + " VARCHAR(200) NOT NULL,"
-                + COLOR + " INT UNSIGNED NOT NULL,"
-                + PRECIO_D + " DOUBLE UNSIGNED,"
+                + COLOR + " INT NOT NULL,"
+                + PRECIO_D + " DOUBLE,"
                 + PRECIO_S + " VARCHAR(20),"
                 + FECHA + " DATETIME ) "
                 + "CHARACTER SET UTF8;";

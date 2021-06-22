@@ -48,7 +48,7 @@ public class TablaProducto {
                         + MARCA + " VARCHAR(50),"
                         + UNIDAD + " VARCHAR(50),"
                         + DESCRIPCION + " VARCHAR(250),"
-                        + PRECIO + " DOUBLE UNSIGNED,"
+                        + PRECIO + " DOUBLE,"
                         + FECHA + " DATETIME NOT NULL,"
                         + " FOREIGN KEY (" + USUARIO + ") REFERENCES " 
                         + TablaUsuario.NOMBRE_TABLA + "(" + TablaUsuario.ID + ")"
