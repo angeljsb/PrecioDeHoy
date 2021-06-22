@@ -236,7 +236,7 @@ public class TablaPrecio {
                 + COLOR + " INT NOT NULL,"
                 + PRECIO_D + " FLOAT8,"
                 + PRECIO_S + " VARCHAR(20),"
-                + FECHA + " TIMESTAMP );";
+                + FECHA + " TIMESTAMP);";
     }
 
     private String readQuery() {
