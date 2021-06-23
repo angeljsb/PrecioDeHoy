@@ -85,7 +85,7 @@ public class TablaProducto {
         if (!tu.exists(usuario)){
             throw new NoEncontradoException(USUARIO);
         }
-        
+        System.out.println("Antes de insertar");
         Connection con = ControladorConexion.getConnection();
         PreparedStatement insert = con.prepareStatement(
                 "INSERT INTO " + NOMBRE_TABLA + " ("
@@ -104,15 +104,18 @@ public class TablaProducto {
         insert.setDouble(6, precioDolares);
         
         insert.executeUpdate();
+        System.out.println("Insertado");
+        System.out.println("Antes de select");
         
         PreparedStatement select = con.prepareStatement(
                 "SELECT * FROM " + NOMBRE_TABLA + " "
                         + "WHERE " + USUARIO + " = ? "
                         + "GROUP BY " + FECHA + " "
-                        + "ORDER BY " + ID + " DESC LIMIT 1"
+                        + "ORDER BY " + FECHA + " DESC LIMIT 1"
         );
         select.setInt(1, usuario);
         ResultSet resultado = select.executeQuery();
+        System.out.println("Pasó el select");
         resultado.next();
         
         return productoDesdeRS(resultado);
