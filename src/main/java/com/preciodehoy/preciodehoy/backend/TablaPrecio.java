@@ -57,6 +57,7 @@ public class TablaPrecio {
     public Proveedor create(Proveedor insertar) 
             throws SQLException{
         this.crearTabla();
+        System.out.println("Tratando de insertar " + insertar.getNombreProveedor());
         
         Connection con = ControladorConexion.getConnection();
         PreparedStatement insert = con.prepareStatement(
@@ -79,6 +80,7 @@ public class TablaPrecio {
         insert.setString(7, insertar.getPrecioTexto());
         
         insert.executeUpdate();
+        System.out.println("Se insertó " + insertar.getNombreProveedor());
         
         PreparedStatement select = con.prepareStatement(
                 "SELECT * FROM " + NOMBRE_TABLA
