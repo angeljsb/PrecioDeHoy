@@ -78,7 +78,7 @@ public class TablaUsuario {
                         + NOMBRE + ", " + CORREO + ", " + PASSWORD + ", "
                         + IMAGEN + ", " + CODIGO_AUTENTICACION
                         + ") VALUES "
-                        + "(?, ?, MD5(?), ?, FLOOR(RAND()*(99999-10000)+10000))"
+                        + "(?, ?, MD5(?), ?, FLOOR(RANDOM()*(99999-10000)+10000))"
         );            
         preparedS.setString(1, nombre);
         preparedS.setString(2, correo);
@@ -192,7 +192,7 @@ public class TablaUsuario {
         PreparedStatement cerrar = con.prepareStatement(
                 "UPDATE " + NOMBRE_TABLA + " SET "
                         + CODIGO_AUTENTICACION + " = "
-                        + "FLOOR(RAND()*(99999-10000)+10000)"
+                        + "FLOOR(RANDOM()*(99999-10000)+10000)"
                         + " WHERE " + ID + " = ?"
         );
         cerrar.setInt(1, id);
