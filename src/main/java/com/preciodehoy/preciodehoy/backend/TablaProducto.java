@@ -214,7 +214,6 @@ public class TablaProducto {
         PreparedStatement select = con.prepareStatement(
                 "SELECT COUNT(*) FROM " + NOMBRE_TABLA
                         + " WHERE " + USUARIO + " = ?"
-                        + " ORDER BY " + FECHA + " DESC"
         );
         select.setInt(1, userId);
         
