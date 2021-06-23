@@ -71,9 +71,8 @@ public class TablaProducto {
      */
     public Producto insert(Producto producto) 
             throws SQLException, NoEncontradoException{
-        System.out.println("Verificando la tabla");
+        
         crearTabla();
-        System.out.println("La tabla existe");
         
         int usuario = producto.getUser();
         String nombre = producto.getNombre();
@@ -82,12 +81,10 @@ public class TablaProducto {
         String descripcion = producto.getDescripcion();
         double precioDolares = producto.getPrecioDolar();
         
-        System.out.println("Verificando user");
         TablaUsuario tu = new TablaUsuario();
         if (!tu.exists(usuario)){
             throw new NoEncontradoException(USUARIO);
         }
-        System.out.println("Antes de insertar");
         Connection con = ControladorConexion.getConnection();
         PreparedStatement insert = con.prepareStatement(
                 "INSERT INTO " + NOMBRE_TABLA + " ("
@@ -106,8 +103,6 @@ public class TablaProducto {
         insert.setDouble(6, precioDolares);
         
         insert.executeUpdate();
-        System.out.println("Insertado");
-        System.out.println("Antes de select");
         
         PreparedStatement select = con.prepareStatement(
                 "SELECT * FROM " + NOMBRE_TABLA + " "
@@ -117,7 +112,6 @@ public class TablaProducto {
         );
         select.setInt(1, usuario);
         ResultSet resultado = select.executeQuery();
-        System.out.println("Pasó el select");
         resultado.next();
         
         return productoDesdeRS(resultado);
@@ -189,6 +183,7 @@ public class TablaProducto {
         PreparedStatement select = con.prepareStatement(
                 "SELECT * FROM " + NOMBRE_TABLA
                         + " WHERE " + USUARIO + " = ?"
+                        + " GROUP BY " + FECHA
                         + " ORDER BY " + FECHA + " DESC"
         );
         select.setInt(1, userId);

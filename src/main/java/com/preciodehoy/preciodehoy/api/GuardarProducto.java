@@ -84,6 +84,7 @@ public class GuardarProducto extends HttpServlet {
         }catch(SQLException|NoEncontradoException ex){
             System.err.println(ex);
             writer.sendError(SC_BAD_REQUEST, ex.getMessage());
+            ex.printStackTrace(System.err);
             return;
         }
         
