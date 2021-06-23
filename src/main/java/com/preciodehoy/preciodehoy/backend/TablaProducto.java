@@ -106,10 +106,7 @@ public class TablaProducto {
         insert.executeUpdate();
         
         PreparedStatement select = con.prepareStatement(
-                "SELECT " + ID + ", " + NOMBRE + ", " + MARCA + ", "
-                        + UNIDAD + ", "
-                        + DESCRIPCION + ", " + PRECIO
-                        + " FROM " + NOMBRE_TABLA + " "
+                "SELECT * FROM " + NOMBRE_TABLA + " "
                         + "WHERE " + USUARIO + " = ? " 
                         + "ORDER BY " + ID + " DESC LIMIT 1"
         );
@@ -184,10 +181,7 @@ public class TablaProducto {
         
         Connection con = ControladorConexion.getConnection();
         PreparedStatement select = con.prepareStatement(
-                "SELECT " + ID + ", " + NOMBRE + ", " + MARCA + ", "
-                        + UNIDAD + ", "
-                        + DESCRIPCION + ", " + PRECIO
-                        + " FROM " + NOMBRE_TABLA
+                "SELECT * FROM " + NOMBRE_TABLA
                         + " WHERE " + USUARIO + " = ?"
                         + " ORDER BY " + FECHA + " DESC"
         );
