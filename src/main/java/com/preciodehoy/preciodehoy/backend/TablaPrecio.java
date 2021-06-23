@@ -69,7 +69,7 @@ public class TablaPrecio {
                         + PRECIO_D + ", " + PRECIO_S + ", "
                         + FECHA
                         + ") VALUES "
-                        + "(?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP());"
+                        + "(?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP);"
         );
         insert.setInt(1, insertar.getId());
         insert.setString(2, insertar.getNombreProveedor());
