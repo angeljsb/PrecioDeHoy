@@ -106,13 +106,12 @@ public class TablaProducto {
         insert.executeUpdate();
         
         PreparedStatement select = con.prepareStatement(
-                "SELECT P." + ID + ", P." + NOMBRE + ", P." + MARCA + ", P."
-                        + UNIDAD + ", P."
-                        + DESCRIPCION + ", P." + PRECIO
-                        + " FROM " + NOMBRE_TABLA + " P, " 
-                        + TablaUsuario.NOMBRE_TABLA + " U "
-                        + "WHERE P." + USUARIO + " = ? " 
-                        + "ORDER BY P." + ID + " DESC LIMIT 1"
+                "SELECT " + ID + ", " + NOMBRE + ", " + MARCA + ", "
+                        + UNIDAD + ", "
+                        + DESCRIPCION + ", " + PRECIO
+                        + " FROM " + NOMBRE_TABLA + " "
+                        + "WHERE " + USUARIO + " = ? " 
+                        + "ORDER BY " + ID + " DESC LIMIT 1"
         );
         select.setInt(1, usuario);
         ResultSet resultado = select.executeQuery();
