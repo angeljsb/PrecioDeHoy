@@ -43,6 +43,7 @@ public class TablaPrecio {
         
         PreparedStatement ps = con.prepareStatement(this.crearTablaQuery());
         ps.execute();
+        System.out.println("Tabla creada");
     }
     
     /**
@@ -60,20 +61,22 @@ public class TablaPrecio {
         Connection con = ControladorConexion.getConnection();
         PreparedStatement insert = con.prepareStatement(
                 "INSERT INTO " + NOMBRE_TABLA + " ("
+                        + ID + ", "
                         + NOMBRE + ", "
                         + SIMBOLO + ", " + URL + ", " 
                         + COLOR + ", "
                         + PRECIO_D + ", " + PRECIO_S + ", "
                         + FECHA
                         + ") VALUES "
-                        + "(?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP())"
+                        + "(?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP())"
         );
-        insert.setString(1, insertar.getNombreProveedor());
-        insert.setString(2, insertar.getSimbolo());
-        insert.setString(3, insertar.getUrl());
-        insert.setInt(4, insertar.getColor());
-        insert.setDouble(5, insertar.getPrecio());
-        insert.setString(6, insertar.getPrecioTexto());
+        insert.setInt(1, insertar.getId());
+        insert.setString(2, insertar.getNombreProveedor());
+        insert.setString(3, insertar.getSimbolo());
+        insert.setString(4, insertar.getUrl());
+        insert.setInt(5, insertar.getColor());
+        insert.setDouble(6, insertar.getPrecio());
+        insert.setString(7, insertar.getPrecioTexto());
         
         insert.executeUpdate();
         
