@@ -38,7 +38,8 @@ public class ProductoUsuario extends HttpServlet {
             TablaProducto tp = new TablaProducto();
             productos = tp.getProductosUsuario(userId);
         } catch (SQLException ex) {
-            productos = null;
+            System.err.println(ex);
+            productos = new Producto[0];
         }
         return productos;
     };
