@@ -212,7 +212,6 @@ public class TablaPrecio {
 
     private Proveedor[] arrayDesdeResultSet(ResultSet rs) throws SQLException{
         Proveedor[] arreglo = new Proveedor[0];
-        rs.beforeFirst();
         int i=0;
         while(rs.next()){
             arreglo = Arrays.copyOf(arreglo, i+1);
