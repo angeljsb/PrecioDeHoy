@@ -94,7 +94,7 @@ public class TablaProducto {
                         + DESCRIPCION + ", "
                         + PRECIO + ", " + FECHA
                         + ") VALUES "
-                        + "(?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP())"
+                        + "(?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP)"
         );
         insert.setInt(1, usuario);
         insert.setString(2, nombre);
@@ -157,7 +157,7 @@ public class TablaProducto {
                         + UNIDAD + " = ?, "
                         + DESCRIPCION + " = ?, "
                         + PRECIO + " = ?, "
-                        + FECHA + " = CURRENT_TIMESTAMP()"
+                        + FECHA + " = CURRENT_TIMESTAMP"
                         + " WHERE " + ID + " = ?");
         update.setString(1, nombre);
         update.setString(2, marca);

@@ -158,7 +158,7 @@ public class TablaPrecio {
                 "UPDATE " + NOMBRE_TABLA + " SET "
                         + PRECIO_D + " = ?, "
                         + PRECIO_S + " = ?, "
-                        + FECHA + " = CURRENT_TIMESTAMP()"
+                        + FECHA + " = CURRENT_TIMESTAMP"
                         + " WHERE " + ID + " = ? AND " + PRECIO_D + " != ?");
         update.setDouble(1, precio);
         update.setString(2, precioF);

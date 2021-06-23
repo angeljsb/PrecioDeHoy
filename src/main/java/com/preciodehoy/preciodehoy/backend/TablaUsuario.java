@@ -78,7 +78,7 @@ public class TablaUsuario {
                         + NOMBRE + ", " + CORREO + ", " + PASSWORD + ", "
                         + IMAGEN + ", " + CODIGO_AUTENTICACION
                         + ") VALUES "
-                        + "(?, ?, SHA1(?), ?, FLOOR(RAND()*(99999-10000)+10000))"
+                        + "(?, ?, encode(digest(?, 'sha1'), 'hex'), ?, FLOOR(RAND()*(99999-10000)+10000))"
         );            
         preparedS.setString(1, nombre);
         preparedS.setString(2, correo);
@@ -117,7 +117,8 @@ public class TablaUsuario {
         PreparedStatement peticionUsuario = con.prepareStatement(
                 "SELECT " + camposBusqueda() + " FROM "
                         + NOMBRE_TABLA
-                        + " WHERE " + ID + " = ? AND " + PASSWORD + " = SHA1(?)"
+                        + " WHERE " + ID + " = ? AND " + PASSWORD + " = "
+                        + "encode(digest(?, 'sha1'), 'hex')"
         );
         peticionUsuario.setInt(1, idUser);
         peticionUsuario.setString(2, password);
