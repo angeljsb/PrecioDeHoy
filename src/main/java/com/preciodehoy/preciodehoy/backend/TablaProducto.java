@@ -107,8 +107,8 @@ public class TablaProducto {
         
         PreparedStatement select = con.prepareStatement(
                 "SELECT * FROM " + NOMBRE_TABLA + " "
-                        + "WHERE " + USUARIO + " = ? " 
-                        + "ORDER BY " + FECHA + " DESC LIMIT 1"
+                        + "WHERE " + USUARIO + " = ? "
+                        + "ORDER BY " + ID + " DESC LIMIT 1"
         );
         select.setInt(1, usuario);
         ResultSet resultado = select.executeQuery();
@@ -183,6 +183,7 @@ public class TablaProducto {
         PreparedStatement select = con.prepareStatement(
                 "SELECT * FROM " + NOMBRE_TABLA
                         + " WHERE " + USUARIO + " = ?"
+                        + " GROUP BY " + FECHA + " "
                         + " ORDER BY " + FECHA + " DESC"
         );
         select.setInt(1, userId);
