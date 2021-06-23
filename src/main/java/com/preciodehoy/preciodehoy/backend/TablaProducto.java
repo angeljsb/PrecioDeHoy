@@ -116,7 +116,7 @@ public class TablaProducto {
         );
         select.setInt(1, usuario);
         ResultSet resultado = select.executeQuery();
-        resultado.first();
+        resultado.next();
         
         return productoDesdeRS(resultado);
     }
@@ -220,7 +220,7 @@ public class TablaProducto {
         select.setInt(1, userId);
         
         ResultSet resultado = select.executeQuery();
-        resultado.first();
+        resultado.next();
         
         return resultado.getInt(1);
     }
@@ -276,8 +276,6 @@ public class TablaProducto {
     private Producto[] arrayDesdeRS(ResultSet rs) throws SQLException{
         
         Producto[] productos = new Producto[0];
-        
-        rs.beforeFirst();
         
         int i = 0;
         while(rs.next()){

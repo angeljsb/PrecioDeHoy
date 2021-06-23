@@ -109,7 +109,7 @@ public class TablaUsuario {
         peticionId.setString(1, correo);
         ResultSet idRS = peticionId.executeQuery();
         
-        if(!idRS.first()){
+        if(!idRS.next()){
             throw new NoEncontradoException(CORREO);
         }
         int idUser = idRS.getInt(ID);
@@ -124,7 +124,7 @@ public class TablaUsuario {
         peticionUsuario.setString(2, password);
         ResultSet userRS = peticionUsuario.executeQuery();
         
-        if(!userRS.first()){
+        if(!userRS.next()){
             throw new NoEncontradoException(PASSWORD);
         }
         
@@ -152,7 +152,7 @@ public class TablaUsuario {
         peticionId.setInt(1, id);
         ResultSet userRS = peticionId.executeQuery();
         
-        if(!userRS.first()){
+        if(!userRS.next()){
             throw new NoEncontradoException(ID);
         }
         int codeUser = userRS.getInt(CODIGO_AUTENTICACION);
@@ -174,7 +174,7 @@ public class TablaUsuario {
         peticionId.setInt(1, id);
         ResultSet userRS = peticionId.executeQuery();
         
-        return userRS.first();
+        return userRS.next();
     }
     
     /**
@@ -205,8 +205,6 @@ public class TablaUsuario {
     }
     
     private Usuario fromResultSet(ResultSet rs) throws SQLException{
-        rs.first();
-        
         Usuario usuario = new Usuario();
         usuario.setNombre(rs.getString(NOMBRE));
         usuario.setCorreo(rs.getString(CORREO));
