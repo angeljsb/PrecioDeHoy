@@ -76,6 +76,7 @@
                     }
                 }catch(SQLException ex){
                     errorStatus = ex.getSQLState();
+                    System.err.println(ex);
                 }catch(NoEncontradoException ex){
                     System.err.println(ex.getLocalizedMessage());
                 }
