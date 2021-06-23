@@ -108,7 +108,7 @@ public class TablaProducto {
         PreparedStatement select = con.prepareStatement(
                 "SELECT * FROM " + NOMBRE_TABLA + " "
                         + "WHERE " + USUARIO + " = ? " 
-                        + "ORDER BY " + ID + " DESC LIMIT 1"
+                        + "ORDER BY " + FECHA + " DESC LIMIT 1"
         );
         select.setInt(1, usuario);
         ResultSet resultado = select.executeQuery();
