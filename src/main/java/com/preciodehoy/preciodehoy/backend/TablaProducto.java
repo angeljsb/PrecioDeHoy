@@ -71,8 +71,9 @@ public class TablaProducto {
      */
     public Producto insert(Producto producto) 
             throws SQLException, NoEncontradoException{
-        
+        System.out.println("Verificando la tabla");
         crearTabla();
+        System.out.println("La tabla existe");
         
         int usuario = producto.getUser();
         String nombre = producto.getNombre();
@@ -81,6 +82,7 @@ public class TablaProducto {
         String descripcion = producto.getDescripcion();
         double precioDolares = producto.getPrecioDolar();
         
+        System.out.println("Verificando user");
         TablaUsuario tu = new TablaUsuario();
         if (!tu.exists(usuario)){
             throw new NoEncontradoException(USUARIO);
