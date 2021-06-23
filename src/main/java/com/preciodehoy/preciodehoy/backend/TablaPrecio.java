@@ -43,7 +43,6 @@ public class TablaPrecio {
         
         PreparedStatement ps = con.prepareStatement(this.crearTablaQuery());
         ps.execute();
-        System.out.println("Tabla creada");
     }
     
     /**
@@ -57,7 +56,6 @@ public class TablaPrecio {
     public Proveedor create(Proveedor insertar) 
             throws SQLException{
         this.crearTabla();
-        System.out.println("Tratando de insertar " + insertar.getNombreProveedor());
         
         Connection con = ControladorConexion.getConnection();
         PreparedStatement insert = con.prepareStatement(
@@ -80,16 +78,8 @@ public class TablaPrecio {
         insert.setString(7, insertar.getPrecioTexto());
         
         insert.executeUpdate();
-        System.out.println("Se insertó " + insertar.getNombreProveedor());
         
-        PreparedStatement select = con.prepareStatement(
-                "SELECT * FROM " + NOMBRE_TABLA
-                        + " ORDER BY " + ID + " DESC LIMIT 1"
-        );
-        ResultSet resultado = select.executeQuery();
-        resultado.first();
-        
-        return this.desdeResultSet(resultado);
+        return insertar;
     }
     
     /**
@@ -109,6 +99,7 @@ public class TablaPrecio {
 
             return this.arrayDesdeResultSet(resultado);
         }catch(SQLException ex){
+            System.err.println(ex);
             return new Proveedor[0];
         }
     }
